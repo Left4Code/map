@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import entities.Applicant;
+import entities.User;
 import enumerator.ApplicantState;
 
 @Stateless
@@ -24,8 +25,12 @@ public class ApplicantService implements ApplicantServiceLocal{
 
 	@Override
 	public boolean deleteApplicant(int idApplicant) {
-		// TODO Auto-generated method stub
-		return false;
+		Applicant applicant = em.find(Applicant.class, idApplicant);
+		if(applicant != null){
+			em.remove(applicant);		
+			return true ;
+		}
+		return false ;
 	}
 
 	@Override

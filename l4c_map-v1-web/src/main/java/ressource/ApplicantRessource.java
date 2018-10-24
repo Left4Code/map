@@ -2,19 +2,17 @@ package ressource;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
-import javax.naming.Name;
-import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import entities.Applicant;
-import enumerator.ApplicantState;
-import service.ApplicantService;
 import service.ApplicantServiceLocal;
 
 @Stateless
@@ -26,8 +24,20 @@ public class ApplicantRessource {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
-	public String addApplicant(Applicant A) throws NamingException{
+	public String addApplicant(Applicant A){
 		return Integer.toString(service.insertApplicant(A));
 	}
+	
+	@DELETE
+	@Path("{id}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response deleteApplicant(@PathParam(value="id")String id){
+		if(service.deleteApplicant(Integer.parseInt(id)))
+			return Response.status(javax.ws.rs.core.Response.Status.OK).
+					entity("Removed from Database").build();
+		return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).
+				entity("Incorrect ID ,please check").build();
+	}
+	
 
 }
