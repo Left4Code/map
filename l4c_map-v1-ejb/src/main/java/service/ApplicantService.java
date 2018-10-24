@@ -1,8 +1,12 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -45,9 +49,27 @@ public class ApplicantService implements ApplicantServiceLocal{
 	}
 
 	@Override
-	public boolean updateStateApplicant(ApplicantState ApplicantState) {
+	public ArrayList<Applicant> getAllApplicant() {
+		TypedQuery<Applicant> query = em.createQuery("SELECT a FROM Applicant a",Applicant.class);
+		return (ArrayList<Applicant>) query.getResultList();
+	}
+
+	@Override
+	public Applicant getApplicantById() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
+	}
+
+	@Override
+	public Applicant getApplicantByName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Applicant> getApplicantByState() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
