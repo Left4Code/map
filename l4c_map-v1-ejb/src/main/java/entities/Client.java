@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.TypeCategory;
 import enumerator.TypeClient;
 
 @Entity
+@XmlRootElement
 public class Client extends User implements Serializable{
 
 	private int nbOfRessource ;
@@ -67,6 +69,13 @@ public class Client extends User implements Serializable{
 	
 	public Client() {
 		
+	}
+
+	public Client(int nbOfRessource, int nbOfProjectActive, String logo) {
+		super();
+		this.nbOfRessource = nbOfRessource;
+		this.nbOfProjectActive = nbOfProjectActive;
+		this.logo = logo;
 	}
 
 }
