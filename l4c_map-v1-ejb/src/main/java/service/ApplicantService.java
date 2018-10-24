@@ -35,7 +35,12 @@ public class ApplicantService implements ApplicantServiceLocal{
 
 	@Override
 	public boolean updateApplicant(int idApplicant, Applicant A) {
-		// TODO Auto-generated method stub
+		Applicant applicant = em.find(Applicant.class, idApplicant);
+		if(applicant != null){
+			applicant = A ;
+			em.merge(applicant);
+			return true ;
+		}
 		return false;
 	}
 

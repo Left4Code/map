@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -37,6 +38,16 @@ public class ApplicantRessource {
 					entity("Removed from Database").build();
 		return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).
 				entity("Incorrect ID ,please check").build();
+	}
+	@PUT
+	@Consumes(MediaType.APPLICATION_XML)
+	public Response updateApplicant(Applicant applicant){
+		if(service.updateApplicant(applicant.getId(), applicant)){
+			return Response.status(javax.ws.rs.core.Response.Status.FOUND)
+					.entity("Update successful").build();
+		}
+		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND)
+				.entity("Update unsuccessful").build();
 	}
 	
 
