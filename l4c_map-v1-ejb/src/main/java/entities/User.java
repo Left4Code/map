@@ -3,14 +3,21 @@ package entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
 	protected String name;
 	protected String lastname;
@@ -25,6 +32,7 @@ public class User implements Serializable {
 		this.picture = picture;
 	}
 
+	@XmlElement(required=false)
 	public String getName() {
 		return name;
 	}
@@ -33,6 +41,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
+	@XmlElement(required=false)
 	public String getLastname() {
 		return lastname;
 	}
@@ -41,6 +50,7 @@ public class User implements Serializable {
 		this.lastname = lastname;
 	}
 
+	@XmlElement(required=false)
 	public String getPicture() {
 		return picture;
 	}
@@ -54,6 +64,7 @@ public class User implements Serializable {
 		return 5 ;
 	}
 
+	@XmlAttribute
 	public int getId() {
 		return id;
 	}

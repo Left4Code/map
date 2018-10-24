@@ -10,6 +10,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Responsable extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String speciality;
 	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
 	private List<Meeting> listeMeeting;

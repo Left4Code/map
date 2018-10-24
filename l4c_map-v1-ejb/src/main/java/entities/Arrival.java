@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -11,6 +13,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Arrival implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idArrival;
 	private Date arrivalDate;
 	private Date timeOfTravelling;
@@ -69,15 +72,12 @@ public class Arrival implements Serializable {
 	}
 
 	public Arrival() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idArrival;
-		return result;
+		return 5 ;
 	}
 
 	@Override

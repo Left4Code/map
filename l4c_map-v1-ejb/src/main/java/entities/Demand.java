@@ -8,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -18,16 +20,18 @@ import enumerator.DemandState;
 @Entity
 public class Demand implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idDemand;
 	private Date dateDemand;
 	@Enumerated(EnumType.STRING)
 	private DemandState demandState;
 	private String specialty;
-	@OneToMany(mappedBy="demand")
-	private List<Meeting> listeMeeting ;
-	@OneToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="idFile")
-	private File file ;
+	@OneToMany(mappedBy = "demand")
+	private List<Meeting> listeMeeting;
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "idFile")
+	private File file;
+
 	public int getIdDemand() {
 		return idDemand;
 	}
@@ -66,10 +70,7 @@ public class Demand implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idDemand;
-		return result;
+		return 5 ;
 	}
 
 	@Override

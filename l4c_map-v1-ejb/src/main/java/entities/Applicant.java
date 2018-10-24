@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.ApplicantState;
@@ -21,15 +23,16 @@ public class Applicant extends User implements Serializable {
 	private int age;
 	@Enumerated(EnumType.STRING)
 	private ApplicantState applicantState;
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade={CascadeType.REMOVE,CascadeType.PERSIST})
 	@JoinColumn(name = "idDemand")
 	private Demand demand;
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade={CascadeType.REMOVE,CascadeType.PERSIST})
 	@JoinColumn(name = "idArrival")
 	private Arrival arrival;
 	@OneToMany(mappedBy = "responsable")
 	private List<Sponsor> listeSponsor;
 
+	@XmlElement(required=false)
 	public Arrival getArrival() {
 		return arrival;
 	}
@@ -38,6 +41,7 @@ public class Applicant extends User implements Serializable {
 		this.arrival = arrival;
 	}
 
+	@XmlElement(required=false)
 	public List<Sponsor> getListeSponsor() {
 		return listeSponsor;
 	}
@@ -45,7 +49,8 @@ public class Applicant extends User implements Serializable {
 	public void setListeSponsor(List<Sponsor> listeSponsor) {
 		this.listeSponsor = listeSponsor;
 	}
-
+	
+	@XmlElement(required=false)
 	public Demand getDemand() {
 		return demand;
 	}
@@ -54,6 +59,7 @@ public class Applicant extends User implements Serializable {
 		this.demand = demand;
 	}
 
+	@XmlElement(required=false)
 	public String getCountry() {
 		return country;
 	}
@@ -62,6 +68,7 @@ public class Applicant extends User implements Serializable {
 		this.country = country;
 	}
 
+	@XmlElement(required=false)
 	public int getAge() {
 		return age;
 	}
@@ -70,6 +77,7 @@ public class Applicant extends User implements Serializable {
 		this.age = age;
 	}
 
+	@XmlElement(required=false,type=ApplicantState.class)
 	public ApplicantState getApplicantState() {
 		return applicantState;
 	}
@@ -82,6 +90,7 @@ public class Applicant extends User implements Serializable {
 	public int hashCode() {
 		return 5;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -100,10 +109,6 @@ public class Applicant extends User implements Serializable {
 		} else if (!country.equals(other.country))
 			return false;
 		return true;
-	}
-
-	public Applicant() {
-		// TODO Auto-generated constructor stub
 	}
 
 }
