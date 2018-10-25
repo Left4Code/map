@@ -12,11 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.TypeResult;
 import pk.MeetingPk;
 
 @Entity
+@XmlRootElement
 public class Meeting implements Serializable{
 	@EmbeddedId
 	private MeetingPk meetingPk ;
@@ -51,7 +56,7 @@ public class Meeting implements Serializable{
 			return false;
 		return true;
 	}
-
+	
 	public MeetingPk getMeetingPk() {
 		return meetingPk;
 	}
@@ -59,15 +64,16 @@ public class Meeting implements Serializable{
 	public void setMeetingPk(MeetingPk meetingPk) {
 		this.meetingPk = meetingPk;
 	}
-
+	@XmlElement
 	public Responsable getResponsable() {
 		return responsable;
 	}
-
+	
 	public void setResponsable(Responsable responsable) {
 		this.responsable = responsable;
 	}
 
+	@XmlElement
 	public Demand getDemand() {
 		return demand;
 	}
@@ -75,7 +81,7 @@ public class Meeting implements Serializable{
 	public void setDemand(Demand demand) {
 		this.demand = demand;
 	}
-
+	@XmlElement
 	public Date getDate() {
 		return date;
 	}
@@ -84,6 +90,7 @@ public class Meeting implements Serializable{
 		this.date = date;
 	}
 
+	@XmlElement(type=TypeResult.class)
 	public TypeResult getTypeResult() {
 		return typeResult;
 	}

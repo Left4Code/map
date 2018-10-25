@@ -2,12 +2,15 @@ package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.DemandState;
 
@@ -30,8 +34,8 @@ public class Demand implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private DemandState demandState;
 	private String specialty;
-	@OneToMany(mappedBy = "demand")
-	private List<Meeting> listeMeeting;
+	@OneToMany(mappedBy = "demand",fetch=FetchType.EAGER)
+	private Set<Meeting> listeMeeting = new HashSet<>();
 	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idFile")
 	private File file;
@@ -76,11 +80,12 @@ public class Demand implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<Meeting> getListeMeeting() {
+	@XmlTransient
+	public Set<Meeting> getListeMeeting() {
 		return listeMeeting;
 	}
 
-	public void setListeMeeting(List<Meeting> listeMeeting) {
+	public void setListeMeeting(Set<Meeting> listeMeeting) {
 		this.listeMeeting = listeMeeting;
 	}
 

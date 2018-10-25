@@ -62,7 +62,7 @@ public class ApplicantRessource {
 			return Response.status(javax.ws.rs.core.Response.Status.OK)
 					.entity(applicants).build();
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND)
-				.entity("No Data found").build();
+				.entity("Error :No Data found").build();
 	}
 
 }

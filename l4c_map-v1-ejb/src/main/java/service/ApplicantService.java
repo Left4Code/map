@@ -34,7 +34,6 @@ public class ApplicantService implements ApplicantServiceLocal{
 				&& !A.getLastname().equals("") && !A.getCountry().equals("")
 				&& A!=null){
 			File file = new File(Date.valueOf(LocalDate.now()),"");
-			System.out.println(file);
 			FileService fileservice = new FileService();
 			Demand demand = new Demand(Date.valueOf(LocalDate.now()), DemandState.Waiting, "", file);
 			DemandService demandservice = new DemandService();
