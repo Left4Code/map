@@ -9,9 +9,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.TypeContract;
 
+@XmlRootElement
 @Entity
 public class Ressource extends User implements Serializable {
 	protected String specialty;

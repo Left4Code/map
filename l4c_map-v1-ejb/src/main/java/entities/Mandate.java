@@ -10,10 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.MandateType;
 import pk.MandatePk;
 
+@XmlRootElement
 @Entity
 public class Mandate implements Serializable{
 	@EmbeddedId
@@ -84,4 +86,11 @@ public class Mandate implements Serializable{
 		
 	}
 
+	@Override
+	public String toString() {
+		return "Mandate [mandatepk=" + mandatepk + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd + ", duration="
+				+ duration + ", cost=" + cost + ", mandateType=" + mandateType + ", project=" + project + ", ressource="
+				+ ressource + "]";
+	}
+	
 }
