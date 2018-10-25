@@ -24,6 +24,9 @@ public class Project implements Serializable {
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
 
+	@OneToMany(mappedBy = "project",cascade = CascadeType.REMOVE)
+	private List<Request> requests;
+
 	public int getIdProject() {
 		return idProject;
 	}
@@ -108,6 +111,22 @@ public class Project implements Serializable {
 		if (idProject != other.idProject)
 			return false;
 		return true;
+	}
+
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
 	}
 
 	public Project() {

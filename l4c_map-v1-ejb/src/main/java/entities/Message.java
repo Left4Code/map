@@ -25,9 +25,13 @@ public class Message implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idRessource")
 	private Ressource ressource;
+	//
 	@ManyToOne
 	@JoinColumn(name = "idClient")
 	private Client client;
+
+	private String Status;
+
 
 	public Message() {
 		// TODO Auto-generated constructor stub

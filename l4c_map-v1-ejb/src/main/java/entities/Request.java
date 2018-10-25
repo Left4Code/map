@@ -2,28 +2,35 @@ package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Request implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idRequest;
 	private Date dateBegin;
 	private Date dateEnd;
+	private Time durée;
+	private float cout;
+	private String status;
 	@ManyToOne
 	@JoinColumn(name = "idClient")
 	private Client client;
-	@OneToMany(mappedBy="request")
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="request")
 	private List<Required_Skills> requiredSkills;
 	@ManyToOne
 	@JoinColumn(name="idResponsable")
 	private Responsable responsable ;
+
+	@ManyToOne
+	@JoinColumn(name = "idProject")
+	private Project project;
+
+
 
 	public List<Required_Skills> getRequiredSkills() {
 		return requiredSkills;
@@ -90,6 +97,38 @@ public class Request implements Serializable {
 
 	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
+	}
+
+	public Time getDurée() {
+		return durée;
+	}
+
+	public void setDurée(Time durée) {
+		this.durée = durée;
+	}
+
+	public float getCout() {
+		return cout;
+	}
+
+	public void setCout(float cout) {
+		this.cout = cout;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Request() {
