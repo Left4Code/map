@@ -14,10 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.DemandState;
 
 @Entity
+@XmlRootElement
 public class Demand implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +32,11 @@ public class Demand implements Serializable {
 	private String specialty;
 	@OneToMany(mappedBy = "demand")
 	private List<Meeting> listeMeeting;
-	@OneToOne(cascade = CascadeType.REMOVE)
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idFile")
 	private File file;
 
+	@XmlAttribute
 	public int getIdDemand() {
 		return idDemand;
 	}
@@ -40,6 +45,7 @@ public class Demand implements Serializable {
 		this.idDemand = idDemand;
 	}
 
+	@XmlElement(required = true)
 	public Date getDateDemand() {
 		return dateDemand;
 	}
@@ -48,6 +54,7 @@ public class Demand implements Serializable {
 		this.dateDemand = dateDemand;
 	}
 
+	@XmlElement(type = DemandState.class, required = true)
 	public DemandState getDemandState() {
 		return demandState;
 	}
@@ -56,6 +63,7 @@ public class Demand implements Serializable {
 		this.demandState = demandState;
 	}
 
+	@XmlElement(required = false)
 	public String getSpecialty() {
 		return specialty;
 	}
@@ -68,9 +76,26 @@ public class Demand implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public List<Meeting> getListeMeeting() {
+		return listeMeeting;
+	}
+
+	public void setListeMeeting(List<Meeting> listeMeeting) {
+		this.listeMeeting = listeMeeting;
+	}
+
+	@XmlElement
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
 	@Override
 	public int hashCode() {
-		return 5 ;
+		return 5;
 	}
 
 	@Override
@@ -85,6 +110,20 @@ public class Demand implements Serializable {
 		if (idDemand != other.idDemand)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Demand [idDemand=" + idDemand + ", dateDemand=" + dateDemand + ", demandState=" + demandState
+				+ ", specialty=" + specialty + ", listeMeeting=" + listeMeeting + ", file=" + file + "]";
+	}
+
+	public Demand(Date dateDemand, DemandState demandState, String specialty, File file) {
+		super();
+		this.dateDemand = dateDemand;
+		this.demandState = demandState;
+		this.specialty = specialty;
+		this.file = file;
 	}
 
 }

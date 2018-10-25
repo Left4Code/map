@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import entities.Applicant;
 import service.ApplicantServiceLocal;
@@ -28,8 +29,11 @@ public class ApplicantRessource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
-	public String addApplicant(Applicant A) {
-		return Integer.toString(service.insertApplicant(A));
+	public Response addApplicant(Applicant A) {
+		int returnid =service.insertApplicant(A) ;
+		if(returnid != -1)
+			return Response.status(Status.ACCEPTED).entity(Integer.toString(returnid)).build();
+		return Response.status(Status.PRECONDITION_FAILED).entity("Error :Illegal Data").build();
 	}
 
 	@DELETE
@@ -38,7 +42,7 @@ public class ApplicantRessource {
 	public Response deleteApplicant(@PathParam(value = "id") String id) {
 		if (service.deleteApplicant(Integer.parseInt(id)))
 			return Response.status(javax.ws.rs.core.Response.Status.OK).entity("Removed from Database").build();
-		return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).entity("Incorrect ID ,please check")
+		return Response.status(javax.ws.rs.core.Response.Status.BAD_REQUEST).entity("Error :Incorrect ID ,please check")
 				.build();
 	}
 
@@ -48,13 +52,13 @@ public class ApplicantRessource {
 		if (service.updateApplicant(applicant.getId(), applicant)) {
 			return Response.status(javax.ws.rs.core.Response.Status.FOUND).entity("Update successful").build();
 		}
-		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Update unsuccessful").build();
+		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Error :Update unsuccessful").build();
 	}
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllApplicant() {
 		ArrayList<Applicant> applicants = service.getAllApplicant() ;
-		if(service.getAllApplicant() != null)
+		if(applicants != null)
 			return Response.status(javax.ws.rs.core.Response.Status.OK)
 					.entity(applicants).build();
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND)

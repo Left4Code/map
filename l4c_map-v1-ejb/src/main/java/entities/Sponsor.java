@@ -19,7 +19,7 @@ public class Sponsor implements Serializable{
 	private String country ;
 	@EmbeddedId
 	private SponsorPk sponsorPk; 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="idApplicant" ,referencedColumnName="id",insertable=false,updatable=false)
 	private Applicant applicant ;
 	@ManyToOne

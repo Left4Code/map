@@ -23,16 +23,16 @@ public class Applicant extends User implements Serializable {
 	private int age;
 	@Enumerated(EnumType.STRING)
 	private ApplicantState applicantState;
-	@OneToOne(cascade={CascadeType.REMOVE,CascadeType.PERSIST})
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idDemand")
 	private Demand demand;
-	@OneToOne(cascade={CascadeType.REMOVE,CascadeType.PERSIST})
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idArrival")
 	private Arrival arrival;
-	@OneToMany(mappedBy = "responsable")
-	private List<Sponsor> listeSponsor;
+	@OneToOne(mappedBy = "applicant")
+	private Sponsor sponsor;
 
-	@XmlElement(required=false)
+	@XmlElement(required = false)
 	public Arrival getArrival() {
 		return arrival;
 	}
@@ -41,16 +41,16 @@ public class Applicant extends User implements Serializable {
 		this.arrival = arrival;
 	}
 
-	@XmlElement(required=false)
-	public List<Sponsor> getListeSponsor() {
-		return listeSponsor;
+	@XmlElement(required = false)
+	public Sponsor getSponsor() {
+		return sponsor;
 	}
 
-	public void setListeSponsor(List<Sponsor> listeSponsor) {
-		this.listeSponsor = listeSponsor;
+	public void setSponsor(Sponsor sponsor) {
+		this.sponsor = sponsor;
 	}
-	
-	@XmlElement(required=false)
+
+	@XmlElement(required = false)
 	public Demand getDemand() {
 		return demand;
 	}
@@ -59,7 +59,7 @@ public class Applicant extends User implements Serializable {
 		this.demand = demand;
 	}
 
-	@XmlElement(required=false)
+	@XmlElement(required = true, name = "Country")
 	public String getCountry() {
 		return country;
 	}
@@ -68,7 +68,7 @@ public class Applicant extends User implements Serializable {
 		this.country = country;
 	}
 
-	@XmlElement(required=false)
+	@XmlElement(required = true, name = "Age")
 	public int getAge() {
 		return age;
 	}
@@ -77,9 +77,16 @@ public class Applicant extends User implements Serializable {
 		this.age = age;
 	}
 
-	@XmlElement(required=false,type=ApplicantState.class)
+	@XmlElement(required = false, type = ApplicantState.class, name = "State")
 	public ApplicantState getApplicantState() {
 		return applicantState;
+	}
+
+	@Override
+	public String toString() {
+		return "Applicant [country=" + country + ", age=" + age + ", applicantState=" + applicantState + ", demand="
+				+ demand + ", arrival=" + arrival + ", sponsor=" + sponsor + ", id=" + id + ", name=" + name
+				+ ", lastname=" + lastname + ", picture=" + picture + "]";
 	}
 
 	public void setApplicantState(ApplicantState applicantState) {
@@ -90,7 +97,6 @@ public class Applicant extends User implements Serializable {
 	public int hashCode() {
 		return 5;
 	}
-	
 
 	@Override
 	public boolean equals(Object obj) {

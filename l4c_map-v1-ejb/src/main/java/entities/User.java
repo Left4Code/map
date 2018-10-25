@@ -32,7 +32,7 @@ public class User implements Serializable {
 		this.picture = picture;
 	}
 
-	@XmlElement(required=false)
+	@XmlElement(required=true,name="Name")
 	public String getName() {
 		return name;
 	}
@@ -41,7 +41,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	@XmlElement(required=false)
+	@XmlElement(required=true,name="LastName")
 	public String getLastname() {
 		return lastname;
 	}
@@ -50,7 +50,7 @@ public class User implements Serializable {
 		this.lastname = lastname;
 	}
 
-	@XmlElement(required=false)
+	@XmlElement(required=false,name="Picture",defaultValue="None")
 	public String getPicture() {
 		return picture;
 	}

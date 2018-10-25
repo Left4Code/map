@@ -13,8 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement
 public class File implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,5 +102,18 @@ public class File implements Serializable {
 	public File() {
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public String toString() {
+		return "File [dateBegin=" + dateBegin + ", note=" + note + ", listeTest=" + listeTest + ", employementLetter="
+				+ employementLetter + ", listeDocument=" + listeDocument + "]";
+	}
+
+	public File(Date dateBegin, String note) {
+		super();
+		this.dateBegin = dateBegin;
+		this.note = note;
+	}
+	
 
 }
