@@ -27,8 +27,7 @@ public class Ressource extends User implements Serializable {
 	private List<Mandate> listemandate;
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
-	@OneToMany(mappedBy="ressource")
-	private List<Message> listeMessage ;
+
 
 	public List<Mandate> getListemandate() {
 		return listemandate;

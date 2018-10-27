@@ -21,8 +21,7 @@ public class Client extends User implements Serializable{
 	private TypeClient typeClient ;
 	@Enumerated(EnumType.STRING)
 	private TypeCategory typeCategory ;
-	@OneToMany(mappedBy="client")
-	private List<Message> listeMessage ;
+
 	
 	public int getNbOfRessource() {
 		return nbOfRessource;

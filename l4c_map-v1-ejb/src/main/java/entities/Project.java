@@ -5,10 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Project implements Serializable {
@@ -21,11 +18,14 @@ public class Project implements Serializable {
 	private int nbRessources;
 	private int nbRessourcesLevio;
 	private String picture;
-	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
 
-	@OneToMany(mappedBy = "project",cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",cascade = CascadeType.REMOVE)
 	private List<Request> requests;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",orphanRemoval = true)
+	private List<Message> messages;
 
 	public int getIdProject() {
 		return idProject;
