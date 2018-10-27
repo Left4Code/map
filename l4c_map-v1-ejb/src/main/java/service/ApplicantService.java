@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
@@ -71,26 +72,34 @@ public class ApplicantService implements ApplicantServiceLocal{
 
 	@Override
 	public ArrayList<Applicant> getAllApplicant() {
-		TypedQuery<Applicant> query = em.createQuery("SELECT a FROM Applicant a",Applicant.class);
+		TypedQuery<Applicant> query = em.
+				createQuery("SELECT a FROM Applicant a",Applicant.class);
 		return (ArrayList<Applicant>) query.getResultList();
 	}
 
 	@Override
-	public Applicant getApplicantById() {
-		// TODO Auto-generated method stub
-		return null;
+	public Applicant getApplicantById(int idApplicant) {
+		Applicant applicant = em.find(Applicant.class, idApplicant);
+		return applicant;
 	}
 
 	@Override
-	public Applicant getApplicantByName() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<User> getApplicantByName(String name) {
+		try{
+		TypedQuery<User> query = em.
+				createQuery("SELECT a FROM User a WHERE a.name=:name",User.class);
+		return (ArrayList<User>) query.setParameter("name", name).getResultList();
+		}catch(NoResultException e){
+			
+		}
+		return null ;
 	}
 
 	@Override
-	public ArrayList<Applicant> getApplicantByState() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Applicant> getApplicantByState(ApplicantState state) {
+		TypedQuery<Applicant> query = em.
+				createQuery("SELECT a FROM Applicant a WHERE a.applicantState=:applicantState",Applicant.class);
+		return (ArrayList<Applicant>) query.setParameter("applicantState", state).getResultList();
 	}
 
 }
