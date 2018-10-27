@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 import javax.persistence.*;
@@ -28,6 +29,10 @@ public class Message implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_project")
 	private Project project;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "message",cascade = CascadeType.REMOVE)
+	private List<Response> responses;
+
 
 	//@ManyToOne
 	//@JoinColumn(name = "idResponsable")
