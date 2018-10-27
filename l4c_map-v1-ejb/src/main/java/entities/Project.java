@@ -1,25 +1,58 @@
 package entities;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import services.SqlDateAdapter;
 
 @Entity
+
+@XmlAccessorType(XmlAccessType.PROPERTY) 
+@XmlRootElement
 public class Project implements Serializable {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idProject;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "idClient")
+	
+	private Client client;
+
 	private String name;
+	
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	private Date dateBegin;
+	
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	private Date dateEnd;
+
+
 	private String adresse;
+
 	private int nbRessources;
+ 
+
 	private int nbRessourcesLevio;
+	
 	private String picture;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
@@ -40,22 +73,7 @@ public class Project implements Serializable {
 		this.name = name;
 	}
 
-	public Date getDateBegin() {
-		return dateBegin;
-	}
-
-	public void setDateBegin(Date dateBegin) {
-		this.dateBegin = dateBegin;
-	}
-
-	public Date getDateEnd() {
-		return dateEnd;
-	}
-
-	public void setDateEnd(Date dateEnd) {
-		this.dateEnd = dateEnd;
-	}
-
+	
 	public String getAdresse() {
 		return adresse;
 	}
@@ -87,6 +105,14 @@ public class Project implements Serializable {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+	@XmlTransient
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 	@Override
 	public int hashCode() {
@@ -111,7 +137,19 @@ public class Project implements Serializable {
 	}
 
 	public Project() {
-		// TODO Auto-generated constructor stub
+		
+	}
+
+	public Project(String name, Date dateBegin, Date dateEnd, String adresse, int nbRessources, int nbRessourcesLevio,
+			String picture) {
+		super();
+		this.name = name;
+		this.dateBegin = dateBegin;
+		this.dateEnd = dateEnd;
+		this.adresse = adresse;
+		this.nbRessources = nbRessources;
+		this.nbRessourcesLevio = nbRessourcesLevio;
+		this.picture = picture;
 	}
 
 }

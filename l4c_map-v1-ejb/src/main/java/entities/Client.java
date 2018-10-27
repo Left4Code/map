@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,6 +27,19 @@ public class Client extends User implements Serializable{
 	@OneToMany(mappedBy="client")
 	private List<Message> listeMessage ;
 	
+	@OneToMany(mappedBy="client",fetch=FetchType.EAGER)
+	private List<Project> listeproject;
+	
+	
+	
+	public List<Project> getListeproject() {
+		return listeproject;
+	}
+
+	public void setListeproject(List<Project> listeproject) {
+		this.listeproject = listeproject;
+	}
+
 	public int getNbOfRessource() {
 		return nbOfRessource;
 	}
