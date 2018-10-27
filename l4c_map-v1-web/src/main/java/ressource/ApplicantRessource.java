@@ -22,9 +22,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Applicant;
+import entities.Demand;
 import entities.User;
 import enumerator.ApplicantState;
 import service.ApplicantServiceLocal;
+import service.DemandServiceLocal;
 
 @Stateless
 @Path("applicant")
@@ -32,6 +34,8 @@ public class ApplicantRessource {
 
 	@EJB
 	ApplicantServiceLocal service;
+	@EJB
+	DemandServiceLocal serviceDemand ;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
@@ -101,5 +105,16 @@ public class ApplicantRessource {
 
 		return Response.status(Status.NOT_FOUND).entity("Error : not found").build();
 	}
+	
+	@POST
+	@Path("{idApplicant}")
+	@Consumes({MediaType.APPLICATION_XML,MediaType.TEXT_PLAIN})
+	public Response addDemand(@PathParam(value="idApplicant")String idApplicant ,Demand demand) {
+		int idDemand = serviceDemand.insertDemand(demand, Integer.parseInt(idApplicant));
+		if(idDemand != 0)
+			return Response.status(Status.ACCEPTED).entity(Integer.toString(idDemand)).build() ;
+		return Response.status(Status.BAD_REQUEST).entity("Error : not accepted ").build() ;
+	}
+
 
 }

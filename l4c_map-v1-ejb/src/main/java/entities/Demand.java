@@ -40,7 +40,7 @@ public class Demand implements Serializable {
 	@JoinColumn(name = "idFile")
 	private File file;
 
-	@XmlAttribute
+	@XmlAttribute(name="id")
 	public int getIdDemand() {
 		return idDemand;
 	}
@@ -49,7 +49,7 @@ public class Demand implements Serializable {
 		this.idDemand = idDemand;
 	}
 
-	@XmlElement(required = true)
+	@XmlElement(required = true ,name="Date")
 	public Date getDateDemand() {
 		return dateDemand;
 	}
@@ -58,7 +58,7 @@ public class Demand implements Serializable {
 		this.dateDemand = dateDemand;
 	}
 
-	@XmlElement(type = DemandState.class, required = true)
+	@XmlElement(type = DemandState.class, required = true,name="State")
 	public DemandState getDemandState() {
 		return demandState;
 	}
@@ -67,7 +67,7 @@ public class Demand implements Serializable {
 		this.demandState = demandState;
 	}
 
-	@XmlElement(required = false)
+	@XmlElement(required = false,name="Speciality")
 	public String getSpecialty() {
 		return specialty;
 	}
