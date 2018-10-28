@@ -1,5 +1,7 @@
 package entities;
 
+import enumerator.Reaction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,6 +17,7 @@ public class Response implements Serializable {
     private String status;// seen or not
     private int sender;//the id of the sender
     private String who;//to guess the type of the user,so i can search in the right table
+    private Reaction reaction;//it get the reaction of the user for the response
     @ManyToOne
     @JoinColumn(name = "id_message")
     private Message message;
@@ -57,5 +60,29 @@ public class Response implements Serializable {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public int getIdResponse() {
+        return idResponse;
+    }
+
+    public void setIdResponse(int idResponse) {
+        this.idResponse = idResponse;
+    }
+
+    public String getWho() {
+        return who;
+    }
+
+    public void setWho(String who) {
+        this.who = who;
+    }
+
+    public Reaction getReaction() {
+        return reaction;
+    }
+
+    public void setReaction(Reaction reaction) {
+        this.reaction = reaction;
     }
 }

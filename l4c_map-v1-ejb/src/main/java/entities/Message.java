@@ -21,6 +21,7 @@ public class Message implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
+	private int level;// the level of Satisfaction,problem,or reclamation
 
 	private int sender;
 	private int reciver; //=0 if the reciver is the whole project group
@@ -48,6 +49,7 @@ public class Message implements Serializable {
 
 
 	public int getIdMessage() {
+
 		return idMessage;
 	}
 
@@ -117,5 +119,21 @@ public class Message implements Serializable {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public List<Response> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
 	}
 }
