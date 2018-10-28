@@ -18,6 +18,7 @@ public class ResponseSerivces implements ResponseLocal, ResponseRemote {
     public int addResponse(Response response) {
 
         em.persist(response);
+
         return response.getIdMessage();
 
     }

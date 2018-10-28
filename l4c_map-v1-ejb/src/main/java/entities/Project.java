@@ -18,6 +18,7 @@ public class Project implements Serializable {
 	private int nbRessources;
 	private int nbRessourcesLevio;
 	private String picture;
+	private int score;//determinate the status of the project (risky or all is good)
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
 
@@ -133,4 +134,19 @@ public class Project implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 }

@@ -21,7 +21,7 @@ public class Ressource extends User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	protected TypeContract typeContrat;
 	protected int seniority;
-	protected int note;
+	protected int note;//will work on this attribut to determinate the competance of the ressource
 	protected String cv;
 	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private List<Mandate> listemandate;
