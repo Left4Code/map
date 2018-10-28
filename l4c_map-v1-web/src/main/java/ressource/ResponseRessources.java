@@ -18,7 +18,7 @@ public class ResponseRessources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addRequest(entities.Response response)
+    public Response addResponse(entities.Response response)
     {
         if (response!=null)
         {
@@ -33,7 +33,7 @@ public class ResponseRessources {
     @DELETE
     @Path("{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response removeMessage(@PathParam(value="id")int id)
+    public Response removeResponse(@PathParam(value="id")int id)
     {
 
         responseLocal.deleteResponse(id);
@@ -45,7 +45,7 @@ public class ResponseRessources {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editRequest(entities.Response response)
+    public Response editResponse(entities.Response response)
     {
         if (response!=null)
         {
