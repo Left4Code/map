@@ -16,8 +16,6 @@ public interface RessourcesServicesLocal {
 	void supprimerRessources(int idRessources);
 	Ressource afficherRessources(int idRessource);
 	List<Ressource> afficherTousLesRessources();
-	void affecterRessourceAunProjet(int idRessource , int idProjet);
-	void modiffierAffectationRessourceAunProjet(int idRessource);
 	void ajouterCompetenceARessource(int idRessource , int idSKill);
 	void ajouterCompetence(Skills skill);
 	void modifierCompetence(Skills skill );

@@ -45,7 +45,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	/**
 	 * Default constructor.
 	 */
-
+//start of ressources cruds .
 	@Override
 	public void ajouterRessources(Ressource ressource) {
 		em.persist(ressource);
@@ -189,7 +189,49 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		return r;
 
 	}
+	
+	
+	@Override
+	public void affecterNoteARessource(int idRessource) {
+		Ressource r = em.find(Ressource.class, idRessource);
+		int seniority = r.getSeniority();
+		int numberSkills = r.getSkills().size();
+		int numberMandates = r.getListemandate().size();
+		System.out.println(seniority+"  ;  "+numberSkills+"  ;  "+numberMandates);
+		int cote = 1 ;
+		if(seniority<3){//junior
+			if(numberSkills<2){
+				cote=cote*2 ;
+			}else if(numberSkills>2){
+				cote=cote*3 ;
 
+			}
+		}else if(seniority>=3 && seniority<6){//experienced
+			if(numberSkills<2){
+				cote=cote*3 ;
+			}else if(numberSkills>2){
+				cote=cote*4 ;
+
+			}
+		}else if(seniority>=6){//senior
+			if(numberSkills<2){
+				cote=cote*4 ;
+			}else if(numberSkills>2){
+				cote=cote*5 ;
+
+			}
+		}
+		cote=cote+(numberMandates);
+		if(cote>1) r.setNote(cote); 
+		else r.setNote(1);
+		em.merge(r);
+	
+	}
+// end of ressources cruds .
+	
+	
+	
+// start of skills cruds .
 	@Override
 	public void ajouterCompetence(Skills skill) {
 		em.persist(skill);
@@ -238,6 +280,10 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		return rr;
 	}
 
+	
+	// end of skills cruds .
+	
+	//start of timeOff cruds .
 	@Override
 	public void ajouterDemandeConge(int idRessource, Demand_time_off demande) {
 		Ressource r = em.find(Ressource.class, idRessource);
@@ -287,52 +333,8 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	}
 
-	@Override
-	public void affecterRessourceAunProjet(int idRessource, int idProjet) {
 
-	}
-
-	@Override
-	public void modiffierAffectationRessourceAunProjet(int idRessource) {
-
-	}
-
-	@Override
-	public void affecterNoteARessource(int idRessource) {
-		Ressource r = em.find(Ressource.class, idRessource);
-		int seniority = r.getSeniority();
-		int numberSkills = r.getSkills().size();
-		int numberMandates = r.getListemandate().size();
-		System.out.println(seniority+"  ;  "+numberSkills+"  ;  "+numberMandates);
-		int cote = 1 ;
-		if(seniority<3){//junior
-			if(numberSkills<2){
-				cote=cote*2 ;
-			}else if(numberSkills>2){
-				cote=cote*3 ;
-
-			}
-		}else if(seniority>=3 && seniority<6){//experienced
-			if(numberSkills<2){
-				cote=cote*3 ;
-			}else if(numberSkills>2){
-				cote=cote*4 ;
-
-			}
-		}else if(seniority>=6){//senior
-			if(numberSkills<2){
-				cote=cote*4 ;
-			}else if(numberSkills>2){
-				cote=cote*5 ;
-
-			}
-		}
-		cote=cote+(numberMandates);
-		if(cote>1) r.setNote(cote); 
-		else r.setNote(1);
-		em.merge(r);
-	
-	}
+//end of time off cruds .
 	
 	
 
