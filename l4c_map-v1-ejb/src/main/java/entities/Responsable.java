@@ -1,12 +1,17 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -19,98 +24,93 @@ public class Responsable extends User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String speciality;
-	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
-	private List<Meeting> listeMeeting;
-	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
-	private List<Sponsor> listeSponsor;
-	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
-	private List<Arrival> listeArrival;
-	@OneToMany(mappedBy = "responsable")
-	private List<Test> listeTest;
-	@OneToMany(mappedBy = "responsable")
-	private List<Employement_Letter> listeEmployementLetter;
-	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
-	private List<Message> listeMessage;
-	@OneToMany(mappedBy = "responsable")
-	private List<Time_Off> listeTimeOff;
-	@OneToMany(mappedBy = "responsable")
-	private List<Request> listeRequest;
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private Set<Meeting> listeMeeting = new HashSet<>();
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private Set<Sponsor> listeSponsor= new HashSet<>();;
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE , fetch=FetchType.EAGER)
+	private Set<Arrival> listeArrival= new HashSet<>();;
+	@OneToMany(mappedBy = "responsable", fetch=FetchType.EAGER)
+	private Set<Test> listeTest= new HashSet<>();;
+	@OneToMany(mappedBy = "responsable", fetch=FetchType.EAGER)
+	private Set<Employement_Letter> listeEmployementLetter= new HashSet<>();;
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
+	private Set<Message> listeMessage= new HashSet<>();;
 
+	@OneToMany(mappedBy = "responsable", fetch=FetchType.EAGER)
+	private Set<Request> listeRequest= new HashSet<>();;
+	
+
+	
+	
 	@XmlTransient
-	public List<Message> getListeMessage() {
+	public Set<Message> getListeMessage() {
 		return listeMessage;
 	}
 
-	public void setListeMessage(List<Message> listeMessage) {
+
+	public void setListeMessage(Set<Message> listeMessage) {
 		this.listeMessage = listeMessage;
 	}
-	@XmlTransient
-	public List<Time_Off> getListeTimeOff() {
-		return listeTimeOff;
-	}
 
-	public void setListeTimeOff(List<Time_Off> listeTimeOff) {
-		this.listeTimeOff = listeTimeOff;
-	}
-	@XmlTransient
-	public List<Request> getListeRequest() {
+
+	@XmlElement
+	public Set<Request> getListeRequest() {
+
 		return listeRequest;
 	}
 
-	public void setListeRequest(List<Request> listeRequest) {
+	public void setListeRequest(Set<Request> listeRequest) {
 		this.listeRequest = listeRequest;
-	}
-	@XmlTransient
-	public List<Test> getListeTest() {
+	
+
+	@XmlElement
+	public Set<Test> getListeTest() 
 		return listeTest;
 	}
 
-	public void setListeTest(List<Test> listeTest) {
+	public void setListeTest(Set<Test> listeTest) {
 		this.listeTest = listeTest;
 	}
-	@XmlTransient
-	public List<Employement_Letter> getListeEmployementLetter() {
+
+	@XmlElement
+	public Set<Employement_Letter> getListeEmployementLetter() {
 		return listeEmployementLetter;
 	}
 
-	public void setListeEmployementLetter(List<Employement_Letter> listeEmployementLetter) {
+	public void setListeEmployementLetter(Set<Employement_Letter> listeEmployementLetter) {
 		this.listeEmployementLetter = listeEmployementLetter;
 	}
-	@XmlTransient
-	public List<Arrival> getListeArrival() {
+	@XmlElement
+	public Set<Arrival> getListeArrival() {
 		return listeArrival;
 	}
 
-	public void setListeArrival(List<Arrival> listeArrival) {
+	public void setListeArrival(Set<Arrival> listeArrival) {
 		this.listeArrival = listeArrival;
 	}
-	@XmlTransient
-	public List<Sponsor> getListeSponsor() {
+	@XmlElement
+	public Set<Sponsor> getListeSponsor() {
 		return listeSponsor;
 	}
 
-	public void setListeSponsor(List<Sponsor> listeSponsor) {
+	public void setListeSponsor(Set<Sponsor> listeSponsor) {
 		this.listeSponsor = listeSponsor;
 	}
-	@XmlTransient
-	public List<Meeting> getListeMeeting() {
+	public Set<Meeting> getListeMeeting() {
 		return listeMeeting;
 	}
 
-	public void setListeMeeting(List<Meeting> listeMeeting) {
+	public void setListeMeeting(Set<Meeting> listeMeeting) {
 		this.listeMeeting = listeMeeting;
 	}
+
 	@XmlElement
 	public String getSpeciality() {
 		return speciality;
 	}
 
 	public void setSpeciality(String speciality) {
-		this.speciality = speciality;
-	}
-
-	public Responsable(String speciality) {
-		super();
 		this.speciality = speciality;
 	}
 
