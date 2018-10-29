@@ -162,6 +162,15 @@ public class Ressource extends User implements Serializable {
 		this.listeDemandesTimeOff = listeDemandesTimeOff;
 	}
 
+	@Override
+	public String toString() {
+		return "Ressource [specialty=" + specialty + ", businessSector=" + businessSector + ", rateSelling="
+				+ rateSelling + ", cost=" + cost + ", typeContrat=" + typeContrat + ", seniority=" + seniority
+				+ ", note=" + note + ", cv=" + cv + ", skills=" + skills + ", listemandate=" + listemandate
+				+ ", sponsor=" + sponsor + ", listeMessage=" + listeMessage + ", listeDemandesTimeOff="
+				+ listeDemandesTimeOff + "]";
+	}
+
 
 
 }

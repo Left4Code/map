@@ -71,22 +71,32 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	@Override
 	public Ressource afficherRessources(int idRessource) {
-
-		// try {
-		// FirstPdf fs = new FirstPdf();
-		// fs.SetInfos(ressource.getId(), ressource.getName(),
-		// ressource.getLastname(),
-		// ressource.getSpecialty(),ressource.getBusinessSector(),
-		// ressource.getRateSelling(), ressource.getCost(),
-		// (ressource.getTypeContrat()).toString(),
-		// ressource.getSeniority(), ressource.getNote() );
-		// fs.createPDF();
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		//// }
-		String etat = "";
 		Ressource ressource = em.find(Ressource.class, idRessource);
+
+		 try {
+			 System.out.println("d5alna");
+		 FirstPdf fs = new FirstPdf();
+		 System.out.println("d5alna2");
+
+		 fs.SetInfos(ressource.getId(), ressource.getName(),
+		 ressource.getLastname(),
+		 ressource.getSpecialty(),ressource.getBusinessSector(),
+		 ressource.getRateSelling(), ressource.getCost(),
+		 (ressource.getTypeContrat()).toString(),
+		 ressource.getSeniority(), ressource.getNote() );
+		 System.out.println("d5alna22");
+
+		 fs.createPDF();
+		 System.out.println("d5alna23");
+
+		 } catch (IOException e) {
+			 System.out.println("5rajna");
+		 // TODO Auto-generated catch block
+System.out.println("ahay el erreure : "+e);}
+//		Runnable r = new MyR(ressource);
+//		new Thread(r).start();
+
+		String etat = "";
 		boolean hasMandate = ressource.getListemandate().iterator().hasNext();
 		boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
 
@@ -95,7 +105,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		if (hasMandate == true) {
 			Mandate mn = ressource.getListemandate().iterator().next();
 
-			int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+			int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
 			if (difference <= 14 && difference > 0) {
 				etat = ("this user will be available in : " + difference + " days.");
@@ -110,8 +120,8 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 			Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
 			Date debut = demand.getDateBegin();
 			Date fin = demand.getDateEnd();
-			int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
-			int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+			int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+			int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
 			if (diffCongeNow > 0 && diffNowConge > 0) {
 				etat = (" This user is on holidays and he comes back in : " + diffCongeNow + " days .");
@@ -144,7 +154,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 			if (hasMandate == true) {
 				Mandate mn = ressource.getListemandate().iterator().next();
 
-				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
 				if (difference <= 14 && difference > 0) {
 					etat = ("this user will be available in : " + difference + " days.");
@@ -159,8 +169,8 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 				Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
 				Date debut = demand.getDateBegin();
 				Date fin = demand.getDateEnd();
-				int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
-				int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+				int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+				int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
 				if (diffCongeNow > 0 && diffNowConge > 0) {
 					etat = (" This user is on holidays and he comes back in : " + diffCongeNow + " days .");
@@ -278,7 +288,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 			Demand_time_off dm = demande;
 			Date debut = demande.getDateBegin();
 			Date fin = demande.getDateEnd();
-			int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+			int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 			if (diffInDays > 0) {
 				dm.setDuration(diffInDays);
 				dm.setRessource(r);
@@ -305,7 +315,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public void modifierDemandeConge(Demand_time_off demande) {
 		Date debut = demande.getDateBegin();
 		Date fin = demande.getDateEnd();
-		int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+		int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 		if (diffInDays > 0) {
 			Demand_time_off dem = em.find(Demand_time_off.class, demande.getIdDemandTimeOff());
 			dem.setDateBegin(debut);
@@ -326,4 +336,42 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	// end of time off cruds .
 
+	public void genereatePdf(int id) {
+		
+		
+	}
+
+//	public static class MyR implements Runnable {
+//
+//		private Ressource ressource ;
+//
+//		public MyR(Ressource ressource ) {
+//			this.ressource = ressource;
+//		}
+//
+//		@Override
+//		public void run() {
+//
+//	
+//
+//			if(ressource!=null){
+//			System.out.println("haw ressource : " + ressource.toString());
+//
+//			try {				System.out.println("ena hne 1 ");
+//
+//				FirstPdf fs = new FirstPdf();
+//				fs.SetInfos(ressource.getId(), ressource.getName(), ressource.getLastname(), ressource.getSpecialty(),
+//						ressource.getBusinessSector(), ressource.getRateSelling(), ressource.getCost(),
+//						(ressource.getTypeContrat()).toString(), ressource.getSeniority(), ressource.getNote());
+//				fs.createPDF();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				System.out.println("ena hne");
+//				e.printStackTrace();
+//			}
+//			}else 
+//				System.out.println("no");
+//			return;
+//		}
+//	}
 }
