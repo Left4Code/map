@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-	<wb-module deploy-name="l4c_map-v1-ejb">
+    <wb-module deploy-name="l4c_map-v1-ejb">
         <wb-resource deploy-path="/" source-path="/src/main/resources" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/src/main/java"/>
-        <wb-resource deploy-path="/" source-path="/Font"/>
-		<property name="java-output-path" value="/l4c_map-v1-ejb/target/classes"/>
-	</wb-module>
+        <property name="java-output-path" value="/l4c_map-v1-ejb/target/classes"/>
+    </wb-module>
 </project-modules>
