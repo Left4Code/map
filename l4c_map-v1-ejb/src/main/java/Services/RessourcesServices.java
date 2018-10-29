@@ -65,8 +65,9 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	@Override
 	public void afficherTousLesRessources() {
 		TypedQuery<Ressource> query = em.createQuery("Select r from Ressource c",Ressource.class);
-		List<Ressource> r = query.getResultList();
+		List r = (List) query.getResultList();
 		System.out.println(r);
+		System.out.println("aaaaaaa");
 	}
 
 	@Override
