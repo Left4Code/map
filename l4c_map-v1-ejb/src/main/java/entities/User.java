@@ -2,15 +2,21 @@ package entities;
 
 import java.io.Serializable;
 
+import javax.annotation.Generated;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@XmlRootElement
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	protected int id;
 	protected String name;
 	protected String lastname;
@@ -53,7 +59,7 @@ public class User implements Serializable {
 	public int hashCode() {
 		return 5 ;
 	}
-
+	@XmlAttribute
 	public int getId() {
 		return id;
 	}

@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Responsable extends User implements Serializable {
@@ -23,8 +24,7 @@ public class Responsable extends User implements Serializable {
 	private List<Employement_Letter> listeEmployementLetter;
 	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
 	private List<Message> listeMessage;
-	@OneToMany(mappedBy = "responsable")
-	private List<Time_Off> listeTimeOff;
+	
 	@OneToMany(mappedBy = "responsable")
 	private List<Request> listeRequest;
 
@@ -36,13 +36,8 @@ public class Responsable extends User implements Serializable {
 		this.listeMessage = listeMessage;
 	}
 
-	public List<Time_Off> getListeTimeOff() {
-		return listeTimeOff;
-	}
 
-	public void setListeTimeOff(List<Time_Off> listeTimeOff) {
-		this.listeTimeOff = listeTimeOff;
-	}
+
 
 	public List<Request> getListeRequest() {
 		return listeRequest;

@@ -7,9 +7,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.MandateType;
 import pk.MandatePk;
@@ -27,12 +29,35 @@ public class Mandate implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="idProject" ,referencedColumnName="idProject",insertable=false,updatable=false)
 	private Project project ;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idRessource" ,referencedColumnName="id",insertable=false,updatable=false)
 	private Ressource ressource ;
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	@XmlTransient
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
+
 	public Date getDateBegin() {
 		return dateBegin;
+	}
+
+	@Override
+	public String toString() {
+		return "Mandate [mandatepk=" + mandatepk + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd + ", duration="
+				+ duration + ", cost=" + cost + ", mandateType=" + mandateType + ", project=" + project + ", ressource="
+				+ ressource + "]";
 	}
 
 	public void setDateBegin(Date dateBegin) {

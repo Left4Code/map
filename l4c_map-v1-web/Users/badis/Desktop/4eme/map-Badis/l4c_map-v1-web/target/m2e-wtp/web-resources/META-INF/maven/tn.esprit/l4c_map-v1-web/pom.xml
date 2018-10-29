@@ -35,12 +35,6 @@
 			<version>3.0.19.Final</version>
 			<scope>provided</scope>
 		</dependency>
-<dependency>
-    <groupId>com.itextpdf</groupId>
-    <artifactId>root</artifactId>
-    <version>5.5.12</version>
-    <type>pom</type>
-</dependency>
 	</dependencies>
 
 	<build>

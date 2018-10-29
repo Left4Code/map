@@ -1,15 +1,29 @@
 package Services;
 
-import java.awt.List;
+import java.io.IOException;
+import java.sql.Date;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.rmi.CORBA.UtilDelegate;
 
+import com.itextpdf.text.pdf.hyphenation.TernaryTree.Iterator;
+
+import entities.Demand_time_off;
+import entities.Mandate;
+import entities.Project;
+import entities.Responsable;
 import entities.Ressource;
 import entities.Skills;
+import enumerator.DemandState;
+import utils.FirstPdf;
 
 /**
  * Session Bean implementation class RessourcesServices
@@ -18,35 +32,34 @@ import entities.Skills;
 @LocalBean
 public class RessourcesServices implements RessourcesServicesRemote, RessourcesServicesLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public RessourcesServices() {
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * Default constructor.
+	 */
+	public RessourcesServices() {
+		// TODO Auto-generated constructor stub
+	}
 
-    @PersistenceContext(unitName="l4c_map-v1-ejb")
-	EntityManager em ; 
-	
-    /**
-     * Default constructor. 
-     */
+	@PersistenceContext(unitName = "l4c_map-v1-ejb")
+	EntityManager em;
+
+	/**
+	 * Default constructor.
+	 */
 
 	@Override
 	public void ajouterRessources(Ressource ressource) {
 		em.persist(ressource);
 		System.out.println("ressource ajoutée");
+
 	}
-
-
 
 	@Override
 	public void modifierRessources(Ressource ressource) {
-		Ressource r =new Ressource();
-		r=ressource ;
+		Ressource r = em.find(Ressource.class, ressource.getId());
+		r = ressource;
 		em.merge(r);
 		System.out.println("ressource modifiée avec succés");
-		
+
 	}
 
 	@Override
@@ -57,47 +70,270 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	}
 
 	@Override
-	public void afficherRessources(int idRessource) {
-		em.find(Ressource.class, idRessource);
+	public Ressource afficherRessources(int idRessource) {
+	
+
+		// try {
+		// FirstPdf fs = new FirstPdf();
+		// fs.SetInfos(ressource.getId(), ressource.getName(),
+		// ressource.getLastname(),
+		// ressource.getSpecialty(),ressource.getBusinessSector(),
+		// ressource.getRateSelling(), ressource.getCost(),
+		// (ressource.getTypeContrat()).toString(),
+		// ressource.getSeniority(), ressource.getNote() );
+		// fs.createPDF();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		//// }
 		
+		
+		Ressource ressource = em.find(Ressource.class, idRessource);
+		boolean hasMandate = ressource.getListemandate().iterator().hasNext();
+		boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
+		
+		
+		Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
+
+		if (hasMandate==true) {
+			Mandate mn = ressource.getListemandate().iterator().next();
+			
+			int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+			
+			if (difference <= 14 && difference > 0) {
+				System.out.println("this user will be available in : " + difference + " days.");
+			} else if (difference > 14) {
+				System.out.println("This user is not available");
+			} else {
+				System.out.println("This user is available(mandate)");
+
+			}
+
+		} else if (hasMandate==false && hasTimeOff==true ) {
+			Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
+			Date debut = demand.getDateBegin();
+			Date fin = demand.getDateEnd();
+			 int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 *
+					 60 * 60 * 24));
+			 int diffNowConge = (int) ((now.getTime()-debut.getTime() ) / (1000 *
+					 60 * 60 * 24));
+			 	
+			if(diffCongeNow>0 && diffNowConge>0){
+				System.out.println(" This user is on holidays and he comes back in : "+diffCongeNow+" days .");
+				
+			}else if (diffCongeNow<0 && diffNowConge>0){
+				System.out.println("this user is available(conge)");
+			}
+			
+			
+		
+		} else if (hasMandate==false && hasTimeOff==false) {
+			System.out.println("this user is available");
+		}
+
+		return ressource;
+
 	}
 
 	@Override
-	public void afficherTousLesRessources() {
-		TypedQuery<Ressource> query = em.createQuery("Select r from Ressource c",Ressource.class);
-		List r = (List) query.getResultList();
-		System.out.println(r);
-		System.out.println("aaaaaaa");
+	public List<Ressource> afficherTousLesRessources() {
+		TypedQuery<Ressource> query = em.createQuery("Select c from Ressource c", Ressource.class);
+		List<Ressource> r = query.getResultList();
+		r.forEach(e->{
+			Ressource ressource = em.find(Ressource.class, e.getId());
+			boolean hasMandate = ressource.getListemandate().iterator().hasNext();
+			boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
+			
+			
+			Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
+
+			if (hasMandate==true) {
+				Mandate mn = ressource.getListemandate().iterator().next();
+				
+				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+				
+				if (difference <= 14 && difference > 0) {
+					System.out.println("this user will be available in : " + difference + " days.");
+				} else if (difference > 14) {
+					System.out.println("This user is not available");
+				} else {
+					System.out.println("This user is available(mandate)");
+
+				}
+
+			} else if (hasMandate==false && hasTimeOff==true ) {
+				Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
+				Date debut = demand.getDateBegin();
+				Date fin = demand.getDateEnd();
+				 int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 *
+						 60 * 60 * 24));
+				 int diffNowConge = (int) ((now.getTime()-debut.getTime() ) / (1000 *
+						 60 * 60 * 24));
+				 	
+				if(diffCongeNow>0 && diffNowConge>0){
+					System.out.println(" This user is on holidays and he comes back in : "+diffCongeNow+" days .");
+					
+				}else if (diffCongeNow<0 && diffNowConge>0){
+					System.out.println("this user is available(conge)");
+				}
+				
+				
+			
+			} else if (hasMandate==false && hasTimeOff==false) {
+				System.out.println("this user is available");
+			}
+
+		});
+		return r;
+
 	}
 
 	@Override
-	public void affecterRessourceAunProjet(int idRessource) {
-		// TODO Auto-generated method stub
-		
+	public void ajouterCompetence(Skills skill) {
+		em.persist(skill);
+		System.out.println("ajoutée");
+	}
+
+	@Override
+	public void ajouterCompetenceARessource(int idRessource, int idSkill) {
+		Skills s = em.find(Skills.class, idSkill);
+		Ressource rc = em.find(Ressource.class, idRessource);
+		s.setRessource(rc);
+		affecterNoteARessource(idRessource);
+
+	}
+
+	@Override
+	public void modifierCompetence(Skills skill) {
+		Skills sk = em.find(Skills.class, skill.getIdSkills());
+		sk = skill;
+		em.merge(sk);
+		System.out.println("Skill modifiée avec succés");
+
+	}
+
+	@Override
+	public void supprimerCompetence(int idSKill) {
+		em.remove(em.find(Skills.class, idSKill));
+		affecterNoteARessource(em.find(Skills.class, idSKill).getRessource().getId());
+
+	}
+	
+	@Override
+	public void ajouterRessourceEtCompetence(int idRessource, Skills skill) {
+		Ressource rc = em.find(Ressource.class, idRessource);
+		Skills sk = skill;
+		sk.setRessource(rc);
+		em.persist(sk);
+		affecterNoteARessource(idRessource);
+
+	}
+
+	@Override
+	public List<Skills> afficherSkills() {
+		TypedQuery<Skills> query = em.createQuery("Select c from Skills c", Skills.class);
+		List<Skills> rr = query.getResultList();
+		return rr;
+	}
+
+	@Override
+	public void ajouterDemandeConge(int idRessource, Demand_time_off demande) {
+		Ressource r = em.find(Ressource.class, idRessource);
+		if (r != null) {
+			Demand_time_off dm = demande;
+			dm.setRessource(r);
+			em.persist(dm);
+		} else
+			System.out.println("ressource introuvable");
+	}
+
+	@Override
+	public List<Demand_time_off> afficherDemandesConges() {
+		TypedQuery<Demand_time_off> query = em.createQuery("Select c from Demand_time_off c", Demand_time_off.class);
+		List<Demand_time_off> ls = query.getResultList();
+		return ls;
+	}
+
+	@Override
+	public Demand_time_off afficherUneDemandeConge(int idDemande) {
+		Demand_time_off dm = em.find(Demand_time_off.class, idDemande);
+		return dm;
+	}
+
+
+
+	@Override
+	public void modifierDemandeConge(Demand_time_off demande) {
+		Date debut = demande.getDateBegin();
+		Date fin = demande.getDateEnd();
+		int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24));
+		if (diffInDays > 0) {
+			Demand_time_off dem = em.find(Demand_time_off.class, demande.getIdDemandTimeOff());
+			dem.setDateBegin(debut);
+			dem.setDateEnd(fin);
+			dem.setDuration(diffInDays);
+		} else
+			System.out.println("failed to modify");
+
+	}
+
+	@Override
+	public void modifierEtatDemandeCongeParResponsable(int idResponsable, Demand_time_off demande) {
+		Demand_time_off dem = em.find(Demand_time_off.class, demande.getIdDemandTimeOff());
+		dem.setStateDemandTimeOff(demande.getStateDemandTimeOff());
+		dem.setResponsable(em.find(Responsable.class, idResponsable));
+
+	}
+
+	@Override
+	public void affecterRessourceAunProjet(int idRessource, int idProjet) {
+
 	}
 
 	@Override
 	public void modiffierAffectationRessourceAunProjet(int idRessource) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void ajouterCompetence(int idRessource, Skills skill) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void affecterNoteARessource(int idRessource) {
+		Ressource r = em.find(Ressource.class, idRessource);
+		int seniority = r.getSeniority();
+		int numberSkills = r.getSkills().size();
+		int numberMandates = r.getListemandate().size();
+		System.out.println(seniority+"  ;  "+numberSkills+"  ;  "+numberMandates);
+		int cote = 1 ;
+		if(seniority<3){//junior
+			if(numberSkills<2){
+				cote=cote*2 ;
+			}else if(numberSkills>2){
+				cote=cote*3 ;
 
-	@Override
-	public void modifierCompetence(int idRessource, Skills skill) {
-		// TODO Auto-generated method stub
-		
-	}
+			}
+		}else if(seniority>=3 && seniority<6){//experienced
+			if(numberSkills<2){
+				cote=cote*3 ;
+			}else if(numberSkills>2){
+				cote=cote*4 ;
 
-	@Override
-	public void supprimerCompetence(int idRessource, Skills skill) {
-		// TODO Auto-generated method stub
-		
+			}
+		}else if(seniority>=6){//senior
+			if(numberSkills<2){
+				cote=cote*4 ;
+			}else if(numberSkills>2){
+				cote=cote*5 ;
+
+			}
+		}
+		cote=cote+(numberMandates);
+		if(cote>1) r.setNote(cote); 
+		else r.setNote(1);
+		em.merge(r);
+	
 	}
 	
+	
+
 }
