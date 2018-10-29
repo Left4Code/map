@@ -21,8 +21,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.DemandState;
+import service.SqlDateAdapter;
 
 @Entity
 @XmlRootElement
@@ -50,6 +52,7 @@ public class Demand implements Serializable {
 	}
 
 	@XmlElement(required = true ,name="Date")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateDemand() {
 		return dateDemand;
 	}

@@ -11,8 +11,10 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pk.SponsorPk;
+import service.SqlDateAdapter;
 
 @Entity
 @XmlRootElement
@@ -66,6 +68,7 @@ public class Sponsor implements Serializable{
 		this.responsable = responsable;
 	}
 	@XmlElement(name="TimeBegin")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getTimeBegin() {
 		return timeBegin;
 	}
@@ -74,6 +77,7 @@ public class Sponsor implements Serializable{
 		this.timeBegin = timeBegin;
 	}
 	@XmlElement(name="TimeEnd")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getTimeEnd() {
 		return timeEnd;
 	}

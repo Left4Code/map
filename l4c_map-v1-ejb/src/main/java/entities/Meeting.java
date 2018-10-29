@@ -16,9 +16,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.TypeResult;
 import pk.MeetingPk;
+import service.SqlDateAdapter;
 
 @Entity
 @XmlRootElement
@@ -82,6 +84,7 @@ public class Meeting implements Serializable{
 		this.demand = demand;
 	}
 	@XmlElement
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDate() {
 		return date;
 	}

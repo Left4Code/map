@@ -30,6 +30,7 @@ import enumerator.ApplicantState;
 import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
 import service.TestServiceLocal;
+import utilites.Secured;
 
 @Stateless
 @Path("applicant")
@@ -42,6 +43,7 @@ public class ApplicantRessource {
 	@EJB
 	TestServiceLocal serviceTest;
 
+	@Secured
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addApplicant(Applicant A) {
@@ -65,7 +67,7 @@ public class ApplicantRessource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response updateApplicant(Applicant applicant) {
 		if (service.updateApplicant(applicant.getId(), applicant)) {
-			return Response.status(javax.ws.rs.core.Response.Status.FOUND).entity("Update successful").build();
+			return Response.status(javax.ws.rs.core.Response.Status.OK).entity("Update successful").build();
 		}
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Error :Update unsuccessful").build();
 	}
@@ -91,19 +93,19 @@ public class ApplicantRessource {
 		Matcher matcherDigit = patternDigit.matcher(value);
 		Applicant applicant = new Applicant();
 		if (value.equals("Waiting") || value.equals("Applicant_Being_Recruted")) {
-			return Response.status(Status.FOUND).entity(service.getApplicantByState(ApplicantState.valueOf(value)))
+			return Response.status(Status.OK).entity(service.getApplicantByState(ApplicantState.valueOf(value)))
 					.build();
 		} else if (!matcherNoDigit.find()) {
 			applicant = service.getApplicantById(Integer.parseInt(value));
 			if (applicant != null)
-				return Response.status(Status.FOUND).entity(applicant).build();
+				return Response.status(Status.OK).entity(applicant).build();
 			else
 				return Response.status(Status.NOT_FOUND).entity("Error : not found").build();
 		}
 		if (!matcherDigit.find()) {
 			List<User> listeApplicant = service.getApplicantByName(value.trim());
 			if (listeApplicant.size() != 0)
-				return Response.status(Status.FOUND).entity(listeApplicant).build();
+				return Response.status(Status.OK).entity(listeApplicant).build();
 			else
 				return Response.status(Status.NOT_FOUND).entity("Error : not found").build();
 		}

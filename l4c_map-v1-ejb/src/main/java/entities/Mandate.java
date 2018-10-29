@@ -10,27 +10,30 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.MandateType;
 import pk.MandatePk;
+import service.SqlDateAdapter;
 
 @Entity
-public class Mandate implements Serializable{
+public class Mandate implements Serializable {
 	@EmbeddedId
-	private MandatePk mandatepk ;
-	private Date dateBegin ;
-	private Date dateEnd ;
-	private int duration ;
-	private float cost ;
+	private MandatePk mandatepk;
+	private Date dateBegin;
+	private Date dateEnd;
+	private int duration;
+	private float cost;
 	@Enumerated(EnumType.STRING)
-	private MandateType mandateType ;
+	private MandateType mandateType;
 	@ManyToOne
-	@JoinColumn(name="idProject" ,referencedColumnName="idProject",insertable=false,updatable=false)
-	private Project project ;
+	@JoinColumn(name = "idProject", referencedColumnName = "idProject", insertable = false, updatable = false)
+	private Project project;
 	@ManyToOne
-	@JoinColumn(name="idRessource" ,referencedColumnName="id",insertable=false,updatable=false)
-	private Ressource ressource ;
+	@JoinColumn(name = "idRessource", referencedColumnName = "id", insertable = false, updatable = false)
+	private Ressource ressource;
 
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -39,6 +42,7 @@ public class Mandate implements Serializable{
 		this.dateBegin = dateBegin;
 	}
 
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}
@@ -70,7 +74,6 @@ public class Mandate implements Serializable{
 	public void setMandateType(MandateType mandateType) {
 		this.mandateType = mandateType;
 	}
-	
 
 	public MandatePk getMandatepk() {
 		return mandatepk;
@@ -81,7 +84,7 @@ public class Mandate implements Serializable{
 	}
 
 	public Mandate() {
-		
+
 	}
 
 }

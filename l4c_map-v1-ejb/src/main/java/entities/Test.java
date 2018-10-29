@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import service.SqlDateAdapter;
 
 @Entity
 @XmlRootElement
@@ -79,6 +82,7 @@ public class Test implements Serializable {
 	}
 
 	@XmlElement(name="Date")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateOfPassing() {
 		return dateOfPassing;
 	}

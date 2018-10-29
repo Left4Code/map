@@ -9,20 +9,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import service.SqlDateAdapter;
 
 @Entity
+@XmlRootElement
 public class Arrival implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idArrival;
 	private Date arrivalDate;
-	private Date timeOfTravelling;
 	private int flightNumber;
 	@OneToOne(mappedBy="arrival")
 	private Applicant applicant ;
 	@ManyToOne
 	private Responsable responsable;
-
+	
+	@XmlElement
 	public Applicant getApplicant() {
 		return applicant;
 	}
@@ -30,7 +37,7 @@ public class Arrival implements Serializable {
 	public void setApplicant(Applicant applicant) {
 		this.applicant = applicant;
 	}
-
+	@XmlElement
 	public Responsable getResponsable() {
 		return responsable;
 	}
@@ -38,7 +45,7 @@ public class Arrival implements Serializable {
 	public void setResponsable(Responsable responsable) {
 		this.responsable = responsable;
 	}
-
+	@XmlAttribute
 	public int getIdArrival() {
 		return idArrival;
 	}
@@ -46,7 +53,7 @@ public class Arrival implements Serializable {
 	public void setIdArrival(int idArrival) {
 		this.idArrival = idArrival;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getArrivalDate() {
 		return arrivalDate;
 	}
@@ -54,15 +61,7 @@ public class Arrival implements Serializable {
 	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
-
-	public Date getTimeOfTravelling() {
-		return timeOfTravelling;
-	}
-
-	public void setTimeOfTravelling(Date timeOfTravelling) {
-		this.timeOfTravelling = timeOfTravelling;
-	}
-
+	@XmlElement
 	public int getFlightNumber() {
 		return flightNumber;
 	}

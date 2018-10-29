@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import service.SqlDateAdapter;
 
 @Entity
 public class Request implements Serializable {
@@ -22,11 +25,11 @@ public class Request implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idClient")
 	private Client client;
-	@OneToMany(mappedBy="request")
+	@OneToMany(mappedBy = "request")
 	private List<Required_Skills> requiredSkills;
 	@ManyToOne
-	@JoinColumn(name="idResponsable")
-	private Responsable responsable ;
+	@JoinColumn(name = "idResponsable")
+	private Responsable responsable;
 
 	public List<Required_Skills> getRequiredSkills() {
 		return requiredSkills;
@@ -78,7 +81,7 @@ public class Request implements Serializable {
 			return false;
 		return true;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -86,7 +89,7 @@ public class Request implements Serializable {
 	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}

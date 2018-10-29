@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import service.SqlDateAdapter;
 
 @Entity
 public class Project implements Serializable {
@@ -42,7 +45,7 @@ public class Project implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -50,7 +53,7 @@ public class Project implements Serializable {
 	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}
