@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.ApplicantState;
 
@@ -33,7 +34,8 @@ public class Applicant extends User implements Serializable {
 	@OneToOne(mappedBy = "applicant")
 	private Sponsor sponsor;
 
-	@XmlElement(required = false)
+	//@XmlElement(required = false)
+	@XmlTransient
 	public Arrival getArrival() {
 		return arrival;
 	}
@@ -42,7 +44,8 @@ public class Applicant extends User implements Serializable {
 		this.arrival = arrival;
 	}
 
-	@XmlElement(required = false)
+	//@XmlElement(required = false)
+	@XmlTransient
 	public Sponsor getSponsor() {
 		return sponsor;
 	}
@@ -85,9 +88,8 @@ public class Applicant extends User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Applicant [country=" + country + ", age=" + age + ", applicantState=" + applicantState + ", demand="
-				+ demand + ", arrival=" + arrival + ", sponsor=" + sponsor + ", id=" + id + ", name=" + name
-				+ ", lastname=" + lastname + ", picture=" + picture + "]";
+		return "Applicant [country=" + country + ", age=" + age + ", chanceOfSuccess=" + chanceOfSuccess
+				+ ", applicantState=" + applicantState + ", demand=" + demand + "]";
 	}
 
 	public void setApplicantState(ApplicantState applicantState) {

@@ -106,10 +106,7 @@ public class Test implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idTest;
-		return result;
+		return 5 ;
 	}
 
 	@Override

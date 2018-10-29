@@ -2,6 +2,7 @@ package service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.ejb.Stateless;
@@ -60,5 +61,16 @@ public class TestService implements TestServiceLocal{
 			return testExist.getMark();
 		}
 		return 0;
+	}
+
+	@Override
+	public Set<Test> getTestByApplicant(int idApplicant) {
+		Applicant applicant = em.find(Applicant.class, idApplicant);
+		if(applicant != null){
+			Demand demand = em.find(Demand.class, applicant.getDemand().getIdDemand());
+			File file = em.find(File.class, demand.getFile().getId());
+			return file.getListeTest();
+		}	
+		return null;
 	}
 }
