@@ -45,7 +45,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	/**
 	 * Default constructor.
 	 */
-//start of ressources cruds .
+	// start of ressources cruds .
 	@Override
 	public void ajouterRessources(Ressource ressource) {
 		em.persist(ressource);
@@ -71,7 +71,6 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	@Override
 	public Ressource afficherRessources(int idRessource) {
-	
 
 		// try {
 		// FirstPdf fs = new FirstPdf();
@@ -86,52 +85,45 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		//// }
-		
-		
+		String etat = "";
 		Ressource ressource = em.find(Ressource.class, idRessource);
 		boolean hasMandate = ressource.getListemandate().iterator().hasNext();
 		boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
-		
-		
+
 		Date now = new Date(Calendar.getInstance().getTimeInMillis());
 
-
-		if (hasMandate==true) {
+		if (hasMandate == true) {
 			Mandate mn = ressource.getListemandate().iterator().next();
-			
-			int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-			
+
+			int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+
 			if (difference <= 14 && difference > 0) {
-				System.out.println("this user will be available in : " + difference + " days.");
+				etat = ("this user will be available in : " + difference + " days.");
 			} else if (difference > 14) {
-				System.out.println("This user is not available");
+				etat = ("This user is not available");
 			} else {
-				System.out.println("This user is available(mandate)");
+				etat = ("This user is available(mandate)");
 
 			}
 
-		} else if (hasMandate==false && hasTimeOff==true ) {
+		} else if (hasMandate == false && hasTimeOff == true) {
 			Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
 			Date debut = demand.getDateBegin();
 			Date fin = demand.getDateEnd();
-			 int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 *
-					 60 * 60 * 24));
-			 int diffNowConge = (int) ((now.getTime()-debut.getTime() ) / (1000 *
-					 60 * 60 * 24));
-			 	
-			if(diffCongeNow>0 && diffNowConge>0){
-				System.out.println(" This user is on holidays and he comes back in : "+diffCongeNow+" days .");
-				
-			}else if (diffCongeNow<0 && diffNowConge>0){
-				System.out.println("this user is available(conge)");
-			}
-			
-			
-		
-		} else if (hasMandate==false && hasTimeOff==false) {
-			System.out.println("this user is available");
-		}
+			int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+			int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
 
+			if (diffCongeNow > 0 && diffNowConge > 0) {
+				etat = (" This user is on holidays and he comes back in : " + diffCongeNow + " days .");
+
+			} else if (diffCongeNow < 0 && diffNowConge > 0) {
+				etat = ("this user is available(conge)");
+			}
+
+		} else if (hasMandate == false && hasTimeOff == false) {
+			etat = ("this user is available");
+		}
+		System.out.println(etat);
 		return ressource;
 
 	}
@@ -140,98 +132,94 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public List<Ressource> afficherTousLesRessources() {
 		TypedQuery<Ressource> query = em.createQuery("Select c from Ressource c", Ressource.class);
 		List<Ressource> r = query.getResultList();
-		r.forEach(e->{
+		r.forEach(e -> {
+			String etat = "";
 			Ressource ressource = em.find(Ressource.class, e.getId());
 			boolean hasMandate = ressource.getListemandate().iterator().hasNext();
 			boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
-			
-			
+
 			Date now = new Date(Calendar.getInstance().getTimeInMillis());
+			System.out.println(now);
 
-
-			if (hasMandate==true) {
+			if (hasMandate == true) {
 				Mandate mn = ressource.getListemandate().iterator().next();
-				
-				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-				
+
+				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+
 				if (difference <= 14 && difference > 0) {
-					System.out.println("this user will be available in : " + difference + " days.");
+					etat = ("this user will be available in : " + difference + " days.");
 				} else if (difference > 14) {
-					System.out.println("This user is not available");
+					etat = ("This user is not available");
 				} else {
-					System.out.println("This user is available(mandate)");
+					etat = ("This user is available(mandate)");
 
 				}
 
-			} else if (hasMandate==false && hasTimeOff==true ) {
+			} else if (hasMandate == false && hasTimeOff == true) {
 				Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
 				Date debut = demand.getDateBegin();
 				Date fin = demand.getDateEnd();
-				 int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 *
-						 60 * 60 * 24));
-				 int diffNowConge = (int) ((now.getTime()-debut.getTime() ) / (1000 *
-						 60 * 60 * 24));
-				 	
-				if(diffCongeNow>0 && diffNowConge>0){
-					System.out.println(" This user is on holidays and he comes back in : "+diffCongeNow+" days .");
-					
-				}else if (diffCongeNow<0 && diffNowConge>0){
-					System.out.println("this user is available(conge)");
+				int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))+1;
+				int diffNowConge = (int) ((now.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+
+				if (diffCongeNow > 0 && diffNowConge > 0) {
+					etat = (" This user is on holidays and he comes back in : " + diffCongeNow + " days .");
+
+				} else if (diffCongeNow < 0 && diffNowConge > 0) {
+					etat = ("this user is available(conge)");
 				}
-				
-				
-			
-			} else if (hasMandate==false && hasTimeOff==false) {
-				System.out.println("this user is available");
+
+			} else if (hasMandate == false && hasTimeOff == false) {
+				etat = ("this user is available");
 			}
+			System.out.println(etat);
 
 		});
 		return r;
 
 	}
-	
-	
+
 	@Override
 	public void affecterNoteARessource(int idRessource) {
 		Ressource r = em.find(Ressource.class, idRessource);
 		int seniority = r.getSeniority();
 		int numberSkills = r.getSkills().size();
 		int numberMandates = r.getListemandate().size();
-		System.out.println(seniority+"  ;  "+numberSkills+"  ;  "+numberMandates);
-		int cote = 1 ;
-		if(seniority<3){//junior
-			if(numberSkills<2){
-				cote=cote*2 ;
-			}else if(numberSkills>2){
-				cote=cote*3 ;
+		System.out.println(seniority + "  ;  " + numberSkills + "  ;  " + numberMandates);
+		int cote = 1;
+		if (seniority < 3) {// junior
+			if (numberSkills < 2) {
+				cote = cote * 2;
+			} else if (numberSkills > 2) {
+				cote = cote * 3;
 
 			}
-		}else if(seniority>=3 && seniority<6){//experienced
-			if(numberSkills<2){
-				cote=cote*3 ;
-			}else if(numberSkills>2){
-				cote=cote*4 ;
+		} else if (seniority >= 3 && seniority < 6) {// experienced
+			if (numberSkills < 2) {
+				cote = cote * 3;
+			} else if (numberSkills > 2) {
+				cote = cote * 4;
 
 			}
-		}else if(seniority>=6){//senior
-			if(numberSkills<2){
-				cote=cote*4 ;
-			}else if(numberSkills>2){
-				cote=cote*5 ;
+		} else if (seniority >= 6) {// senior
+			if (numberSkills < 2) {
+				cote = cote * 4;
+			} else if (numberSkills > 2) {
+				cote = cote * 5;
 
 			}
 		}
-		cote=cote+(numberMandates);
-		if(cote>1) r.setNote(cote); 
-		else r.setNote(1);
+		cote = cote + (numberMandates);
+		if (cote > 1)
+			r.setNote(cote);
+		else
+			r.setNote(1);
 		em.merge(r);
-	
+
 	}
-// end of ressources cruds .
-	
-	
-	
-// start of skills cruds .
+	// end of ressources cruds .
+
+	// start of skills cruds .
 	@Override
 	public void ajouterCompetence(Skills skill) {
 		em.persist(skill);
@@ -262,7 +250,7 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		affecterNoteARessource(em.find(Skills.class, idSKill).getRessource().getId());
 
 	}
-	
+
 	@Override
 	public void ajouterRessourceEtCompetence(int idRessource, Skills skill) {
 		Ressource rc = em.find(Ressource.class, idRessource);
@@ -280,19 +268,24 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		return rr;
 	}
 
-	
 	// end of skills cruds .
-	
-	//start of timeOff cruds .
+
+	// start of timeOff cruds .
 	@Override
 	public void ajouterDemandeConge(int idRessource, Demand_time_off demande) {
 		Ressource r = em.find(Ressource.class, idRessource);
 		if (r != null) {
 			Demand_time_off dm = demande;
-			dm.setRessource(r);
-			em.persist(dm);
+			Date debut = demande.getDateBegin();
+			Date fin = demande.getDateEnd();
+			int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
+			if (diffInDays > 0) {
+				dm.setDuration(diffInDays);
+				dm.setRessource(r);
+				em.persist(dm);
+			}
 		} else
-			System.out.println("ressource introuvable");
+			System.out.println("ressource introuvable , congé non ajouté");
 	}
 
 	@Override
@@ -308,13 +301,11 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 		return dm;
 	}
 
-
-
 	@Override
 	public void modifierDemandeConge(Demand_time_off demande) {
 		Date debut = demande.getDateBegin();
 		Date fin = demande.getDateEnd();
-		int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24));
+		int diffInDays = (int) ((fin.getTime() - debut.getTime()) / (1000 * 60 * 60 * 24))+1;
 		if (diffInDays > 0) {
 			Demand_time_off dem = em.find(Demand_time_off.class, demande.getIdDemandTimeOff());
 			dem.setDateBegin(debut);
@@ -333,9 +324,6 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	}
 
-
-//end of time off cruds .
-	
-	
+	// end of time off cruds .
 
 }

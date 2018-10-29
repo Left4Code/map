@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 public class Arrival implements Serializable {
@@ -17,7 +19,7 @@ public class Arrival implements Serializable {
 	private int flightNumber;
 	@OneToOne(mappedBy="arrival")
 	private Applicant applicant ;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Responsable responsable;
 
 	public Applicant getApplicant() {
@@ -27,7 +29,7 @@ public class Arrival implements Serializable {
 	public void setApplicant(Applicant applicant) {
 		this.applicant = applicant;
 	}
-
+	@XmlTransient
 	public Responsable getResponsable() {
 		return responsable;
 	}

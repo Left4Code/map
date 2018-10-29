@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,18 +43,17 @@ public class Demand_time_off implements Serializable {
 	@XmlElement(name="DateEnd")
 	private Date dateEnd;
 	@XmlElement(name="Duration")
-
 	private int Duration;
 	@Enumerated(EnumType.STRING)
 	@XmlElement(name="StateDemande")
 	private StateDemandTimeOff stateDemandTimeOff;
 
-	@OneToOne
+	@ManyToOne
+	@XmlElement(name="idresponsable")
 	private Responsable responsable ;
 
 	@ManyToOne
 	private Ressource ressource;
-
 
 
 	@XmlTransient
@@ -73,7 +73,7 @@ public class Demand_time_off implements Serializable {
 	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-	@XmlElement(name="idresponsable")
+	@XmlTransient
 	public Responsable getResponsable() {
 		return responsable;
 	}
