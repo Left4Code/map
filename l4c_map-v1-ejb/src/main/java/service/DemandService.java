@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import entities.Applicant;
 import entities.Demand;
+import entities.File;
 import entities.User;
 
 @Stateless
@@ -25,6 +26,8 @@ public class DemandService implements DemandServiceLocal {
 			TypedQuery<Applicant> query = em.createQuery("SELECT a FROM Applicant a WHERE a.id=:id", Applicant.class);
 			Applicant applicantExist = (Applicant) query.setParameter("id", idApplicant).getSingleResult();
 			if (applicantExist.getDemand() == null) {
+				File file = new File(Date.valueOf(LocalDate.now()),"");
+				demand.setFile(file);
 				applicantExist.setDemand(demand);
 				em.persist(demand);
 				return demand.getIdDemand();

@@ -9,8 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class Test implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +25,25 @@ public class Test implements Serializable {
 	private Date dateOfPassing;
 	private int difficulty;
 	@ManyToOne
-	@JoinColumn(name="idResponsable")
-	private Responsable responsable ;
+	@JoinColumn(name = "idResponsable")
+	private Responsable responsable;
+	
+	@Override
+	public String toString() {
+		return "Test [idTest=" + idTest + ", name=" + name + ", specialty=" + specialty + ", mark=" + mark
+				+ ", dateOfPassing=" + dateOfPassing + ", difficulty=" + difficulty + ", responsable=" + responsable
+				+ "]";
+	}
+	@XmlElement
+	public Responsable getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(Responsable responsable) {
+		this.responsable = responsable;
+	}
+
+	@XmlAttribute(name="id")
 	public int getIdTest() {
 		return idTest;
 	}
@@ -30,7 +51,7 @@ public class Test implements Serializable {
 	public void setIdTest(int idTest) {
 		this.idTest = idTest;
 	}
-
+	@XmlElement(name="Name")
 	public String getName() {
 		return name;
 	}
@@ -38,7 +59,8 @@ public class Test implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@XmlElement(name="Speciality")
 	public String getSpecialty() {
 		return specialty;
 	}
@@ -47,6 +69,7 @@ public class Test implements Serializable {
 		this.specialty = specialty;
 	}
 
+	@XmlElement(name="Mark")
 	public int getMark() {
 		return mark;
 	}
@@ -55,6 +78,7 @@ public class Test implements Serializable {
 		this.mark = mark;
 	}
 
+	@XmlElement(name="Date")
 	public Date getDateOfPassing() {
 		return dateOfPassing;
 	}
@@ -63,6 +87,7 @@ public class Test implements Serializable {
 		this.dateOfPassing = dateOfPassing;
 	}
 
+	@XmlElement(name="Difficulty")
 	public int getDifficulty() {
 		return difficulty;
 	}

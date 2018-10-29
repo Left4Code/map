@@ -21,6 +21,7 @@ import enumerator.ApplicantState;
 public class Applicant extends User implements Serializable {
 	private String country;
 	private int age;
+	private int chanceOfSuccess ;
 	@Enumerated(EnumType.STRING)
 	private ApplicantState applicantState;
 	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
@@ -91,6 +92,15 @@ public class Applicant extends User implements Serializable {
 
 	public void setApplicantState(ApplicantState applicantState) {
 		this.applicantState = applicantState;
+	}
+	
+	@XmlElement(name="Chances")
+	public int getChanceOfSuccess() {
+		return chanceOfSuccess;
+	}
+
+	public void setChanceOfSuccess(int chanceOfSuccess) {
+		this.chanceOfSuccess = chanceOfSuccess;
 	}
 
 	@Override

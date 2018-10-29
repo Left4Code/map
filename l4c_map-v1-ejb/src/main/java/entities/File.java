@@ -54,7 +54,7 @@ public class File implements Serializable {
 		this.employementLetter = employementLetter;
 	}
 
-	@XmlTransient
+	
 	public Set<Test> getListeTest() {
 		return listeTest;
 	}

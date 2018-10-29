@@ -17,16 +17,19 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import entities.Applicant;
 import entities.Demand;
+import entities.Test;
 import entities.User;
 import enumerator.ApplicantState;
 import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
+import service.TestServiceLocal;
 
 @Stateless
 @Path("applicant")
@@ -35,7 +38,9 @@ public class ApplicantRessource {
 	@EJB
 	ApplicantServiceLocal service;
 	@EJB
-	DemandServiceLocal serviceDemand ;
+	DemandServiceLocal serviceDemand;
+	@EJB
+	TestServiceLocal serviceTest;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
@@ -105,16 +110,27 @@ public class ApplicantRessource {
 
 		return Response.status(Status.NOT_FOUND).entity("Error : not found").build();
 	}
-	
+
 	@POST
 	@Path("{idApplicant}")
-	@Consumes({MediaType.APPLICATION_XML,MediaType.TEXT_PLAIN})
-	public Response addDemand(@PathParam(value="idApplicant")String idApplicant ,Demand demand) {
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+	public Response addDemand(@PathParam(value = "idApplicant") String idApplicant, Demand demand) {
+		System.out.println("Demand");
 		int idDemand = serviceDemand.insertDemand(demand, Integer.parseInt(idApplicant));
-		if(idDemand != 0)
-			return Response.status(Status.ACCEPTED).entity(Integer.toString(idDemand)).build() ;
-		return Response.status(Status.BAD_REQUEST).entity("Error : not accepted ").build() ;
+		if (idDemand != 0)
+			return Response.status(Status.ACCEPTED).entity(Integer.toString(idDemand)).build();
+		return Response.status(Status.BAD_REQUEST).entity("Error : not accepted ").build();
 	}
 
+	@PUT
+	@Path("{idApplicant}")
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
+	public Response makeTest(@PathParam(value = "idApplicant") int idApplicant, Test test) {
+		int mark = serviceTest.makeTest(test, idApplicant);
+		if (mark != 0) {
+			return Response.status(Status.CREATED).entity(Integer.toString(mark)).build();
+		}
+		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
+	}
 
 }

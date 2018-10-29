@@ -17,4 +17,5 @@ public interface ApplicantServiceLocal {
 	public Applicant getApplicantById(int idApplicant);
 	public ArrayList<User> getApplicantByName(String name);
 	public ArrayList<Applicant> getApplicantByState(ApplicantState state);
+
 }
