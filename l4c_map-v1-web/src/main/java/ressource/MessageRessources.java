@@ -124,16 +124,16 @@ public class MessageRessources {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addRequest(Message message)
+    public Response addMessage(Message message)
     {
         if (message!=null)
         {
               //System.out.println("------------------------------"+message.getContenu()+"/////////////////////////");
             int idm=messageLocal.addMessage(message);
-            return Response.status(Response.Status.OK).entity("request Created"+idm).build();
+            return Response.status(Response.Status.OK).entity("message Created"+idm).build();
 
         }
-        return Response.status(Response.Status.NO_CONTENT).entity("invalid request").build();
+        return Response.status(Response.Status.NO_CONTENT).entity("invalid message").build();
     }
 
 

@@ -1,6 +1,7 @@
 package services.response_services;
 
 import entities.Response;
+import enumerator.Reaction;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,4 +36,23 @@ public class ResponseSerivces implements ResponseLocal, ResponseRemote {
         em.merge(response);
 
     }
+
+    @Override
+    public void addReaction(Response response, String reaction) {
+        response.setReaction(reaction);
+        if (reaction.equals("happy")){
+
+        if (response.getClient().getScore()<10)
+        response.getClient().setScore(response.getClient().getScore()+1);
+
+
+        }
+        if ( !(response.getClient().getScore()-1 <=0))
+            response.getClient().setScore(response.getClient().getScore()-1);
+
+             em.merge(response);
+
+    }
+
+
 }

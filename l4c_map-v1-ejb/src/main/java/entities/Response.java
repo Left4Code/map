@@ -17,7 +17,10 @@ public class Response implements Serializable {
     private String status;// seen or not
     private int sender;//the id of the sender
     private String who;//to guess the type of the user,so i can search in the right table
-    private Reaction reaction;//it get the reaction of the user for the response
+    private String reaction;//it get the reaction of the user for the response
+    @ManyToOne
+    @JoinColumn(name = "client")
+    private Client client;//the id of the client who made the reaction
     @ManyToOne
     @JoinColumn(name = "id_message")
     private Message message;
@@ -78,11 +81,21 @@ public class Response implements Serializable {
         this.who = who;
     }
 
-    public Reaction getReaction() {
+    public String getReaction() {
         return reaction;
     }
 
-    public void setReaction(Reaction reaction) {
+    public void setReaction(String reaction) {
         this.reaction = reaction;
     }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+
 }

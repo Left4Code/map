@@ -2,6 +2,7 @@ package ressource;
 
 
 import entities.Message;
+import enumerator.Reaction;
 import services.response_services.ResponseLocal;
 
 import javax.ejb.EJB;
@@ -45,16 +46,24 @@ public class ResponseRessources {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editResponse(entities.Response response)
+    public Response addReaction(entities.Response response ,@QueryParam("recation") String reaction)
     {
         if (response!=null)
         {
+            if (reaction != null){
+                responseLocal.addReaction(response,reaction);
+                return Response.status(Response.Status.OK).entity("reaction added to the post").build();
+
+            }
             responseLocal.editResponse(response);
             return Response.status(Response.Status.OK).entity("response edited").build();
-
         }
         return Response.status(Response.Status.NO_CONTENT).entity("invalid response").build();
     }
+
+
+
+
 
 
 }

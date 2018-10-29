@@ -101,7 +101,6 @@ public class RequestRessource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response removeRequest(@PathParam(value="idR")int id){
        requestLocal.deleteRequest(id);
-
             return Response.status(Response.Status.OK).entity("request removed").build();
 
 
