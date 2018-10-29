@@ -19,6 +19,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @XmlRootElement
 public class Responsable extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String speciality;
 	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Set<Meeting> listeMeeting = new HashSet<>();
@@ -49,17 +53,19 @@ public class Responsable extends User implements Serializable {
 		this.listeMessage = listeMessage;
 	}
 
+
 	@XmlElement
 	public Set<Request> getListeRequest() {
+
 		return listeRequest;
 	}
 
 	public void setListeRequest(Set<Request> listeRequest) {
 		this.listeRequest = listeRequest;
-	}
+	
 
 	@XmlElement
-	public Set<Test> getListeTest() {
+	public Set<Test> getListeTest() 
 		return listeTest;
 	}
 
@@ -75,7 +81,6 @@ public class Responsable extends User implements Serializable {
 	public void setListeEmployementLetter(Set<Employement_Letter> listeEmployementLetter) {
 		this.listeEmployementLetter = listeEmployementLetter;
 	}
-
 	@XmlElement
 	public Set<Arrival> getListeArrival() {
 		return listeArrival;
@@ -84,7 +89,6 @@ public class Responsable extends User implements Serializable {
 	public void setListeArrival(Set<Arrival> listeArrival) {
 		this.listeArrival = listeArrival;
 	}
-
 	@XmlElement
 	public Set<Sponsor> getListeSponsor() {
 		return listeSponsor;
@@ -93,8 +97,6 @@ public class Responsable extends User implements Serializable {
 	public void setListeSponsor(Set<Sponsor> listeSponsor) {
 		this.listeSponsor = listeSponsor;
 	}
-
-	@XmlElement
 	public Set<Meeting> getListeMeeting() {
 		return listeMeeting;
 	}

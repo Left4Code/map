@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,16 +25,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import Services.SqlDateAdapter;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import enumerator.StateDemandTimeOff;
+import service.SqlDateAdapter;
 
 @Entity
+
 @XmlAccessorType(XmlAccessType.NONE) 
+
 @XmlRootElement
 public class Demand_time_off implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	@XmlAttribute(name="idDemandeTimeOff")
 	private int idDemandTimeOff;
 	@XmlJavaTypeAdapter(SqlDateAdapter.class)
@@ -66,6 +72,9 @@ public class Demand_time_off implements Serializable {
 		this.ressource = ressource;
 	}
 
+
+
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -82,6 +91,7 @@ public class Demand_time_off implements Serializable {
 		this.responsable = responsable;
 	}
 
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}

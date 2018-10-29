@@ -2,32 +2,47 @@ package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.DemandState;
+import service.SqlDateAdapter;
 
 @Entity
+@XmlRootElement
 public class Demand implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idDemand;
 	private Date dateDemand;
 	@Enumerated(EnumType.STRING)
 	private DemandState demandState;
 	private String specialty;
-	@OneToMany(mappedBy="demand")
-	private List<Meeting> listeMeeting ;
-	@OneToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="idFile")
-	private File file ;
+	@OneToMany(mappedBy = "demand",fetch=FetchType.EAGER)
+	private Set<Meeting> listeMeeting = new HashSet<>();
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+	@JoinColumn(name = "idFile")
+	private File file;
+
+	@XmlAttribute(name="id")
 	public int getIdDemand() {
 		return idDemand;
 	}
@@ -36,6 +51,8 @@ public class Demand implements Serializable {
 		this.idDemand = idDemand;
 	}
 
+	@XmlElement(required = true ,name="Date")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateDemand() {
 		return dateDemand;
 	}
@@ -44,6 +61,7 @@ public class Demand implements Serializable {
 		this.dateDemand = dateDemand;
 	}
 
+	@XmlElement(type = DemandState.class, required = true,name="State")
 	public DemandState getDemandState() {
 		return demandState;
 	}
@@ -52,6 +70,7 @@ public class Demand implements Serializable {
 		this.demandState = demandState;
 	}
 
+	@XmlElement(required = false,name="Speciality")
 	public String getSpecialty() {
 		return specialty;
 	}
@@ -64,12 +83,27 @@ public class Demand implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	@XmlTransient
+	public Set<Meeting> getListeMeeting() {
+		return listeMeeting;
+	}
+
+	public void setListeMeeting(Set<Meeting> listeMeeting) {
+		this.listeMeeting = listeMeeting;
+	}
+
+	@XmlElement
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idDemand;
-		return result;
+		return 5;
 	}
 
 	@Override
@@ -84,6 +118,20 @@ public class Demand implements Serializable {
 		if (idDemand != other.idDemand)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Demand [idDemand=" + idDemand + ", dateDemand=" + dateDemand + ", demandState=" + demandState
+				+ ", specialty=" + specialty + ", listeMeeting=" + listeMeeting + ", file=" + file + "]";
+	}
+
+	public Demand(Date dateDemand, DemandState demandState, String specialty, File file) {
+		super();
+		this.dateDemand = dateDemand;
+		this.demandState = demandState;
+		this.specialty = specialty;
+		this.file = file;
 	}
 
 }

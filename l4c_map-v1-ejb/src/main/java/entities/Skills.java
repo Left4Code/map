@@ -17,7 +17,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @XmlRootElement
 public class Skills implements Serializable {
+
 	@Id@GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	private int idSkills;
 	private String name;
 	private String specialty;
@@ -37,7 +39,6 @@ public class Skills implements Serializable {
 	public void setRessource(Ressource ressource) {
 		this.ressource = ressource;
 	}
-
 	public Skills() {
 	}
 	
