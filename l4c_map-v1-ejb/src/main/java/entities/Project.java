@@ -7,11 +7,14 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,11 +24,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import enumerator.TypeClient;
+import enumerator.TypeProject;
+import enumerator.typeRessourceDemande;
 import services.SqlDateAdapter;
 
 @Entity
-
-@XmlAccessorType(XmlAccessType.PROPERTY) 
+@XmlAccessorType(XmlAccessType.NONE) 
 @XmlRootElement
 public class Project implements Serializable {
 	@Id
@@ -36,26 +41,54 @@ public class Project implements Serializable {
 	@JoinColumn(name = "idClient")
 	
 	private Client client;
-
+	@XmlElement(name="name",required=true)
 	private String name;
-	
+	@XmlElement(name="dateBegin",required=true)
 	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	private Date dateBegin;
-	
+	@XmlElement(name="dateEnd",required=true)
 	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	private Date dateEnd;
 
-
+	@XmlElement(name="adresse",required=true)
 	private String adresse;
-
+	@XmlElement(name="nbRessources",required=true)
 	private int nbRessources;
- 
-
-	private int nbRessourcesLevio;
+	@XmlElement(name="typeProject",required=true)
+	@Enumerated(EnumType.STRING)
+	private TypeProject typeProject ;
+	@XmlElement(name="Budget",required=true)
+	private float Budget;
+	@XmlElement(name="typeRessourceDemande",required=true)
+	@Enumerated(EnumType.STRING)
+	private typeRessourceDemande typeRessourceDemande;
 	
+	@XmlElement(name="nbRessourcesLevio",required=true)
+	private int nbRessourcesLevio;
+	@XmlElement(name="picture",required=true)
 	private String picture;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
+
+	@ManyToMany
+	private List<Skills> listeSkills ;
+	
+	
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+
+	public List<Skills> getListeSkills() {
+		return listeSkills;
+	}
+
+	public void setListeSkills(List<Skills> listeSkills) {
+		this.listeSkills = listeSkills;
+	}
 
 	public int getIdProject() {
 		return idProject;
@@ -63,6 +96,14 @@ public class Project implements Serializable {
 
 	public void setIdProject(int idProject) {
 		this.idProject = idProject;
+	}
+
+	public float getBudget() {
+		return Budget;
+	}
+
+	public void setBudget(float budget) {
+		Budget = budget;
 	}
 
 	public String getName() {
@@ -112,6 +153,42 @@ public class Project implements Serializable {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+	
+	
+
+	public Date getDateBegin() {
+		return dateBegin;
+	}
+
+	public void setDateBegin(Date dateBegin) {
+		this.dateBegin = dateBegin;
+	}
+	
+	
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+
+	
+	public TypeProject getTypeProject() {
+		return typeProject;
+	}
+
+	public void setTypeProject(TypeProject typeProject) {
+		this.typeProject = typeProject;
+	}
+
+	public typeRessourceDemande getTypeRessourceDemande() {
+		return typeRessourceDemande;
+	}
+
+	public void setTypeRessourceDemande(typeRessourceDemande typeRessourceDemande) {
+		this.typeRessourceDemande = typeRessourceDemande;
 	}
 
 	@Override

@@ -11,6 +11,8 @@ import javax.persistence.TypedQuery;
 
 import entities.Client;
 import entities.Project;
+import entities.Ressource;
+import entities.Skills;
 
 /**
  * Session Bean implementation class ProjectService
@@ -30,8 +32,12 @@ public class ProjectService implements ProjectServiceLocal {
     }
 
 	@Override
-	public void ajouterProjet(Project pr) {
+	public void ajouterProjet(Project pr,int idClient) {
+		Client client=em.find(Client.class,idClient);
+	
+		pr.setClient(client);
 		em.persist(pr);
+		
 		
 	}
 
@@ -47,10 +53,16 @@ public class ProjectService implements ProjectServiceLocal {
 	}
 
 	@Override
-	public void modifierProjet(Project pr) {
+	public void modifierProjet(Project pr,int idClient) {
 		Project project=em.find(Project.class,pr.getIdProject());
-		project=pr;
+		
+		Client client=em.find(Client.class,idClient);
+
+		pr.setClient(client);
+			project=pr;
 		em.merge(project);
+			
+
 	}
 
 	@Override
@@ -69,5 +81,47 @@ public class ProjectService implements ProjectServiceLocal {
 	}
 	
 	
+	@Override
+	public List<Skills>  getSkillsBySpeciality(int idProject)
+	{
+		Project project=em.find(Project.class,idProject);
+	
+		List<Skills> listeSk=new ArrayList();
+		TypedQuery<Skills> query=em.createQuery("SELECT  s  FROM Skills s  ",Skills.class);
+		List<Skills> listeSkills= query.getResultList();
 
+		TypedQuery<Project> query1=em.createQuery("SELECT  p  FROM Project p  ",Project.class);
+		List<Project> listeProjects= query1.getResultList();
+		
+		
+	for(Project pr : listeProjects){
+		for(Skills sk: listeSkills )
+		{
+			if(sk.getSpecialty().equals(project.getTypeProject())){
+				
+				listeSk.add(sk);
+				
+				
+			}
+			
+			
+			
+		}
+	}
+	return listeSk;
+
+	}
+
+	@Override
+	public void affecterSkills(int idProject) {
+		List<Skills> listesk=new ArrayList<>();
+	listesk=getSkillsBySpeciality(idProject);
+	
+			
+			Project pr=em.find(Project.class,idProject);
+			
+			pr.setListeSkills(listesk);
+			
+		
+	}
 }

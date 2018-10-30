@@ -20,12 +20,14 @@ import services.ClientService;
 import services.ClientServiceLocal;
 
 
+
  
 @Stateless
 @Path("client")
 public class ClientRessource  {
 	@EJB
 	ClientServiceLocal csl;
+	
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addClient(Client c){
