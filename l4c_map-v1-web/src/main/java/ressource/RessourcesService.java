@@ -26,7 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import Services.RessourcesServicesLocal;
+import service.RessourcesServicesLocal;
 import entities.Mandate;
 import entities.Message;
 import entities.Ressource;
