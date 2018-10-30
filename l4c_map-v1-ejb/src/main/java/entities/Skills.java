@@ -1,12 +1,15 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -19,18 +22,13 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
-	@ManyToOne
-	@JoinColumn(name = "idRessource")
-	private Ressource ressource;
 
-	public Ressource getRessource() {
-		return ressource;
-	}
+	@ManyToMany
+	private List<Ressource> ressourceList;
+	@ManyToMany 
+	private List <Project> projectList;
 
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
-
+	
 	public Skills() {
 	}
 

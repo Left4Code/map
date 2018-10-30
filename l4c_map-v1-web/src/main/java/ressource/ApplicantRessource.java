@@ -64,6 +64,7 @@ public class ApplicantRessource {
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Error :Update unsuccessful").build();
 	}
 
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllApplicant() {
