@@ -46,5 +46,15 @@ public class DemandRessource {
 			return Response.status(Status.ACCEPTED).entity("Removed from database correctly !").build();
 		return Response.status(Status.NOT_FOUND).entity("Error : id not found!").build();
 	}
+	@GET
+	@Path("{idApplicant}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDemandByApplicant(@PathParam(value="idApplicant")String idApplicant){
+		Demand demand = service.getDemandByApplicant(Integer.parseInt(idApplicant));
+		if(demand != null){
+			return Response.status(Status.OK).entity(demand).build();
+		}
+		return Response.status(Status.NOT_FOUND).entity("Error : you d'ont have a demand !").build();
+	}
 
 }

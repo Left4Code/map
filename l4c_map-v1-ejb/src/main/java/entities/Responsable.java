@@ -32,8 +32,6 @@ public class Responsable extends User implements Serializable {
 	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
 	private List<Message> listeMessage;
 	@OneToMany(mappedBy = "responsable")
-	private List<Time_Off> listeTimeOff;
-	@OneToMany(mappedBy = "responsable")
 	private List<Request> listeRequest;
 
 	@XmlTransient
@@ -43,14 +41,6 @@ public class Responsable extends User implements Serializable {
 
 	public void setListeMessage(List<Message> listeMessage) {
 		this.listeMessage = listeMessage;
-	}
-	@XmlTransient
-	public List<Time_Off> getListeTimeOff() {
-		return listeTimeOff;
-	}
-
-	public void setListeTimeOff(List<Time_Off> listeTimeOff) {
-		this.listeTimeOff = listeTimeOff;
 	}
 	@XmlTransient
 	public List<Request> getListeRequest() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
+import entities.Applicant;
 import entities.Demand;
 
 @Local
@@ -13,4 +14,5 @@ public interface DemandServiceLocal {
 	public ArrayList<Demand> getAllDemand();
 	public boolean updateDemand(Demand demand);
 	public boolean removeDemand(int idDemand);
+	public Demand getDemandByApplicant(int idApplicant);
 }
