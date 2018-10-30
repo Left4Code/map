@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -12,6 +14,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Profitability implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProfitability;
 	private float profitability;
 	private float gain;

@@ -54,4 +54,10 @@ public class MandatePk implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "MandatePk [idRessource=" + idRessource + ", idProject=" + idProject + "]";
+	}
+
+	
 }

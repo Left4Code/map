@@ -3,19 +3,34 @@ package entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import enumerator.Role;
+
+@XmlRootElement
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int id;
 	protected String name;
 	protected String lastname;
 	protected String picture;
-
+	protected String password ="";
+	protected String username ="";
+	@Enumerated(EnumType.STRING)
+	protected Role role ;
+	
 	public User() {
 	}
 
@@ -25,6 +40,15 @@ public class User implements Serializable {
 		this.picture = picture;
 	}
 
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@XmlElement(required = true, name = "Name")
 	public String getName() {
 		return name;
 	}
@@ -33,6 +57,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
+	@XmlElement(required = true, name = "LastName")
 	public String getLastname() {
 		return lastname;
 	}
@@ -41,6 +66,7 @@ public class User implements Serializable {
 		this.lastname = lastname;
 	}
 
+	@XmlElement(required = false, name = "Picture", defaultValue = "None")
 	public String getPicture() {
 		return picture;
 	}
@@ -51,15 +77,32 @@ public class User implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return 5 ;
+		return 5;
 	}
 
+	@XmlAttribute
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	@XmlElement(required=true,name="Password")
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	@XmlElement(required=true,name="UserName")
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@Override
@@ -75,6 +118,5 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
-
 
 }

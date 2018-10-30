@@ -47,6 +47,11 @@ public class SponsorPk implements Serializable{
 		this.idResponsable = idResponsable;
 	}
 
+	@Override
+	public String toString() {
+		return "SponsorPk [idApplicant=" + idApplicant + ", idResponsable=" + idResponsable + "]";
+	}
+
 	public SponsorPk() {
 		// TODO Auto-generated constructor stub
 	}

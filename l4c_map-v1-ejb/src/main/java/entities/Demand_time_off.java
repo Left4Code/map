@@ -7,22 +7,31 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.StateDemandTimeOff;
+import service.SqlDateAdapter;
 
 @Entity
-public class Demand_time_off implements Serializable{
+@XmlRootElement
+public class Demand_time_off implements Serializable {
 	@Id
-	private int idDemandTimeOff ;
-	private Date dateBegin ;
-	private Date dateEnd ;
-	private int Duration ;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int idDemandTimeOff;
+	private Date dateBegin;
+	private Date dateEnd;
+	private int Duration;
 	@Enumerated(EnumType.STRING)
-	private StateDemandTimeOff stateDemandTimeOff ;
-	@OneToMany(mappedBy="demandTimeOff")
-	private List<Time_Off> listeTimeOff ;
+	private StateDemandTimeOff stateDemandTimeOff;
+	@OneToMany(mappedBy = "demandTimeOff")
+	private List<Time_Off> listeTimeOff;
+
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -31,6 +40,7 @@ public class Demand_time_off implements Serializable{
 		this.dateBegin = dateBegin;
 	}
 
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}
@@ -46,11 +56,10 @@ public class Demand_time_off implements Serializable{
 	public void setDuration(int duration) {
 		Duration = duration;
 	}
-	
 
 	@Override
 	public int hashCode() {
-		return 5 ;
+		return 5;
 	}
 
 	@Override
@@ -84,7 +93,7 @@ public class Demand_time_off implements Serializable{
 	}
 
 	public Demand_time_off() {
-		
+
 	}
 
 }
