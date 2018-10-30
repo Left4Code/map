@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -23,7 +24,7 @@ public class Ressource extends User implements Serializable {
 	protected int seniority;
 	protected int note;
 	protected String cv;
-	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
 	private List<Mandate> listemandate;
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
