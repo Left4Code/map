@@ -5,18 +5,17 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.MessageType;
 
 @Entity
 public class Message implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idMessage;
 	private String title;
 	private String description;
@@ -25,12 +24,21 @@ public class Message implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idResponsable")
 	private Responsable responsable;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "idRessource")
 	private Ressource ressource;
 	@ManyToOne
 	@JoinColumn(name = "idClient")
 	private Client client;
+	
+	@XmlTransient
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
 
 	public Message() {
 		// TODO Auto-generated constructor stub
@@ -66,6 +74,23 @@ public class Message implements Serializable {
 
 	public void setMessageType(MessageType messageType) {
 		this.messageType = messageType;
+	}
+
+	public Responsable getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(Responsable responsable) {
+		this.responsable = responsable;
+	}
+
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	@Override
