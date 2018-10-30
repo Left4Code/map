@@ -1,21 +1,32 @@
 package entities;
 
-import java.io.Serializable;
-import java.sql.Date;
+import java.io.Serializable
+import java.sql.Date
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet
 import java.util.List;
 
+import javax.jms.JMSSessionMode;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import javax.xml.bind.annotation.XmlTransient;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import enumerator.TypeContract;
 import enumerator.TypeRessource;
 @XmlRootElement
 @Entity
+@XmlRootElement
 public class Ressource extends User implements Serializable {
 	private Date dateDebut;
 	private Date dateFin;
@@ -30,13 +41,17 @@ public class Ressource extends User implements Serializable {
 	protected int seniority;
 	protected int note;
 	protected String cv;
-	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE)
-	private List<Mandate> listemandate;
+	
+	@ManyToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	private Set<Skills> skills  = new HashSet<Skills>(); 
+	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	private Set<Mandate> listemandate =  new HashSet<Mandate>();
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
-	
-
-	
+	@OneToMany(mappedBy="ressource" ,fetch=FetchType.EAGER)
+	private Set<Message> listeMessage = new HashSet<Message>();
+	@OneToMany(mappedBy="ressource" ,cascade=CascadeType.REMOVE , fetch=FetchType.EAGER)
+	private Set<Demand_time_off> listeDemandesTimeOff = new HashSet<>();
 
 	public Sponsor getSponsor() {
 		return sponsor;
@@ -76,6 +91,14 @@ public class Ressource extends User implements Serializable {
 
 	public float getCost() {
 		return cost;
+	}
+
+	public Set<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(Set<Mandate> listemandate) {
+		this.listemandate = listemandate;
 	}
 
 	public void setCost(float cost) {
@@ -139,5 +162,40 @@ public class Ressource extends User implements Serializable {
 	}
 	
 	
+	public Set<Skills> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(Set<Skills> skills) {
+		this.skills = skills;
+	}
+
+
+	public Set<Message> getListeMessage() {
+		return listeMessage;
+	}
+
+	public void setListeMessage(Set<Message> listeMessage) {
+		this.listeMessage = listeMessage;
+	}
+
+	public Set<Demand_time_off> getListeDemandesTimeOff() {
+		return listeDemandesTimeOff;
+	}
+
+	public void setListeDemandesTimeOff(Set<Demand_time_off> listeDemandesTimeOff) {
+		this.listeDemandesTimeOff = listeDemandesTimeOff;
+	}
+
+	@Override
+	public String toString() {
+		return "Ressource [specialty=" + specialty + ", businessSector=" + businessSector + ", rateSelling="
+				+ rateSelling + ", cost=" + cost + ", typeContrat=" + typeContrat + ", seniority=" + seniority
+				+ ", note=" + note + ", cv=" + cv + ", skills=" + skills + ", listemandate=" + listemandate
+				+ ", sponsor=" + sponsor + ", listeMessage=" + listeMessage + ", listeDemandesTimeOff="
+				+ listeDemandesTimeOff + "]";
+	}
+
+
 
 }
