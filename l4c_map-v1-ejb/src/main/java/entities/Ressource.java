@@ -13,11 +13,14 @@ import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.TypeContract;
+import enumerator.TypeRessource;
 @XmlRootElement
 @Entity
 public class Ressource extends User implements Serializable {
 	private Date dateDebut;
 	private Date dateFin;
+	@Enumerated(EnumType.STRING)
+	private TypeRessource type;
 	protected String specialty;
 	protected String businessSector;
 	protected float rateSelling;
@@ -125,6 +128,14 @@ public class Ressource extends User implements Serializable {
 
 	public void setDateFin(Date dateFin) {
 		this.dateFin = dateFin;
+	}
+
+	public TypeRessource getType() {
+		return type;
+	}
+
+	public void setType(TypeRessource type) {
+		this.type = type;
 	}
 	
 	
