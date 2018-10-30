@@ -3,6 +3,8 @@ package entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.InheritanceType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import enumerator.Role;
 
 @XmlRootElement
 @Entity
@@ -24,6 +28,8 @@ public class User implements Serializable {
 	protected String picture;
 	protected String password ="";
 	protected String username ="";
+	@Enumerated(EnumType.STRING)
+	protected Role role ;
 	
 	public User() {
 	}
@@ -32,6 +38,14 @@ public class User implements Serializable {
 		this.name = name;
 		this.lastname = lastname;
 		this.picture = picture;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	@XmlElement(required = true, name = "Name")

@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import enumerator.Role;
+
 @Entity
 @XmlRootElement
 public class Responsable extends User implements Serializable {
@@ -105,7 +107,8 @@ public class Responsable extends User implements Serializable {
 	}
 
 	public Responsable() {
-
+		super();
+		this.role = Role.Responsable;
 	}
 
 }

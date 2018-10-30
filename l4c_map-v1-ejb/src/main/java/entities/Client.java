@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 
+import enumerator.Role;
 import enumerator.TypeCategory;
 import enumerator.TypeClient;
 
@@ -66,7 +67,8 @@ public class Client extends User implements Serializable{
 
 	
 	public Client() {
-		
+		super();
+		this.role = Role.Client;
 	}
 
 }

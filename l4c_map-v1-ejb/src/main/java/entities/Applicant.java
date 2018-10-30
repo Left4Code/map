@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.ApplicantState;
+import enumerator.Role;
 
 @Entity
 @XmlRootElement
@@ -127,6 +128,11 @@ public class Applicant extends User implements Serializable {
 		} else if (!country.equals(other.country))
 			return false;
 		return true;
+	}
+
+	public Applicant() {
+		super();
+		this.role = Role.Applicant;
 	}
 
 }

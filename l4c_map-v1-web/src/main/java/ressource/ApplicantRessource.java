@@ -27,6 +27,7 @@ import entities.Demand;
 import entities.Test;
 import entities.User;
 import enumerator.ApplicantState;
+import enumerator.Role;
 import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
 import service.TestServiceLocal;
@@ -43,7 +44,7 @@ public class ApplicantRessource {
 	@EJB
 	TestServiceLocal serviceTest;
 
-	@Secured
+	@Secured({Role.Applicant})
 	@DELETE
 	@Path("{id}")
 	@Consumes(MediaType.TEXT_PLAIN)

@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import enumerator.Role;
 import pk.SponsorPk;
 import service.SqlDateAdapter;
 
@@ -23,6 +24,7 @@ public class Sponsor implements Serializable{
 	private Date timeEnd ;
 	private String language ;
 	private String country ;
+	private Role role ;
 	@EmbeddedId
 	private SponsorPk sponsorPk = new SponsorPk(); 
 	@OneToOne
@@ -108,9 +110,17 @@ public class Sponsor implements Serializable{
 				+ country + ", sponsorPk=" + sponsorPk + ", applicant=" + applicant + ", responsable=" + responsable
 				+ ", ressource=" + ressource + "]";
 	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 	public Sponsor() {
-		// TODO Auto-generated constructor stub
+		this.role = Role.Sponsor;
 	}
 
 }

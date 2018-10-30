@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import enumerator.Role;
 import enumerator.TypeContract;
 
 @Entity
@@ -44,10 +45,6 @@ public class Ressource extends User implements Serializable {
 
 	public void setSponsor(Sponsor sponsor) {
 		this.sponsor = sponsor;
-	}
-
-	public Ressource() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getSpecialty() {
@@ -112,6 +109,11 @@ public class Ressource extends User implements Serializable {
 
 	public void setTypeContrat(TypeContract typeContrat) {
 		this.typeContrat = typeContrat;
+	}
+	
+	public Ressource() {
+		super();
+		this.role = Role.Ressource;
 	}
 
 }

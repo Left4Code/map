@@ -28,4 +28,30 @@ public class UserService implements UserServiceLocal {
 		return false;
 	}
 
+	@Override
+	public boolean ifexist(String username) {
+		try{
+			TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username=:username", User.class);
+			User user = query.setParameter("username", username).getSingleResult() ;
+			return true ;
+		}
+			catch(NoResultException e){
+				
+			}
+		return false;
+	}
+
+	@Override
+	public User getUserByName(String username) {
+		try{
+			TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username=:username", User.class);
+			User user = query.setParameter("username", username).getSingleResult() ;
+			return user ;
+		}
+			catch(NoResultException e){
+				
+			}
+		return null;
+	}
+
 }
