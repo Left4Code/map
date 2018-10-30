@@ -21,20 +21,13 @@ public class Responsable extends User implements Serializable {
 	private List<Test> listeTest;
 	@OneToMany(mappedBy = "responsable")
 	private List<Employement_Letter> listeEmployementLetter;
-	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
-	private List<Message> listeMessage;
+	
 	@OneToMany(mappedBy = "responsable")
 	private List<Time_Off> listeTimeOff;
 	@OneToMany(mappedBy = "responsable")
 	private List<Request> listeRequest;
 
-	public List<Message> getListeMessage() {
-		return listeMessage;
-	}
-
-	public void setListeMessage(List<Message> listeMessage) {
-		this.listeMessage = listeMessage;
-	}
+	
 
 	public List<Time_Off> getListeTimeOff() {
 		return listeTimeOff;

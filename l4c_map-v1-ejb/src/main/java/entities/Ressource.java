@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,11 +10,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.TypeContract;
-
+@XmlRootElement
 @Entity
 public class Ressource extends User implements Serializable {
+	private Date dateDebut;
+	private Date dateFin;
 	protected String specialty;
 	protected String businessSector;
 	protected float rateSelling;
@@ -27,16 +31,9 @@ public class Ressource extends User implements Serializable {
 	private List<Mandate> listemandate;
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
-	@OneToMany(mappedBy="ressource")
-	private List<Message> listeMessage ;
+	
 
-	public List<Mandate> getListemandate() {
-		return listemandate;
-	}
-
-	public void setListemandate(List<Mandate> listemandate) {
-		this.listemandate = listemandate;
-	}
+	
 
 	public Sponsor getSponsor() {
 		return sponsor;
@@ -113,5 +110,23 @@ public class Ressource extends User implements Serializable {
 	public void setTypeContrat(TypeContract typeContrat) {
 		this.typeContrat = typeContrat;
 	}
+
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public Date getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
+	
+	
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import enumerator.MessageType;
+import enumerator.fromToDirection;
 
 @Entity
 public class Message implements Serializable {
@@ -19,18 +20,25 @@ public class Message implements Serializable {
 	private String description;
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
+	private int id_sender;
+	private int id_reciever;
+	@Enumerated(EnumType.STRING)
+	private fromToDirection fromTo;
+	
 	@ManyToOne
-	@JoinColumn(name = "idResponsable")
-	private Responsable responsable;
-	@ManyToOne
-	@JoinColumn(name = "idRessource")
-	private Ressource ressource;
-	@ManyToOne
-	@JoinColumn(name = "idClient")
-	private Client client;
+	@JoinColumn(name = "id_project")
+	private Project project;
 
 	public Message() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public int getIdMessage() {
@@ -63,6 +71,31 @@ public class Message implements Serializable {
 
 	public void setMessageType(MessageType messageType) {
 		this.messageType = messageType;
+	}
+	
+
+	public int getId_sender() {
+		return id_sender;
+	}
+
+	public void setId_sender(int id_sender) {
+		this.id_sender = id_sender;
+	}
+
+	public int getId_reciever() {
+		return id_reciever;
+	}
+
+	public void setId_reciever(int id_reciever) {
+		this.id_reciever = id_reciever;
+	}
+
+	public fromToDirection getFromTo() {
+		return fromTo;
+	}
+
+	public void setFromTo(fromToDirection fromTo) {
+		this.fromTo = fromTo;
 	}
 
 	@Override

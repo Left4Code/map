@@ -1,8 +1,9 @@
-package entities;
+	package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.enterprise.inject.New;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import enumerator.MandateType;
 import pk.MandatePk;
@@ -26,10 +28,10 @@ public class Mandate implements Serializable{
 	private MandateType mandateType ;
 	@ManyToOne
 	@JoinColumn(name="idProject" ,referencedColumnName="idProject",insertable=false,updatable=false)
-	private Project project ;
+	private Project project =new Project();
 	@ManyToOne
 	@JoinColumn(name="idRessource" ,referencedColumnName="id",insertable=false,updatable=false)
-	private Ressource ressource ;
+	private Ressource ressource=new Ressource();
 
 	public Date getDateBegin() {
 		return dateBegin;
@@ -82,6 +84,22 @@ public class Mandate implements Serializable{
 
 	public Mandate() {
 		
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
 	}
 
 }

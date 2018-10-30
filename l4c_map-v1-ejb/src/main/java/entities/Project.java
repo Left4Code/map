@@ -9,7 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
 @Entity
 public class Project implements Serializable {
 	@Id
@@ -23,6 +24,8 @@ public class Project implements Serializable {
 	private String picture;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
+	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
+	private List<Message> listMessage;
 
 	public int getIdProject() {
 		return idProject;
