@@ -29,8 +29,7 @@ public class Responsable extends User implements Serializable {
 	private List<Test> listeTest;
 	@OneToMany(mappedBy = "responsable")
 	private List<Employement_Letter> listeEmployementLetter;
-	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
-	private List<Message> listeMessage;
+	
 	@OneToMany(mappedBy = "responsable")
 	private List<Request> listeRequest;
 

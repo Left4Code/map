@@ -11,10 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import service.SqlDateAdapter;
-
+@XmlRootElement
 @Entity
 public class Project implements Serializable {
 	@Id
@@ -29,6 +29,8 @@ public class Project implements Serializable {
 	private String picture;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
+	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
+	private List<Message> listMessage;
 
 	public int getIdProject() {
 		return idProject;

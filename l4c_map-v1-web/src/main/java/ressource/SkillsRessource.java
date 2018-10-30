@@ -1,8 +1,8 @@
 package ressource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.print.attribute.standard.Media;
@@ -15,18 +15,28 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.PathParam;
-
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
+import BusinessLayer.ISkillsBusiness;
 import service.RessourcesServicesLocal;
 import entities.Demand_time_off;
 import entities.Skills;
 
 @Stateless
 @Path("skills")
-public class SkillsRessource {
+public class SkillsRessource 
+	List<List<Object>> l=new ArrayList<>();
+	
+	@EJB
+	private ISkillsBusiness skill;
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRatioPerSkill(){
+		
+		l=skill.getRatioSkills();
+		return Response.status(Status.ACCEPTED).entity(l).build()
 	@EJB
 	RessourcesServicesLocal local;
 
@@ -94,7 +104,6 @@ public class SkillsRessource {
 
 		}
 		return Response.status(Status.NOT_FOUND).entity("this user doesn't exist").build();
-
 	}
 
 }
