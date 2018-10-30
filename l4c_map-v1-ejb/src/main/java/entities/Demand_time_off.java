@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import Services.SqlDateAdapter;
+import service.SqlDateAdapter;
 import enumerator.StateDemandTimeOff;
 
 @Entity
