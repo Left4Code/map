@@ -43,7 +43,6 @@ public class ApplicantRessource {
 	@EJB
 	TestServiceLocal serviceTest;
 
-	@Secured
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addApplicant(Applicant A) {
