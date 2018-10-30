@@ -19,12 +19,11 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
-	
 
-	
-	
-	
-
+	@ManyToMany
+	private List<Ressource> ressourceList;
+	@ManyToMany 
+	private List <Project> projectList;
 
 	
 	public Skills() {

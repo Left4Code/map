@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.function.LongToIntFunction;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 @Entity
-public class Historical_mandate implements Serializable {
+public class HistoricalMandate implements Serializable {
 	@Id
+	@GeneratedValue
 	private int idHistoricalMandate;
 	private BigInteger weight;
 	@OneToMany
@@ -41,7 +45,7 @@ public class Historical_mandate implements Serializable {
 		this.listeMandate = listeMandate;
 	}
 
-	public Historical_mandate() {
+	public HistoricalMandate() {
 		// TODO Auto-generated constructor stub
 	}
 

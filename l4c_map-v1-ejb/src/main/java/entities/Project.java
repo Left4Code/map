@@ -13,6 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -29,12 +32,13 @@ import enumerator.TypeProject;
 import enumerator.typeRessourceDemande;
 import services.SqlDateAdapter;
 
+@XmlRootElement
 @Entity
 @XmlAccessorType(XmlAccessType.NONE) 
 @XmlRootElement
 public class Project implements Serializable {
 	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idProject;
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -67,6 +71,8 @@ public class Project implements Serializable {
 	private int nbRessourcesLevio;
 	@XmlElement(name="picture",required=true)
 	private String picture;
+	@ManyToMany(mappedBy="projectList")
+	private List<Skills> requiredSkills;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
 
@@ -74,6 +80,22 @@ public class Project implements Serializable {
 	private List<Skills> listeSkills ;
 	
 	
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+	
+	public List<Skills> getRequiredSkills() {
+		return requiredSkills;
+	}
+
+	public void setRequiredSkills(List<Skills> requiredSkills) {
+		this.requiredSkills = requiredSkills;
+	}
+
 	public List<Mandate> getListemandate() {
 		return listemandate;
 	}
