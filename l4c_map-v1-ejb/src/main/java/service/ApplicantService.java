@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import entities.Applicant;
 import entities.Demand;
 import entities.File;
+import entities.Sponsor;
 import entities.Test;
 import entities.User;
 import enumerator.ApplicantState;
@@ -32,7 +33,8 @@ public class ApplicantService implements ApplicantServiceLocal {
 	public int insertApplicant(Applicant A) {
 		A.setApplicantState(ApplicantState.Waiting);
 		if (ApplicantState.valueOf(A.getApplicantState().toString()) instanceof ApplicantState && A.getAge() >= 18
-				&& !A.getName().equals("") && !A.getLastname().equals("") && !A.getCountry().equals("") && A != null) {
+				&& !A.getName().equals("") && !A.getLastname().equals("") && !A.getCountry().equals("") && A != null
+			    && !A.getUsername().equals("") && !(A.getPassword().length() < 8)) {
 			File file = new File(Date.valueOf(LocalDate.now()), "");
 			Demand demand = new Demand(Date.valueOf(LocalDate.now()), DemandState.Waiting, "", file);
 			A.setDemand(demand);
@@ -45,9 +47,20 @@ public class ApplicantService implements ApplicantServiceLocal {
 	@Override
 	public boolean deleteApplicant(int idApplicant) {
 		Applicant applicant = em.find(Applicant.class, idApplicant);
-		if (applicant != null) {
-			em.remove(applicant);
-			return true;
+		try {
+			if (applicant != null) {
+				TypedQuery<Sponsor> query = em.createQuery("SELECT s FROM Sponsor s WHERE s.applicant=:idApplicant",
+						Sponsor.class);
+				Sponsor sponsor = (Sponsor)query.setParameter("idApplicant", applicant).getSingleResult();
+				em.remove(sponsor);
+				em.remove(applicant);
+				return true;
+			}
+		} catch (NoResultException e) {
+			if (applicant != null) {
+				em.remove(applicant);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -107,18 +120,20 @@ public class ApplicantService implements ApplicantServiceLocal {
 					for (Test teste : file.getListeTest()) {
 						sumMarks += teste.getMark() * teste.getDifficulty();
 					}
-					applicant.setChanceOfSuccess(applicant.getChanceOfSuccess() + (sumMarks / file.getListeTest().size()) / 30);
+					applicant.setChanceOfSuccess(
+							applicant.getChanceOfSuccess() + (sumMarks / file.getListeTest().size()) / 30);
 					return;
 				} else {
 					int sumMarks = 0;
 					for (Test teste : file.getListeTest()) {
 						sumMarks += teste.getMark() * teste.getDifficulty();
 					}
-					applicant.setChanceOfSuccess(applicant.getChanceOfSuccess() + (sumMarks / file.getListeTest().size()) / 20);
+					applicant.setChanceOfSuccess(
+							applicant.getChanceOfSuccess() + (sumMarks / file.getListeTest().size()) / 20);
 					return;
 				}
 			}
 		}
-		applicant.setChanceOfSuccess(0);
+		return ;
 	}
 }

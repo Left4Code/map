@@ -26,7 +26,7 @@ import service.SqlDateAdapter;
 @XmlRootElement
 public class Meeting implements Serializable{
 	@EmbeddedId
-	private MeetingPk meetingPk ;
+	private MeetingPk meetingPk = new MeetingPk();
 	private Date date ;
 	@Enumerated(EnumType.STRING)
 	private TypeResult typeResult ;
@@ -66,7 +66,7 @@ public class Meeting implements Serializable{
 	public void setMeetingPk(MeetingPk meetingPk) {
 		this.meetingPk = meetingPk;
 	}
-	@XmlElement
+	@XmlElement(name="Responsable",required=true)
 	public Responsable getResponsable() {
 		return responsable;
 	}
@@ -75,7 +75,7 @@ public class Meeting implements Serializable{
 		this.responsable = responsable;
 	}
 
-	@XmlElement
+	@XmlElement(name="Demand",required=true)
 	public Demand getDemand() {
 		return demand;
 	}
@@ -83,7 +83,7 @@ public class Meeting implements Serializable{
 	public void setDemand(Demand demand) {
 		this.demand = demand;
 	}
-	@XmlElement
+	@XmlElement(name="Date")
 	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDate() {
 		return date;

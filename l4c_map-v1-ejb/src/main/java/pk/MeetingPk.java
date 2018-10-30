@@ -50,4 +50,9 @@ public class MeetingPk implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "MeetingPk [idDemand=" + idDemand + ", idResponsable=" + idResponsable + "]";
+	}
+
 }

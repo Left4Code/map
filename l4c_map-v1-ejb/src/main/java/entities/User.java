@@ -22,8 +22,8 @@ public class User implements Serializable {
 	protected String name;
 	protected String lastname;
 	protected String picture;
-	protected String password;
-	protected String username ;
+	protected String password ="";
+	protected String username ="";
 	
 	public User() {
 	}
@@ -74,7 +74,7 @@ public class User implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@XmlElement
+	@XmlElement(required=true,name="Password")
 	public String getPassword() {
 		return password;
 	}
@@ -82,7 +82,7 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@XmlElement
+	@XmlElement(required=true,name="UserName")
 	public String getUsername() {
 		return username;
 	}

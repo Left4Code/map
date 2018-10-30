@@ -47,6 +47,7 @@ public class TestService implements TestServiceLocal{
 	@Override
 	public int makeTest(Test test, int idApplicant) {
 		Test testExist = em.find(Test.class, test.getIdTest());
+		System.out.println(test.getMark());
 		testExist = test ;
 		TypedQuery<Applicant> query = em.createQuery("SELECT a FROM Applicant a WHERE a.id=:id", Applicant.class);
 		Applicant applicant = (Applicant) query.setParameter("id",idApplicant).getSingleResult();
@@ -54,6 +55,7 @@ public class TestService implements TestServiceLocal{
 		File file = em.find(File.class, demand.getFile().getId());
 		if(testExist != null && applicant != null){
 			testExist.setDateOfPassing(Date.valueOf(LocalDate.now()));
+			em.merge(testExist);
 			Set<Test> listetest = file.getListeTest();
 			listetest.add(testExist);
 			file.setListeTest(listetest);

@@ -13,7 +13,9 @@ import javax.persistence.TypedQuery;
 import entities.Applicant;
 import entities.Demand;
 import entities.File;
+import entities.Meeting;
 import entities.User;
+import enumerator.DemandState;
 
 @Stateless
 public class DemandService implements DemandServiceLocal {
@@ -27,6 +29,8 @@ public class DemandService implements DemandServiceLocal {
 			Applicant applicantExist = (Applicant) query.setParameter("id", idApplicant).getSingleResult();
 			if (applicantExist.getDemand() == null) {
 				File file = new File(Date.valueOf(LocalDate.now()),"");
+				demand.setDateDemand(Date.valueOf(LocalDate.now()));
+				demand.setDemandState(DemandState.Waiting);
 				demand.setFile(file);
 				applicantExist.setDemand(demand);
 				em.persist(demand);
@@ -65,12 +69,36 @@ public class DemandService implements DemandServiceLocal {
 			Applicant applicant = query.setParameter("demand", demand).getSingleResult();
 			if (demand != null) {
 				applicant.setDemand(null);
+				TypedQuery<Meeting> query_1 = em.createQuery("SELECT m FROM Meeting m WHERE m.demand=:demand",
+						Meeting.class);
+				Meeting meeting = query_1.setParameter("demand", demand).getSingleResult();
+				em.remove(meeting);
+				demand.setListeMeeting(null);
 				em.remove(demand);
 				return true;
 			}
 		} catch (NoResultException e) {
+			Demand demand = em.find(Demand.class, idDemand);
+			TypedQuery<Applicant> query = em.createQuery("SELECT a FROM Applicant a WHERE a.demand=:demand",
+					Applicant.class);
+			Applicant applicant = query.setParameter("demand", demand).getSingleResult();
+			if (demand != null) {
+				applicant.setDemand(null);
+				em.remove(demand);
+				return true;
+			}
 		}
 		return false;
+	}
+
+	@Override
+	public Demand getDemandByApplicant(int idApplicant) {
+			Applicant applicantExist = em.find(Applicant.class, idApplicant);
+			if(applicantExist != null){
+				Demand demand = em.find(Demand.class, applicantExist.getId());
+				return demand;
+			}		
+		return null;
 	}
 
 }
