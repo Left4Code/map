@@ -23,7 +23,6 @@ public class Client extends User implements Serializable{
 
 	@OneToMany(mappedBy = "client",cascade = CascadeType.MERGE)
 	private List<Response> responseList;
-
 	
 	public int getNbOfRessource() {
 		return nbOfRessource;

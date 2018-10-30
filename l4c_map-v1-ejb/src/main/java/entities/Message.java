@@ -136,4 +136,5 @@ public class Message implements Serializable {
 	public void setResponses(List<Response> responses) {
 		this.responses = responses;
 	}
+
 }

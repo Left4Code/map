@@ -8,18 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import pk.SponsorPk;
+import service.SqlDateAdapter;
 
 @Entity
+@XmlRootElement
 public class Sponsor implements Serializable{
 	private Date timeBegin ;
 	private Date timeEnd ;
 	private String language ;
 	private String country ;
 	@EmbeddedId
-	private SponsorPk sponsorPk; 
-	@ManyToOne
+	private SponsorPk sponsorPk = new SponsorPk(); 
+	@OneToOne
 	@JoinColumn(name="idApplicant" ,referencedColumnName="id",insertable=false,updatable=false)
 	private Applicant applicant ;
 	@ManyToOne
@@ -27,6 +34,8 @@ public class Sponsor implements Serializable{
 	private Responsable responsable ;
 	@OneToOne
 	private Ressource ressource ;
+	
+	@XmlTransient
 	public Ressource getRessource() {
 		return ressource;
 	}
@@ -43,6 +52,7 @@ public class Sponsor implements Serializable{
 		this.sponsorPk = sponsorPk;
 	}
 
+	@XmlElement(name="Applicant")
 	public Applicant getApplicant() {
 		return applicant;
 	}
@@ -50,7 +60,7 @@ public class Sponsor implements Serializable{
 	public void setApplicant(Applicant applicant) {
 		this.applicant = applicant;
 	}
-
+	@XmlElement(name="Responsable")
 	public Responsable getResponsable() {
 		return responsable;
 	}
@@ -58,7 +68,8 @@ public class Sponsor implements Serializable{
 	public void setResponsable(Responsable responsable) {
 		this.responsable = responsable;
 	}
-
+	@XmlElement(name="TimeBegin")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getTimeBegin() {
 		return timeBegin;
 	}
@@ -66,7 +77,8 @@ public class Sponsor implements Serializable{
 	public void setTimeBegin(Date timeBegin) {
 		this.timeBegin = timeBegin;
 	}
-
+	@XmlElement(name="TimeEnd")
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getTimeEnd() {
 		return timeEnd;
 	}
@@ -74,7 +86,7 @@ public class Sponsor implements Serializable{
 	public void setTimeEnd(Date timeEnd) {
 		this.timeEnd = timeEnd;
 	}
-
+	@XmlElement(name="Language")
 	public String getLanguage() {
 		return language;
 	}
@@ -82,13 +94,20 @@ public class Sponsor implements Serializable{
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
+	@XmlElement(name="Country")
 	public String getCountry() {
 		return country;
 	}
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	@Override
+	public String toString() {
+		return "Sponsor [timeBegin=" + timeBegin + ", timeEnd=" + timeEnd + ", language=" + language + ", country="
+				+ country + ", sponsorPk=" + sponsorPk + ", applicant=" + applicant + ", responsable=" + responsable
+				+ ", ressource=" + ressource + "]";
 	}
 
 	public Sponsor() {

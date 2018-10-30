@@ -3,34 +3,33 @@ package entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement
 public class Skills implements Serializable {
-	@Id
+	@Id@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idSkills;
 	private String name;
 	private String specialty;
 	private String degree;
 	private int experience;
 	private String document;
-	@ManyToOne
-	@JoinColumn(name = "idRessource")
-	private Ressource ressource;
 
-	public Ressource getRessource() {
-		return ressource;
-	}
-
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
 
 	public Skills() {
 	}
-
+	
+	@XmlElement
 	public String getName() {
 		return name;
 	}
@@ -38,7 +37,7 @@ public class Skills implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	@XmlElement
 	public String getSpecialty() {
 		return specialty;
 	}
@@ -47,6 +46,7 @@ public class Skills implements Serializable {
 		this.specialty = specialty;
 	}
 
+	@XmlElement
 	public String getDegree() {
 		return degree;
 	}
@@ -54,7 +54,7 @@ public class Skills implements Serializable {
 	public void setDegree(String degree) {
 		this.degree = degree;
 	}
-
+	@XmlElement
 	public int getExperience() {
 		return experience;
 	}
@@ -62,7 +62,7 @@ public class Skills implements Serializable {
 	public void setExperience(int experience) {
 		this.experience = experience;
 	}
-
+	@XmlElement
 	public String getDocument() {
 		return document;
 	}
@@ -71,6 +71,7 @@ public class Skills implements Serializable {
 		this.document = document;
 	}
 
+	@XmlAttribute
 	public int getIdSkills() {
 		return idSkills;
 	}

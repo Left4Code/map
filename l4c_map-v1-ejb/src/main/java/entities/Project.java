@@ -149,4 +149,5 @@ public class Project implements Serializable {
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
 	}
+
 }

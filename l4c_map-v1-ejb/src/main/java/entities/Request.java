@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
-
 import javax.persistence.*;
+import service.SqlDateAdapter;
 
 @Entity
 public class Request implements Serializable {
@@ -20,11 +20,12 @@ public class Request implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idClient")
 	private Client client;
+
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="request")
 	private List<Required_Skills> requiredSkills;
 	@ManyToOne
-	@JoinColumn(name="idResponsable")
-	private Responsable responsable ;
+	@JoinColumn(name = "idResponsable")
+	private Responsable responsable;
 
 	@ManyToOne
 	@JoinColumn(name = "idProject")
@@ -82,7 +83,7 @@ public class Request implements Serializable {
 			return false;
 		return true;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -90,7 +91,7 @@ public class Request implements Serializable {
 	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}
