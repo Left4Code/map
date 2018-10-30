@@ -1,3 +1,4 @@
+
 package entities;
 
 import java.io.Serializable;
@@ -65,6 +66,8 @@ public class Ressource extends User implements Serializable {
 	@OneToMany(mappedBy="ressource" ,cascade=CascadeType.REMOVE , fetch=FetchType.EAGER)
 	@XmlElement(name="DemandesTimeoff")
 	private Set<Demand_time_off> listeDemandesTimeOff = new HashSet<>();
+  	protected int note;//will work on this attribut to determinate the competance of the ressource
+
 
 	public Sponsor getSponsor() {
 		return sponsor;

@@ -1,8 +1,7 @@
-	package entities;
+package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
-
 import javax.enterprise.inject.New;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

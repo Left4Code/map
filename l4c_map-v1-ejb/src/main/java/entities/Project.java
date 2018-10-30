@@ -5,20 +5,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import service.SqlDateAdapter;
-@XmlRootElement
+import javax.persistence.*;
+
 @Entity
 public class Project implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProject;
 	private String name;
 	private Date dateBegin;
@@ -27,10 +18,15 @@ public class Project implements Serializable {
 	private int nbRessources;
 	private int nbRessourcesLevio;
 	private String picture;
-	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
+	private int score;//determinate the status of the project (risky or all is good)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
-	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
-	private List<Message> listMessage;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",cascade = CascadeType.REMOVE)
+	private List<Request> requests;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",orphanRemoval = true)
+	private List<Message> messages;
 
 	public int getIdProject() {
 		return idProject;
@@ -47,7 +43,7 @@ public class Project implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@XmlJavaTypeAdapter(SqlDateAdapter.class)
+
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -55,7 +51,7 @@ public class Project implements Serializable {
 	public void setDateBegin(Date dateBegin) {
 		this.dateBegin = dateBegin;
 	}
-	@XmlJavaTypeAdapter(SqlDateAdapter.class)
+
 	public Date getDateEnd() {
 		return dateEnd;
 	}
@@ -118,8 +114,40 @@ public class Project implements Serializable {
 		return true;
 	}
 
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
+	}
+
 	public Project() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
 	}
 
 }

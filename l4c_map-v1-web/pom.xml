@@ -5,6 +5,8 @@
 		<groupId>tn.esprit</groupId>
 		<artifactId>l4c_map-v1</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../l4c_map-v1/pom.xml</relativePath>
+
 	</parent>
 	<artifactId>l4c_map-v1-web</artifactId>
 	<packaging>war</packaging>
@@ -29,6 +31,13 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>3.0.19.Final</version>
+			<scope>provided</scope>
+		</dependency>
+        <dependency>
             <groupId>javax.transaction</groupId>
             <artifactId>javax.transaction-api</artifactId>
             <version>1.2</version>
