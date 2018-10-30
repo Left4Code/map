@@ -38,7 +38,6 @@ public class Ressource extends User implements Serializable {
 	@OneToMany(mappedBy="ressource")
 	private List<Message> listeMessage ;
 	
-	
 	public List<Mandate> getListemandate() {
 		return listemandate;
 	}

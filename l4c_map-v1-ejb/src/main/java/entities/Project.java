@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -71,6 +72,15 @@ public class Project implements Serializable {
 	private int nbRessourcesLevio;
 	@XmlElement(name="picture",required=true)
 	private String picture;
+	private int score;//determinate the status of the project (risky or all is good)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
+	private List<Mandate> listemandate ;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",cascade = CascadeType.REMOVE)
+	private List<Request> requests;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",orphanRemoval = true)
+	private List<Message> messages;
 	@ManyToMany(mappedBy="projectList")
 	private List<Skills> requiredSkills;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
@@ -219,6 +229,22 @@ public class Project implements Serializable {
 		return true;
 	}
 
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
+	}
+
 	public Project() {
 		
 	}
@@ -235,4 +261,19 @@ public class Project implements Serializable {
 		this.picture = picture;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 }
