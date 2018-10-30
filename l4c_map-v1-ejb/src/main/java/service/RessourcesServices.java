@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.rmi.CORBA.UtilDelegate;
 
@@ -73,28 +74,28 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public Ressource afficherRessources(int idRessource) {
 		Ressource ressource = em.find(Ressource.class, idRessource);
 
-//		 try {
-//			 System.out.println("d5alna");
-//		 FirstPdf fs = new FirstPdf();
-//		 System.out.println("d5alna2");
-//
-//		 fs.SetInfos(ressource.getId(), ressource.getName(),
-//		 ressource.getLastname(),
-//		 ressource.getSpecialty(),ressource.getBusinessSector(),
-//		 ressource.getRateSelling(), ressource.getCost(),
-//		 (ressource.getTypeContrat()).toString(),
-//		 ressource.getSeniority(), ressource.getNote() );
-//		 System.out.println("d5alna22");
-//
-//		 fs.createPDF();
-//		 System.out.println("d5alna23");
-//
-//		 } catch (IOException e) {
-//			 System.out.println("5rajna");
-//		 // TODO Auto-generated catch block
-//System.out.println("ahay el erreure : "+e);}
-//		Runnable r = new MyR(ressource);
-//		new Thread(r).start();
+		// try {
+		// System.out.println("d5alna");
+		// FirstPdf fs = new FirstPdf();
+		// System.out.println("d5alna2");
+		//
+		// fs.SetInfos(ressource.getId(), ressource.getName(),
+		// ressource.getLastname(),
+		// ressource.getSpecialty(),ressource.getBusinessSector(),
+		// ressource.getRateSelling(), ressource.getCost(),
+		// (ressource.getTypeContrat()).toString(),
+		// ressource.getSeniority(), ressource.getNote() );
+		// System.out.println("d5alna22");
+		//
+		// fs.createPDF();
+		// System.out.println("d5alna23");
+		//
+		// } catch (IOException e) {
+		// System.out.println("5rajna");
+		// // TODO Auto-generated catch block
+		// System.out.println("ahay el erreure : "+e);}
+		// Runnable r = new MyR(ressource);
+		// new Thread(r).start();
 
 		String etat = "";
 		boolean hasMandate = ressource.getListemandate().iterator().hasNext();
@@ -240,7 +241,9 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public void ajouterCompetenceARessource(int idRessource, int idSkill) {
 		Skills s = em.find(Skills.class, idSkill);
 		Ressource rc = em.find(Ressource.class, idRessource);
-		s.setRessource(rc);
+		Set<Skills> skills = rc.getSkills();
+		skills.add(s);
+		rc.setSkills(skills);
 		affecterNoteARessource(idRessource);
 
 	}
@@ -256,8 +259,30 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	@Override
 	public void supprimerCompetence(int idSKill) {
-		em.remove(em.find(Skills.class, idSKill));
-		affecterNoteARessource(em.find(Skills.class, idSKill).getRessource().getId());
+		TypedQuery<Ressource> q = em.createQuery("Select c from Ressource c", Ressource.class);
+		List<Ressource> ListR = q.getResultList();
+		TypedQuery<Skills> q1 = em.createQuery("Select s from Skills s", Skills.class);
+		List<Skills> ListS = q1.getResultList();
+		int idRessource = 0;
+		for (Ressource r : ListR) {
+			if (r.getSkills().contains(em.find(Skills.class, idSKill))) {
+				idRessource = r.getId();
+			} else {
+				idRessource = 0;
+			}
+		}
+
+		if (idRessource != 0) {
+			Ressource ressource = em.find(Ressource.class, idRessource);
+
+			Set<Skills> skk = ressource.getSkills();
+			skk.remove(em.find(Skills.class, idSKill));
+			ressource.setSkills(skk);
+			em.remove(em.find(Skills.class, idSKill));
+
+			affecterNoteARessource(em.find(Ressource.class, idRessource).getId());
+		} else
+			System.out.println("impossible");
 
 	}
 
@@ -265,7 +290,9 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public void ajouterRessourceEtCompetence(int idRessource, Skills skill) {
 		Ressource rc = em.find(Ressource.class, idRessource);
 		Skills sk = skill;
-		sk.setRessource(rc);
+		Set<Skills> skills = rc.getSkills();
+		skills.add(sk);
+		rc.setSkills(skills);
 		em.persist(sk);
 		affecterNoteARessource(idRessource);
 
@@ -337,41 +364,43 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	// end of time off cruds .
 
 	public void genereatePdf(int id) {
-		
-		
+
 	}
 
-//	public static class MyR implements Runnable {
-//
-//		private Ressource ressource ;
-//
-//		public MyR(Ressource ressource ) {
-//			this.ressource = ressource;
-//		}
-//
-//		@Override
-//		public void run() {
-//
-//	
-//
-//			if(ressource!=null){
-//			System.out.println("haw ressource : " + ressource.toString());
-//
-//			try {				System.out.println("ena hne 1 ");
-//
-//				FirstPdf fs = new FirstPdf();
-//				fs.SetInfos(ressource.getId(), ressource.getName(), ressource.getLastname(), ressource.getSpecialty(),
-//						ressource.getBusinessSector(), ressource.getRateSelling(), ressource.getCost(),
-//						(ressource.getTypeContrat()).toString(), ressource.getSeniority(), ressource.getNote());
-//				fs.createPDF();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				System.out.println("ena hne");
-//				e.printStackTrace();
-//			}
-//			}else 
-//				System.out.println("no");
-//			return;
-//		}
-//	}
+	// public static class MyR implements Runnable {
+	//
+	// private Ressource ressource ;
+	//
+	// public MyR(Ressource ressource ) {
+	// this.ressource = ressource;
+	// }
+	//
+	// @Override
+	// public void run() {
+	//
+	//
+	//
+	// if(ressource!=null){
+	// System.out.println("haw ressource : " + ressource.toString());
+	//
+	// try { System.out.println("ena hne 1 ");
+	//
+	// FirstPdf fs = new FirstPdf();
+	// fs.SetInfos(ressource.getId(), ressource.getName(),
+	// ressource.getLastname(), ressource.getSpecialty(),
+	// ressource.getBusinessSector(), ressource.getRateSelling(),
+	// ressource.getCost(),
+	// (ressource.getTypeContrat()).toString(), ressource.getSeniority(),
+	// ressource.getNote());
+	// fs.createPDF();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// System.out.println("ena hne");
+	// e.printStackTrace();
+	// }
+	// }else
+	// System.out.println("no");
+	// return;
+	// }
+	// }
 }

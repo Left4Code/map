@@ -24,19 +24,7 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "idRessource")
-	private Ressource ressource;
 
-	
-	@XmlTransient
-	public Ressource getRessource() {
-		return ressource;
-	}
-
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
 
 	public Skills() {
 	}
