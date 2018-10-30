@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,6 +24,8 @@ public class Project implements Serializable {
 	private int nbRessources;
 	private int nbRessourcesLevio;
 	private String picture;
+	@ManyToMany(mappedBy="projectList")
+	private List<Skills> requiredSkills;
 	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
 
@@ -32,6 +35,22 @@ public class Project implements Serializable {
 
 	public void setIdProject(int idProject) {
 		this.idProject = idProject;
+	}
+	
+	public List<Skills> getRequiredSkills() {
+		return requiredSkills;
+	}
+
+	public void setRequiredSkills(List<Skills> requiredSkills) {
+		this.requiredSkills = requiredSkills;
+	}
+
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
 	}
 
 	public String getName() {

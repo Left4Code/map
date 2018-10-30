@@ -1,17 +1,15 @@
 package entities;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import enumerator.MandateType;
 import pk.MandatePk;
 
@@ -20,10 +18,13 @@ import pk.MandatePk;
 public class Mandate implements Serializable{
 	@EmbeddedId
 	private MandatePk mandatepk ;
+	//@XmlJavaTypeAdapter(sqlDateAdapter.class)
 	private Date dateBegin ;
+	//@XmlJavaTypeAdapter(sqlDateAdapter.class)
 	private Date dateEnd ;
 	private int duration ;
 	private float cost ;
+	private Boolean archive;
 	@Enumerated(EnumType.STRING)
 	private MandateType mandateType ;
 	@ManyToOne
@@ -82,15 +83,20 @@ public class Mandate implements Serializable{
 		this.mandatepk = mandatepk;
 	}
 
-	public Mandate() {
-		
-	}
-
+	
 	@Override
 	public String toString() {
 		return "Mandate [mandatepk=" + mandatepk + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd + ", duration="
 				+ duration + ", cost=" + cost + ", mandateType=" + mandateType + ", project=" + project + ", ressource="
 				+ ressource + "]";
+	}
+
+	public Boolean getArchive() {
+		return archive;
+	}
+
+	public void setArchive(Boolean archive) {
+		this.archive = archive;
 	}
 	
 }
