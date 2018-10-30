@@ -1,56 +1,69 @@
 package entities;
 
-import java.io.Serializable
-import java.sql.Date
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet
-import java.util.List;
-
-import javax.jms.JMSSessionMode;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import enumerator.TypeContract;
 import enumerator.TypeRessource;
-@XmlRootElement
+import service.SqlDateAdapter;
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE) 
 public class Ressource extends User implements Serializable {
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
+	@XmlElement(name="DateBegin")
 	private Date dateDebut;
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
+	@XmlElement(name="DateEnd")
 	private Date dateFin;
 	@Enumerated(EnumType.STRING)
+	@XmlElement(name="type")
 	private TypeRessource type;
+	@XmlElement(name="specialty")
 	protected String specialty;
+	@XmlElement(name="businessSector")
 	protected String businessSector;
+	@XmlElement(name="rateSelling")
 	protected float rateSelling;
+	@XmlElement(name="cost")
 	protected float cost;
 	@Enumerated(EnumType.STRING)
+	@XmlElement(name="typeContrat")
 	protected TypeContract typeContrat;
+	
+	@XmlElement(name="seniority")
 	protected int seniority;
+	@XmlElement(name="note")
 	protected int note;
+	@XmlElement(name="cv")
 	protected String cv;
 	
 	@ManyToMany(cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@XmlElement(name="Skills")
 	private Set<Skills> skills  = new HashSet<Skills>(); 
 	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE,fetch=FetchType.EAGER)
+	@XmlElement(name="ListMandate")
 	private Set<Mandate> listemandate =  new HashSet<Mandate>();
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
+	@XmlElement(name="Sponsor")
 	private Sponsor sponsor;
-	@OneToMany(mappedBy="ressource" ,fetch=FetchType.EAGER)
-	private Set<Message> listeMessage = new HashSet<Message>();
 	@OneToMany(mappedBy="ressource" ,cascade=CascadeType.REMOVE , fetch=FetchType.EAGER)
+	@XmlElement(name="DemandesTimeoff")
 	private Set<Demand_time_off> listeDemandesTimeOff = new HashSet<>();
 
 	public Sponsor getSponsor() {
@@ -171,13 +184,6 @@ public class Ressource extends User implements Serializable {
 	}
 
 
-	public Set<Message> getListeMessage() {
-		return listeMessage;
-	}
-
-	public void setListeMessage(Set<Message> listeMessage) {
-		this.listeMessage = listeMessage;
-	}
 
 	public Set<Demand_time_off> getListeDemandesTimeOff() {
 		return listeDemandesTimeOff;
@@ -192,7 +198,7 @@ public class Ressource extends User implements Serializable {
 		return "Ressource [specialty=" + specialty + ", businessSector=" + businessSector + ", rateSelling="
 				+ rateSelling + ", cost=" + cost + ", typeContrat=" + typeContrat + ", seniority=" + seniority
 				+ ", note=" + note + ", cv=" + cv + ", skills=" + skills + ", listemandate=" + listemandate
-				+ ", sponsor=" + sponsor + ", listeMessage=" + listeMessage + ", listeDemandesTimeOff="
+				+ ", sponsor=" + sponsor + " listeDemandesTimeOff="
 				+ listeDemandesTimeOff + "]";
 	}
 

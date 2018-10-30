@@ -100,22 +100,7 @@ public class Message implements Serializable {
 		this.fromTo = fromTo;
 	}
 
-	public Responsable getResponsable() {
-		return responsable;
-	}
 
-	public void setResponsable(Responsable responsable) {
-		this.responsable = responsable;
-	}
-
-
-	public Client getClient() {
-		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
-	}
 
 	@Override
 	public int hashCode() {

@@ -1,8 +1,6 @@
 package service;
 
-import java.io.IOException;
 import java.sql.Date;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -11,20 +9,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.rmi.CORBA.UtilDelegate;
-
-import com.itextpdf.text.pdf.hyphenation.TernaryTree.Iterator;
-
 import entities.Demand_time_off;
 import entities.Mandate;
-import entities.Project;
 import entities.Responsable;
 import entities.Ressource;
 import entities.Skills;
-import enumerator.DemandState;
-import utils.FirstPdf;
 
 /**
  * Session Bean implementation class RessourcesServices

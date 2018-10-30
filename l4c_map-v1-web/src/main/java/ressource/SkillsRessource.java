@@ -2,10 +2,8 @@ package ressource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,33 +18,37 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import BusinessLayer.ISkillsBusiness;
 import service.RessourcesServicesLocal;
-import entities.Demand_time_off;
 import entities.Skills;
 
 @Stateless
 @Path("skills")
-public class SkillsRessource 
+public class SkillsRessource {
 	List<List<Object>> l=new ArrayList<>();
-	
+	@EJB
+	RessourcesServicesLocal local;
 	@EJB
 	private ISkillsBusiness skill;
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRatioPerSkill(){
-		
-		l=skill.getRatioSkills();
-		return Response.status(Status.ACCEPTED).entity(l).build()
-	@EJB
-	RessourcesServicesLocal local;
+//	@GET
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getRatioPerSkill(@QueryParam(value="ratio") int ratio){
+//		
+//		l=skill.getRatioSkills();
+//		return Response.status(Status.ACCEPTED).entity(l).build();
+//	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response afficherSkills() {
-
+	public Response afficherSkills(@QueryParam(value="ratio") int ratio) {
+		if(ratio==0){
 		List<Skills> lst = local.afficherSkills();
 		System.out.println();
 		return Response.status(Status.OK).entity(lst).build();
+		}else {
+			l=skill.getRatioSkills();
+			return Response.status(Status.ACCEPTED).entity(l).build();
+		}
+			
 	}
 
 //	@POST

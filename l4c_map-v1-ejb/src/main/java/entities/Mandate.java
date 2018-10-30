@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import enumerator.MandateType;
@@ -96,7 +97,7 @@ public class Mandate implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
+	@XmlTransient
 	public Ressource getRessource() {
 		return ressource;
 	}
