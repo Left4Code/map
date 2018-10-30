@@ -10,6 +10,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 import enumerator.MandateType;
 import pk.MandatePk;
 
@@ -30,7 +35,7 @@ public class Mandate implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="idProject" ,referencedColumnName="idProject",insertable=false,updatable=false)
 	private Project project ;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idRessource" ,referencedColumnName="id",insertable=false,updatable=false)
 	private Ressource ressource ;
 
@@ -81,6 +86,14 @@ public class Mandate implements Serializable{
 
 	public void setMandatepk(MandatePk mandatepk) {
 		this.mandatepk = mandatepk;
+	}
+@XmlTransient
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
 	}
 
 	

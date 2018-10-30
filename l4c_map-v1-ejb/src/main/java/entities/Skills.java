@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -18,11 +19,13 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
+
 	@ManyToMany
 	private List<Ressource> ressourceList;
 	@ManyToMany 
 	private List <Project> projectList;
 
+	
 	public Skills() {
 	}
 
