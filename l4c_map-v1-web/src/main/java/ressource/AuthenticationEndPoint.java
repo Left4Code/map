@@ -26,7 +26,7 @@ import javax.transaction.Transactional;
 
 import java.time.ZoneId;
 
-@Path("authentication")
+@Path("authentification")
 @Transactional
 public class AuthenticationEndPoint {
 

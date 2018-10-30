@@ -28,6 +28,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import service.RessourcesServicesLocal;
+import utilites.Secured;
 import entities.Mandate;
 import entities.Message;
 import entities.Ressource;
@@ -47,6 +48,7 @@ public class RessourcesService {
 	RessourcesServicesLocal local ;
 	
 	@POST
+	@Secured
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response ajouterRessouce(Ressource ressource)
 	{
@@ -82,6 +84,7 @@ public class RessourcesService {
 	}
 	
 	@GET
+	@Secured
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public Response AfficherRessource(@PathParam(value="id")String idd) {
