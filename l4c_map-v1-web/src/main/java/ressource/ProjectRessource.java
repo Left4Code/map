@@ -76,10 +76,19 @@ public Response deleteApplicant(@PathParam(value="id")int id){
 @PUT
 @Consumes(MediaType.APPLICATION_XML)
 public Response getRessourceBy(@QueryParam(value="id")int idProject){
-	psl.affecterSkills(idProject);
+	psl.getSkillsBySpeciality(idProject);
 		return Response.status(Status.OK).
 				entity("skills affecter à un projet").build();
 	
 }
+@POST
+@Consumes(MediaType.TEXT_PLAIN)
+public Response CalculateProfitability(@QueryParam(value="idProject") int idProject){
 
-}
+	psl.CalculerRentability(idProject);
+
+return Response.status(Status.CREATED).entity("Profitablité calculé").build();
+
+
+
+}}

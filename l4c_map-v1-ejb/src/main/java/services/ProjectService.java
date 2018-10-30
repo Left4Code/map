@@ -10,6 +10,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import entities.Client;
+import entities.Mandate;
+import entities.Profitability;
 import entities.Project;
 import entities.Ressource;
 import entities.Skills;
@@ -82,22 +84,20 @@ public class ProjectService implements ProjectServiceLocal {
 	
 	
 	@Override
-	public List<Skills>  getSkillsBySpeciality(int idProject)
+	public void  getSkillsBySpeciality(int id)
 	{
-		Project project=em.find(Project.class,idProject);
 	
 		List<Skills> listeSk=new ArrayList();
 		TypedQuery<Skills> query=em.createQuery("SELECT  s  FROM Skills s  ",Skills.class);
 		List<Skills> listeSkills= query.getResultList();
 
-		TypedQuery<Project> query1=em.createQuery("SELECT  p  FROM Project p  ",Project.class);
-		List<Project> listeProjects= query1.getResultList();
+		Project project=em.find(Project.class,id);
 		
 		
-	for(Project pr : listeProjects){
+
 		for(Skills sk: listeSkills )
 		{
-			if(sk.getSpecialty().equals(project.getTypeProject())){
+			if(sk.getSpecialty().equals(project.getTypeProject().toString())){
 				
 				listeSk.add(sk);
 				
@@ -106,22 +106,39 @@ public class ProjectService implements ProjectServiceLocal {
 			
 			
 			
-		}
+		
 	}
-	return listeSk;
-
+	
+		project.setListeSkills(listeSk);
 	}
 
 	@Override
-	public void affecterSkills(int idProject) {
-		List<Skills> listesk=new ArrayList<>();
-	listesk=getSkillsBySpeciality(idProject);
-	
-			
-			Project pr=em.find(Project.class,idProject);
-			
-			pr.setListeSkills(listesk);
-			
+	public void CalculerRentability(int idProject) {
+		TypedQuery<Mandate> query=em.createQuery("SELECT  m  FROM Mandate m ",Mandate.class);
+		List<Mandate> ListeMa= query.getResultList();
 		
+	Profitability prof=new Profitability();	
+Project pr=em.find(Project.class,idProject);
+float cost=0;
+for(Mandate m: ListeMa )
+{
+	if(m.getMandatepk().getIdProject()==idProject){
+ cost=cost+m.getCost();
+		
+
+prof.setGain(cost);
+float lost=(float) (cost/1.8);
+prof.setLost(lost);
+prof.setProfitability(cost-lost);
+prof.setProject(pr);
+		
+	}
+	
+	
+		
+	}
+
+em.persist(prof);
+
 	}
 }

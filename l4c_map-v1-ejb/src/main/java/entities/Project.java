@@ -34,7 +34,7 @@ import services.SqlDateAdapter;
 @XmlRootElement
 public class Project implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idProject;
 
 	@ManyToOne(fetch=FetchType.LAZY)

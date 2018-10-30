@@ -16,6 +16,6 @@ public interface ProjectServiceLocal {
 	public void modifierProjet (Project pr,int idClient);
 	public Project getProjetById(int idProjet);
 	public List<Project> getAllProjets();
-	public List<Skills> getSkillsBySpeciality(int idProject);
-	public void affecterSkills(int idProject);
+	public void getSkillsBySpeciality(int id);
+    public void CalculerRentability(int idProject);
 }
