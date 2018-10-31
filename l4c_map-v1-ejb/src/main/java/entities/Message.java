@@ -9,11 +9,11 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.MessageType;
 import enumerator.fromToDirection;
@@ -21,7 +21,6 @@ import enumerator.fromToDirection;
 @Entity
 public class Message implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idMessage;
 	private String contenu;
 	private String Status;//seen or not

@@ -26,7 +26,7 @@ import javax.transaction.Transactional;
 
 import java.time.ZoneId;
 
-@Path("authentication")
+@Path("authentification")
 @Transactional
 public class AuthenticationEndPoint {
 
@@ -44,7 +44,7 @@ public class AuthenticationEndPoint {
 
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_XML)
 	public Response authenticateUser(Credentials credentials) {
 		try {
 
