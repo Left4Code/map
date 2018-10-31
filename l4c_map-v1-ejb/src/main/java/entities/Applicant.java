@@ -10,26 +10,33 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.ApplicantState;
+import enumerator.Role;
 
 @Entity
 @XmlRootElement
 public class Applicant extends User implements Serializable {
 	private String country;
 	private int age;
+	private int chanceOfSuccess ;
 	@Enumerated(EnumType.STRING)
 	private ApplicantState applicantState;
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idDemand")
 	private Demand demand;
-	@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinColumn(name = "idArrival")
 	private Arrival arrival;
-	@OneToMany(mappedBy = "responsable")
-	private List<Sponsor> listeSponsor;
+	@OneToOne(mappedBy = "applicant")
+	private Sponsor sponsor;
 
+	//@XmlElement(required = false)
+	@XmlTransient
 	public Arrival getArrival() {
 		return arrival;
 	}
@@ -38,14 +45,17 @@ public class Applicant extends User implements Serializable {
 		this.arrival = arrival;
 	}
 
-	public List<Sponsor> getListeSponsor() {
-		return listeSponsor;
+	//@XmlElement(required = false)
+	@XmlTransient
+	public Sponsor getSponsor() {
+		return sponsor;
 	}
 
-	public void setListeSponsor(List<Sponsor> listeSponsor) {
-		this.listeSponsor = listeSponsor;
+	public void setSponsor(Sponsor sponsor) {
+		this.sponsor = sponsor;
 	}
 
+	@XmlElement(required = false)
 	public Demand getDemand() {
 		return demand;
 	}
@@ -54,6 +64,7 @@ public class Applicant extends User implements Serializable {
 		this.demand = demand;
 	}
 
+	@XmlElement(required = true, name = "Country")
 	public String getCountry() {
 		return country;
 	}
@@ -62,6 +73,7 @@ public class Applicant extends User implements Serializable {
 		this.country = country;
 	}
 
+	@XmlElement(required = true, name = "Age")
 	public int getAge() {
 		return age;
 	}
@@ -70,12 +82,28 @@ public class Applicant extends User implements Serializable {
 		this.age = age;
 	}
 
+	@XmlElement(required = false, type = ApplicantState.class, name = "State")
 	public ApplicantState getApplicantState() {
 		return applicantState;
 	}
 
+	@Override
+	public String toString() {
+		return "Applicant [country=" + country + ", age=" + age + ", chanceOfSuccess=" + chanceOfSuccess
+				+ ", applicantState=" + applicantState + ", demand=" + demand + "]";
+	}
+
 	public void setApplicantState(ApplicantState applicantState) {
 		this.applicantState = applicantState;
+	}
+	
+	@XmlElement(name="Chances")
+	public int getChanceOfSuccess() {
+		return chanceOfSuccess;
+	}
+
+	public void setChanceOfSuccess(int chanceOfSuccess) {
+		this.chanceOfSuccess = chanceOfSuccess;
 	}
 
 	@Override
@@ -103,7 +131,8 @@ public class Applicant extends User implements Serializable {
 	}
 
 	public Applicant() {
-		// TODO Auto-generated constructor stub
+		super();
+		this.role = Role.Applicant;
 	}
 
 }

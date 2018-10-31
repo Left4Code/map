@@ -3,15 +3,19 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-
+import javax.xml.bind.annotation.XmlRootElement;
+import enumerator.Role;
 import enumerator.TypeCategory;
 import enumerator.TypeClient;
 
 @Entity
+@XmlRootElement
 public class Client extends User implements Serializable{
 
 	private int nbOfRessource ;
@@ -21,8 +25,25 @@ public class Client extends User implements Serializable{
 	private TypeClient typeClient ;
 	@Enumerated(EnumType.STRING)
 	private TypeCategory typeCategory ;
+	private int score;//a score tht determinate the client type (exigant or flexible)
+
+	@OneToMany(mappedBy = "client",cascade = CascadeType.MERGE)
+	private List<Response> responseList;
+
+	
+	@OneToMany(mappedBy="client",fetch=FetchType.EAGER)
+	private List<Project> listeproject;
 	
 	
+	
+	public List<Project> getListeproject() {
+		return listeproject;
+	}
+
+	public void setListeproject(List<Project> listeproject) {
+		this.listeproject = listeproject;
+	}
+
 	public int getNbOfRessource() {
 		return nbOfRessource;
 	}
@@ -65,7 +86,30 @@ public class Client extends User implements Serializable{
 
 	
 	public Client() {
-		
+		super();
+		this.role = Role.Client;
 	}
 
+	public Client(int nbOfRessource, int nbOfProjectActive, String logo) {
+		super();
+		this.nbOfRessource = nbOfRessource;
+		this.nbOfProjectActive = nbOfProjectActive;
+		this.logo = logo;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Response> getResponseList() {
+		return responseList;
+	}
+
+	public void setResponseList(List<Response> responseList) {
+		this.responseList = responseList;
+	}
 }

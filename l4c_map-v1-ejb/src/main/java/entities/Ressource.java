@@ -8,12 +8,17 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+import enumerator.Role;
 import enumerator.TypeContract;
 import enumerator.TypeRessource;
+
 @XmlRootElement
 @Entity
 public class Ressource extends User implements Serializable {
@@ -26,28 +31,39 @@ public class Ressource extends User implements Serializable {
 	protected float rateSelling;
 	protected float cost;
 	@Enumerated(EnumType.STRING)
-	protected TypeContract typeContrat;
-	protected int seniority;
-	protected int note;
-	protected String cv;
-	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE)
+	private TypeContract typeContrat;
+	private int seniority;
+	private int note;
+	private String cv;
+	@ManyToMany(mappedBy="ressourceList")
+	private List<Skills> skills;
+	@OneToMany(mappedBy = "ressource", cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
 	private List<Mandate> listemandate;
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
 	
+	public List<Mandate> getListemandate() {
+		return listemandate;
+	}
 
-	
+	public List<Skills> getSkills() {
+		return skills;
+	}
 
+	public void setSkills(List<Skills> skills) {
+		this.skills = skills;
+	}
+
+	public void setListemandate(List<Mandate> listemandate) {
+		this.listemandate = listemandate;
+	}
+	@XmlTransient
 	public Sponsor getSponsor() {
 		return sponsor;
 	}
 
 	public void setSponsor(Sponsor sponsor) {
 		this.sponsor = sponsor;
-	}
-
-	public Ressource() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getSpecialty() {
@@ -112,6 +128,11 @@ public class Ressource extends User implements Serializable {
 
 	public void setTypeContrat(TypeContract typeContrat) {
 		this.typeContrat = typeContrat;
+	}
+	
+	public Ressource() {
+		super();
+		this.role = Role.Ressource;
 	}
 
 	public Date getDateDebut() {
