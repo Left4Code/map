@@ -36,6 +36,9 @@ public class Responsable extends User implements Serializable {
 	private List<Request> listeRequest;
   
 	@XmlTransient
+	@OneToMany(mappedBy = "responsable")
+	private List<Request> listeRequest;
+  
 	public List<Request> getListeRequest() {
 		return listeRequest;
 	}

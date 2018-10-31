@@ -35,7 +35,18 @@ import utilites.Secured;
 
 @Stateless
 @Path("applicant")
+import BusinessLayer.BusinessReports;
+import BusinessLayer.IActivityReportBusiness;
+import BusinessLayer.IBusinessReports;
+
+import entities.Mandate;
 public class ApplicantRessource {
+//abdou
+	private List<Mandate> l=new ArrayList<>();
+	Mandate m = new Mandate();
+////////////	
+	@EJB
+	private IBusinessReports b;
 
 	@EJB
 	ApplicantServiceLocal service;
@@ -126,6 +137,70 @@ public class ApplicantRessource {
 			return Response.status(Status.CREATED).entity(Integer.toString(mark)).build();
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
+
+	private IActivityReportBusiness AReport ;
+	
+	
+	
+	@Path("/abdou/{n}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMand(@PathParam(value="n")int resID){
+	System.out.println("hello");
+	l=b.AddActivityReport(resID);	
+	
+	/*if(l==null){
+		return Response.status(Status.NOT_FOUND).entity("u missed").build();
+	}*/
+		return Response.status(Status.ACCEPTED).entity(l).build();
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDuree(@QueryParam(value="m")int i,@QueryParam(value="resID")int resID,@QueryParam(value="from")String from,@QueryParam(value="to")String to){
+	System.out.println("hello");
+	String activityRateStr="";
+	String ratioStr="";
+		
+		if(i==0	)
+		{
+		float r=AReport.rateActivtyOneRes(resID, from, to);
+			if(r==404)
+				{
+				activityRateStr="la ressource n est pas employee par levio dans cette durée";
+				}
+			else{
+				activityRateStr=""+r+"%";
+				System.out.println(i);
+				
+				}
+			return Response.status(Status.ACCEPTED).entity(activityRateStr).build();
+		}
+		else if(i==1){
+			
+			float ratio=AReport.satisfactionMsgRatio(resID, from, to);
+			if (ratio==404){
+				ratioStr="no messages in this timeline";
+			}
+			else
+			ratioStr=""+ratio+"%";
+			return Response.status(Status.ACCEPTED).entity(ratioStr).build();
+			
+		}
+		else
+		{
+		
+				System.out.println(i);
+				l=AReport.oneResActivities(resID, from, to);
+				System.out.println(l);
+				return Response.status(Status.ACCEPTED).entity(l).build();
+			
+			
+			
+		}
+		
+	}
+	
+	
 
 }

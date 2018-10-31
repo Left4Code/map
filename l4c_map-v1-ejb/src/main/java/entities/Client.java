@@ -25,7 +25,6 @@ public class Client extends User implements Serializable{
 	private TypeClient typeClient ;
 	@Enumerated(EnumType.STRING)
 	private TypeCategory typeCategory ;
-
 	private int score;//a score tht determinate the client type (exigant or flexible)
 
 	@OneToMany(mappedBy = "client",cascade = CascadeType.MERGE)

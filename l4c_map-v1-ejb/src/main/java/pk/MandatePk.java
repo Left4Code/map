@@ -58,6 +58,4 @@ public class MandatePk implements Serializable {
 	public String toString() {
 		return "MandatePk [idRessource=" + idRessource + ", idProject=" + idProject + "]";
 	}
-
-	
 }

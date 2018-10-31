@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,14 +17,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.Role;
 import enumerator.TypeContract;
+import enumerator.TypeRessource;
 
 @XmlRootElement
 @Entity
 public class Ressource extends User implements Serializable {
-	private String specialty;
-	private String businessSector;
-	private float rateSelling;
-	private float cost;
+	private Date dateDebut;
+	private Date dateFin;
+	@Enumerated(EnumType.STRING)
+	private TypeRessource type;
+	protected String specialty;
+	protected String businessSector;
+	protected float rateSelling;
+	protected float cost;
 	@Enumerated(EnumType.STRING)
 	private TypeContract typeContrat;
 	private int seniority;
@@ -128,5 +134,31 @@ public class Ressource extends User implements Serializable {
 		super();
 		this.role = Role.Ressource;
 	}
+
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public Date getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
+
+	public TypeRessource getType() {
+		return type;
+	}
+
+	public void setType(TypeRessource type) {
+		this.type = type;
+	}
+	
+	
 
 }

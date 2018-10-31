@@ -1,8 +1,9 @@
-package entities;
+	package entities;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.enterprise.inject.New;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.XmlTransient;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import enumerator.MandateType;
 import pk.MandatePk;
 import service.SqlDateAdapter;
@@ -39,7 +42,7 @@ public class Mandate implements Serializable {
 	private Project project ;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idRessource" ,referencedColumnName="id",insertable=false,updatable=false)
-	private Ressource ressource ;
+	private Ressource ressource=new Ressource();
 
 
 	//@XmlJavaTypeAdapter(SqlDateAdapter.class)
@@ -111,7 +114,6 @@ public class Mandate implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	
 	@Override
 	public String toString() {
 		return "Mandate [mandatepk=" + mandatepk + ", dateBegin=" + dateBegin + ", dateEnd=" + dateEnd + ", duration="
@@ -126,5 +128,12 @@ public class Mandate implements Serializable {
 	public void setArchive(Boolean archive) {
 		this.archive = archive;
 	}
-	
+
+	public Ressource getRessource() {
+		return ressource;
+	}
+
+	public void setRessource(Ressource ressource) {
+		this.ressource = ressource;
+	}
 }

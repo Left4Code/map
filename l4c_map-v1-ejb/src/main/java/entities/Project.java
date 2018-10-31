@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import enumerator.TypeClient;
 import enumerator.TypeProject;
 import enumerator.typeRessourceDemande;
-
 @Entity
 @XmlAccessorType(XmlAccessType.NONE) 
 @XmlRootElement
@@ -73,6 +72,8 @@ public class Project implements Serializable {
 	private int score;//determinate the status of the project (risky or all is good)
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
+	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
+	private List<Message> listMessage;
 
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",cascade = CascadeType.REMOVE)
 	private List<Request> requests;
