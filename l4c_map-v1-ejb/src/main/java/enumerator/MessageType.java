@@ -3,5 +3,6 @@ package enumerator;
 public enum MessageType {
 	Satisfaction ,
 	Claim ,
-	Technical_problem 
+	Technical_problem,
+	Text
 }

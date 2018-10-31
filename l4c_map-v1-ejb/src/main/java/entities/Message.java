@@ -1,7 +1,11 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,39 +16,43 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlTransient;
 
 import enumerator.MessageType;
+import enumerator.fromToDirection;
 
 @Entity
 public class Message implements Serializable {
 	@Id
 	private int idMessage;
-	private String title;
-	private String description;
+	private String contenu;
+	private String Status;//seen or not
+	private Calendar date;
+
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
-	@ManyToOne
-	@JoinColumn(name = "idResponsable")
-	private Responsable responsable;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "idRessource")
-	private Ressource ressource;
-	@ManyToOne
-	@JoinColumn(name = "idClient")
-	private Client client;
-	
-	@XmlTransient
-	public Ressource getRessource() {
-		return ressource;
-	}
+  //PARTIE KHALIL
+	private int level;// the level of Satisfaction,problem,or reclamation
 
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
+	private int sender;
+	private int reciver; //=0 if the reciver is the whole project group
+	private String fromto;//string to specify the sender and the reciver(it may be ressource to client,porject,ressource in the same project...)
+
+	@ManyToOne
+	@JoinColumn(name = "id_project")
+	private Project project;
+
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "message",cascade = CascadeType.REMOVE)
+	private List<Response> responses;
+
+  //Partie ABDOU
+	private int id_sender;
+	private int id_reciever;
+	@Enumerated(EnumType.STRING)
+	private fromToDirection fromTo;
 
 	public Message() {
 		// TODO Auto-generated constructor stub
 	}
-
 	public int getIdMessage() {
+
 		return idMessage;
 	}
 
@@ -52,20 +60,28 @@ public class Message implements Serializable {
 		this.idMessage = idMessage;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getContenu() {
+		return contenu;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setContenu(String contenu) {
+		this.contenu = contenu;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getStatus() {
+		return Status;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+	public Calendar getDate() {
+		return date;
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
 	}
 
 	public MessageType getMessageType() {
@@ -75,47 +91,77 @@ public class Message implements Serializable {
 	public void setMessageType(MessageType messageType) {
 		this.messageType = messageType;
 	}
+	
 
-	public Responsable getResponsable() {
-		return responsable;
+	public int getId_sender() {
+		return id_sender;
 	}
 
-	public void setResponsable(Responsable responsable) {
-		this.responsable = responsable;
+	public void setId_sender(int id_sender) {
+		this.id_sender = id_sender;
 	}
 
-
-	public Client getClient() {
-		return client;
+	public int getId_reciever() {
+		return id_reciever;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setId_reciever(int id_reciever) {
+		this.id_reciever = id_reciever;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		return result;
+	public fromToDirection getFromTo() {
+		return fromTo;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Message other = (Message) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		return true;
+	public void setFromTo(fromToDirection fromTo) {
+		this.fromTo = fromTo;
 	}
 
+	public int getSender() {
+		return sender;
+	}
+
+	public void setSender(int sender) {
+		this.sender = sender;
+	}
+
+	public int getReciver() {
+		return reciver;
+	}
+
+	public void setReciver(int reciver) {
+		this.reciver = reciver;
+	}
+
+	public String getFromto() {
+		return fromto;
+	}
+
+	public void setFromto(String fromto) {
+		this.fromto = fromto;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public List<Response> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<Response> responses) {
+		this.responses = responses;
+	}
 }

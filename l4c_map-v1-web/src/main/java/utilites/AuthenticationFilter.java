@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.security.Key;
 import java.security.Principal;
+import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import javax.annotation.Priority;
@@ -53,54 +54,37 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 		// Extract the token from the Authorization header
 		String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
-
 		try {
-
 			// Validate the token
-			System.out.println("////TEST1");
-			validateToken(token);
-			System.out.println("////TEST2");
+			String username = validateToken(token).trim();
 			/*
 			 * Identifying the current user
 			 */
-			/*System.out.println("////TEST3");
-			 String username=currentSecurityContext.getUserPrincipal().getName();
-			 System.out.println("////TEST4");
-			 System.out.println("current user: "+
-			 currentSecurityContext.getAuthenticationScheme());*/
-
 			requestContext.setSecurityContext(new SecurityContext() {
 
-				@Override
-				public Principal getUserPrincipal() {
+		        @Override
+		        public Principal getUserPrincipal() {
+		            return () -> username;
+		        }
 
-					return new Principal() {
+		    @Override
+		    public boolean isUserInRole(String role) {
+		        return true;
+		    }
 
-						@Override
-						public String getName() {
-							// return username;
-							return "";
-						}
-					};
-				}
+		    @Override
+		    public boolean isSecure() {
+		        return false;
+		    }
 
-				@Override
-				public boolean isUserInRole(String role) {
-					return true;
-				}
-
-				@Override
-				public boolean isSecure() {
-					return false;
-				}
-
-				@Override
-				public String getAuthenticationScheme() {
-					return null;
-				}
-			});
-
+		    @Override
+		    public String getAuthenticationScheme() {
+		        return null;
+		    }
+		});
+			System.out.println("current user: "+ requestContext.getSecurityContext().getUserPrincipal().getName());
 		} catch (Exception e) {
+			System.out.println(e);
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 		}
 	}
@@ -122,25 +106,27 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 				.header(HttpHeaders.WWW_AUTHENTICATE, AUTHENTICATION_SCHEME).build());
 	}
 
-	private void validateToken(String token) {
+	private String validateToken(String token) {
 		// Check if it was issued by the server and if it's not expired
 		// Throw an Exception if the token is invalid
 
 		try {
-
 			// Validate the token
 			String keyString = "simplekey";
 			Key key = new SecretKeySpec(keyString.getBytes(), 0, keyString.getBytes().length, "DES");
 			System.out.println("the key is : " + key);
 
 			System.out.println("test:" + Jwts.parser().setSigningKey(key).parseClaimsJws(token));
+			System.out.println("username :"+Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject());
 			System.out.println("#### valid token : " + token);
+			return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject() ;
 
 		} catch (Exception e) {
 			System.out.println("#### invalid token : " + token);
 			(this.requestContext).abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 
 		}
+		return null ;
 	}
 
 }

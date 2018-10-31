@@ -1,13 +1,16 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,7 +28,12 @@ public class Skills implements Serializable {
 	private int experience;
 	private String document;
 
+	@ManyToMany
+	private List<Ressource> ressourceList;
+	@ManyToMany 
+	private List <Project> projectList;
 
+	
 	public Skills() {
 	}
 	

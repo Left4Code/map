@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import enumerator.Role;
+
 @Entity
 @XmlRootElement
 public class Responsable extends User implements Serializable {
@@ -29,20 +31,11 @@ public class Responsable extends User implements Serializable {
 	private List<Test> listeTest;
 	@OneToMany(mappedBy = "responsable")
 	private List<Employement_Letter> listeEmployementLetter;
-	@OneToMany(mappedBy = "responsable",cascade = CascadeType.REMOVE)
-	private List<Message> listeMessage;
+  
+	@XmlTransient
 	@OneToMany(mappedBy = "responsable")
 	private List<Request> listeRequest;
-
-	@XmlTransient
-	public List<Message> getListeMessage() {
-		return listeMessage;
-	}
-
-	public void setListeMessage(List<Message> listeMessage) {
-		this.listeMessage = listeMessage;
-	}
-	@XmlTransient
+  
 	public List<Request> getListeRequest() {
 		return listeRequest;
 	}
@@ -105,7 +98,8 @@ public class Responsable extends User implements Serializable {
 	}
 
 	public Responsable() {
-
+		super();
+		this.role = Role.Responsable;
 	}
 
 }

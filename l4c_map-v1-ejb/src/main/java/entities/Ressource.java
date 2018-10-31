@@ -1,9 +1,11 @@
 package entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+
 import java.util.List;
 
 import javax.jms.JMSSessionMode;
@@ -18,16 +20,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import enumerator.Role;
 import enumerator.TypeContract;
+import enumerator.TypeRessource;
 
+@XmlRootElement
 @Entity
 @XmlRootElement
 public class Ressource extends User implements Serializable {
+	private Date dateDebut;
+	private Date dateFin;
+	@Enumerated(EnumType.STRING)
+	private TypeRessource type;
 	protected String specialty;
 	protected String businessSector;
 	protected float rateSelling;
@@ -48,21 +56,14 @@ public class Ressource extends User implements Serializable {
 	private Set<Message> listeMessage = new HashSet<Message>();
 	@OneToMany(mappedBy="ressource" ,cascade=CascadeType.REMOVE , fetch=FetchType.EAGER)
 	private Set<Demand_time_off> listeDemandesTimeOff = new HashSet<>();
-	
-	
-	
 
-
+  @XmlTransient
 	public Sponsor getSponsor() {
 		return sponsor;
 	}
 
 	public void setSponsor(Sponsor sponsor) {
 		this.sponsor = sponsor;
-	}
-
-	public Ressource() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getSpecialty() {
@@ -136,6 +137,37 @@ public class Ressource extends User implements Serializable {
 	public void setTypeContrat(TypeContract typeContrat) {
 		this.typeContrat = typeContrat;
 	}
+	
+	public Ressource() {
+		super();
+		this.role = Role.Ressource;
+	}
+
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public Date getDateFin() {
+		return dateFin;
+	}
+
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
+
+	public TypeRessource getType() {
+		return type;
+	}
+
+	public void setType(TypeRessource type) {
+		this.type = type;
+	}
+	
+	
 
 	public Set<Skills> getSkills() {
 		return skills;

@@ -27,14 +27,26 @@ import entities.Demand;
 import entities.Test;
 import entities.User;
 import enumerator.ApplicantState;
+import enumerator.Role;
 import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
 import service.TestServiceLocal;
 import utilites.Secured;
+import BusinessLayer.BusinessReports;
+import BusinessLayer.IActivityReportBusiness;
+import BusinessLayer.IBusinessReports;
+
+import entities.Mandate;
 
 @Stateless
 @Path("applicant")
 public class ApplicantRessource {
+//abdou
+	private List<Mandate> l=new ArrayList<>();
+	Mandate m = new Mandate();
+////////////	
+	@EJB
+	private IBusinessReports b;
 
 	@EJB
 	ApplicantServiceLocal service;
@@ -43,6 +55,7 @@ public class ApplicantRessource {
 	@EJB
 	TestServiceLocal serviceTest;
 
+	@Secured({Role.Applicant})
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addApplicant(Applicant A) {
@@ -71,6 +84,7 @@ public class ApplicantRessource {
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Error :Update unsuccessful").build();
 	}
 
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllApplicant() {
@@ -133,5 +147,69 @@ public class ApplicantRessource {
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
 	}
+	private IActivityReportBusiness AReport ;
+	
+	
+	@Path("abdou/{n}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMand(@PathParam(value="n")int resID){
+	System.out.println("hello");
+	l=b.AddActivityReport(resID);	
+	
+	/*if(l==null){
+		return Response.status(Status.NOT_FOUND).entity("u missed").build();
+	}*/
+		return Response.status(Status.ACCEPTED).entity(l).build();
+	}
+	
+	@GET
+	@Path("abdou/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDuree(@QueryParam(value="m")int i,@QueryParam(value="resID")int resID,@QueryParam(value="from")String from,@QueryParam(value="to")String to){
+	System.out.println("hello");
+	String activityRateStr="";
+	String ratioStr="";
+		
+		if(i==0	)
+		{
+		float r=AReport.rateActivtyOneRes(resID, from, to);
+			if(r==404)
+				{
+				activityRateStr="la ressource n est pas employee par levio dans cette durée";
+				}
+			else{
+				activityRateStr=""+r+"%";
+				System.out.println(i);
+				
+				}
+			return Response.status(Status.ACCEPTED).entity(activityRateStr).build();
+		}
+		else if(i==1){
+			
+			float ratio=AReport.satisfactionMsgRatio(resID, from, to);
+			if (ratio==404){
+				ratioStr="no messages in this timeline";
+			}
+			else
+			ratioStr=""+ratio+"%";
+			return Response.status(Status.ACCEPTED).entity(ratioStr).build();
+			
+		}
+		else
+		{
+		
+				System.out.println(i);
+				l=AReport.oneResActivities(resID, from, to);
+				System.out.println(l);
+				return Response.status(Status.ACCEPTED).entity(l).build();
+			
+			
+			
+		}
+		
+	}
+	
+	
 
 }

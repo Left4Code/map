@@ -89,8 +89,8 @@
 	</build>
 
   <modules>
-    <module>l4c_map-v1-ejb</module>
-    <module>l4c_map-v1-web</module>
-    <module>l4c_map-v1-ear</module>
+    <module>../l4c_map-v1-ejb</module>
+    <module>../l4c_map-v1-web</module>
+    <module>../l4c_map-v1-ear</module>
   </modules>
 </project>
