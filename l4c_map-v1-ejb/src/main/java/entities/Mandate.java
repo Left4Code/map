@@ -129,11 +129,4 @@ public class Mandate implements Serializable {
 		this.archive = archive;
 	}
 
-	public Ressource getRessource() {
-		return ressource;
-	}
-
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
 }

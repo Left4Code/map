@@ -32,14 +32,14 @@ import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
 import service.TestServiceLocal;
 import utilites.Secured;
-
-@Stateless
-@Path("applicant")
 import BusinessLayer.BusinessReports;
 import BusinessLayer.IActivityReportBusiness;
 import BusinessLayer.IBusinessReports;
 
 import entities.Mandate;
+
+@Stateless
+@Path("applicant")
 public class ApplicantRessource {
 //abdou
 	private List<Mandate> l=new ArrayList<>();
@@ -137,12 +137,11 @@ public class ApplicantRessource {
 			return Response.status(Status.CREATED).entity(Integer.toString(mark)).build();
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
-
+	}
 	private IActivityReportBusiness AReport ;
 	
 	
-	
-	@Path("/abdou/{n}")
+	@Path("abdou/{n}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMand(@PathParam(value="n")int resID){
@@ -156,6 +155,7 @@ public class ApplicantRessource {
 	}
 	
 	@GET
+	@Path("abdou/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getDuree(@QueryParam(value="m")int i,@QueryParam(value="resID")int resID,@QueryParam(value="from")String from,@QueryParam(value="to")String to){
 	System.out.println("hello");

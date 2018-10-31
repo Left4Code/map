@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import enumerator.Role;
 import enumerator.TypeCategory;
 import enumerator.TypeClient;
@@ -35,7 +37,7 @@ public class Client extends User implements Serializable{
 	private List<Project> listeproject;
 	
 	
-	
+
 	public List<Project> getListeproject() {
 		return listeproject;
 	}
@@ -104,7 +106,7 @@ public class Client extends User implements Serializable{
 	public void setScore(int score) {
 		this.score = score;
 	}
-
+@XmlTransient
 	public List<Response> getResponseList() {
 		return responseList;
 	}
@@ -112,4 +114,5 @@ public class Client extends User implements Serializable{
 	public void setResponseList(List<Response> responseList) {
 		this.responseList = responseList;
 	}
+	
 }
