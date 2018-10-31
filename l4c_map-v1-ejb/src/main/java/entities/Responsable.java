@@ -36,14 +36,6 @@ public class Responsable extends User implements Serializable {
 	private List<Request> listeRequest;
   
 	@XmlTransient
-	public List<Message> getListeMessage() {
-		return listeMessage;
-	}
-
-	public void setListeMessage(List<Message> listeMessage) {
-		this.listeMessage = listeMessage;
-	}
-	@XmlTransient
 	public List<Request> getListeRequest() {
 		return listeRequest;
 	}

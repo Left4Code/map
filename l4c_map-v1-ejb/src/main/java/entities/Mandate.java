@@ -111,14 +111,6 @@ public class Mandate implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-
-	public Ressource getRessource() {
-		return ressource;
-	}
-
-	public void setRessource(Ressource ressource) {
-		this.ressource = ressource;
-	}
 	
 	@Override
 	public String toString() {

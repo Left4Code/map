@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,6 @@ public class Request implements Serializable {
 	private int idRequest;
 	private Date dateBegin;
 	private Date dateEnd;
-	private Time durée;
 	private float cout;
 	private String status;
 	@ManyToOne
@@ -106,14 +106,6 @@ public class Request implements Serializable {
 
 	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
-	}
-
-	public Time getDurée() {
-		return durée;
-	}
-
-	public void setDurée(Time durée) {
-		this.durée = durée;
 	}
 
 	public float getCout() {

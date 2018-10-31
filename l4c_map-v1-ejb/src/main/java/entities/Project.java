@@ -68,8 +68,6 @@ public class Project implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private typeRessourceDemande typeRessourceDemande;
 	
-	@XmlElement(name="nbRessourcesLevio",required=true)
-	private int nbRessourcesLevio;
 	@XmlElement(name="picture",required=true)
 	private String picture;
 	private int score;//determinate the status of the project (risky or all is good)
@@ -83,13 +81,11 @@ public class Project implements Serializable {
 	private List<Message> messages;
 	@ManyToMany(mappedBy="projectList")
 	private List<Skills> requiredSkills;
-	@OneToMany(mappedBy="project",cascade=CascadeType.REMOVE)
-	private List<Mandate> listemandate ;
 
 	@ManyToMany
 	private List<Skills> listeSkills ;
 	
-	
+	@XmlTransient
 	public List<Skills> getRequiredSkills() {
 		return requiredSkills;
 	}
@@ -170,14 +166,6 @@ public class Project implements Serializable {
 		this.nbRessources = nbRessources;
 	}
 
-	public int getNbRessourcesLevio() {
-		return nbRessourcesLevio;
-	}
-
-	public void setNbRessourcesLevio(int nbRessourcesLevio) {
-		this.nbRessourcesLevio = nbRessourcesLevio;
-	}
-
 	public String getPicture() {
 		return picture;
 	}
@@ -229,14 +217,6 @@ public class Project implements Serializable {
 		return true;
 	}
 
-	public List<Mandate> getListemandate() {
-		return listemandate;
-	}
-
-	public void setListemandate(List<Mandate> listemandate) {
-		this.listemandate = listemandate;
-	}
-
 	public List<Request> getRequests() {
 		return requests;
 	}
@@ -257,7 +237,6 @@ public class Project implements Serializable {
 		this.dateEnd = dateEnd;
 		this.adresse = adresse;
 		this.nbRessources = nbRessources;
-		this.nbRessourcesLevio = nbRessourcesLevio;
 		this.picture = picture;
 	}
 

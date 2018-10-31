@@ -35,8 +35,6 @@ public class Ressource extends User implements Serializable {
 	private List<Mandate> listemandate;
 	@OneToOne(mappedBy = "ressource", cascade = CascadeType.REMOVE)
 	private Sponsor sponsor;
-	@OneToMany(mappedBy="ressource")
-	private List<Message> listeMessage ;
 	
 	public List<Mandate> getListemandate() {
 		return listemandate;
@@ -48,14 +46,6 @@ public class Ressource extends User implements Serializable {
 
 	public void setSkills(List<Skills> skills) {
 		this.skills = skills;
-	}
-	@XmlTransient
-	public List<Message> getListeMessage() {
-		return listeMessage;
-	}
-
-	public void setListeMessage(List<Message> listeMessage) {
-		this.listeMessage = listeMessage;
 	}
 
 	public void setListemandate(List<Mandate> listemandate) {
