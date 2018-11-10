@@ -15,8 +15,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.rmi.CORBA.UtilDelegate;
 
-import com.itextpdf.text.pdf.hyphenation.TernaryTree.Iterator;
-
 import entities.Demand_time_off;
 import entities.Mandate;
 import entities.Project;
@@ -31,7 +29,7 @@ import utils.FirstPdf;
  */
 @Stateless
 @LocalBean
-public class RessourcesServices implements RessourcesServicesRemote, RessourcesServicesLocal {
+public class RessourcesServices implements RessourcesServicesLocal {
 
 	/**
 	 * Default constructor.
@@ -74,28 +72,28 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 	public Ressource afficherRessources(int idRessource) {
 		Ressource ressource = em.find(Ressource.class, idRessource);
 
-		// try {
-		// System.out.println("d5alna");
-		// FirstPdf fs = new FirstPdf();
-		// System.out.println("d5alna2");
-		//
-		// fs.SetInfos(ressource.getId(), ressource.getName(),
-		// ressource.getLastname(),
-		// ressource.getSpecialty(),ressource.getBusinessSector(),
-		// ressource.getRateSelling(), ressource.getCost(),
-		// (ressource.getTypeContrat()).toString(),
-		// ressource.getSeniority(), ressource.getNote() );
-		// System.out.println("d5alna22");
-		//
-		// fs.createPDF();
-		// System.out.println("d5alna23");
-		//
-		// } catch (IOException e) {
-		// System.out.println("5rajna");
-		// // TODO Auto-generated catch block
-		// System.out.println("ahay el erreure : "+e);}
-		// Runnable r = new MyR(ressource);
-		// new Thread(r).start();
+//		 try {
+//		 System.out.println("d5alna");
+//		 FirstPdf fs = new FirstPdf();
+//		 System.out.println("d5alna2");
+//		
+//		 fs.SetInfos(ressource.getId(), ressource.getName(),
+//		 ressource.getLastname(),
+//		 ressource.getSpecialty(),ressource.getBusinessSector(),
+//		 ressource.getRateSelling(), ressource.getCost(),
+//		 (ressource.getTypeContrat()).toString(),
+//		 ressource.getSeniority(), ressource.getNote() );
+//		 System.out.println("d5alna22");
+//		
+//		 fs.createPDF();
+//		 System.out.println("d5alna23");
+//		
+//		 } catch (IOException e) {
+//		 System.out.println("5rajna");
+//		 // TODO Auto-generated catch block
+//		 System.out.println("ahay el erreure : "+e);}
+//		 Runnable r = new MyR(ressource);
+//		 new Thread(r).start();
 
 		String etat = "";
 		boolean hasMandate = ressource.getListemandate().iterator().hasNext();
@@ -363,44 +361,54 @@ public class RessourcesServices implements RessourcesServicesRemote, RessourcesS
 
 	// end of time off cruds .
 
-	public void genereatePdf(int id) {
-
-	}
-
 	// public static class MyR implements Runnable {
-	//
-	// private Ressource ressource ;
-	//
-	// public MyR(Ressource ressource ) {
-	// this.ressource = ressource;
-	// }
-	//
-	// @Override
-	// public void run() {
-	//
-	//
-	//
-	// if(ressource!=null){
-	// System.out.println("haw ressource : " + ressource.toString());
-	//
-	// try { System.out.println("ena hne 1 ");
-	//
-	// FirstPdf fs = new FirstPdf();
-	// fs.SetInfos(ressource.getId(), ressource.getName(),
-	// ressource.getLastname(), ressource.getSpecialty(),
-	// ressource.getBusinessSector(), ressource.getRateSelling(),
-	// ressource.getCost(),
-	// (ressource.getTypeContrat()).toString(), ressource.getSeniority(),
-	// ressource.getNote());
-	// fs.createPDF();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// System.out.println("ena hne");
-	// e.printStackTrace();
-	// }
-	// }else
-	// System.out.println("no");
-	// return;
-	// }
-	// }
+		//
+		// private Ressource ressource ;
+		//
+		// public MyR(Ressource ressource ) {
+		// this.ressource = ressource;
+		// }
+		//
+		// @Override
+		// public void run() {
+		//
+		//
+		//
+		// if(ressource!=null){
+		// System.out.println("haw ressource : " + ressource.toString());
+		//
+		// try { System.out.println("ena hne 1 ");
+		//
+		// FirstPdf fs = new FirstPdf();
+		// fs.SetInfos(ressource.getId(), ressource.getName(),
+		// ressource.getLastname(), ressource.getSpecialty(),
+		// ressource.getBusinessSector(), ressource.getRateSelling(),
+		// ressource.getCost(),
+		// (ressource.getTypeContrat()).toString(), ressource.getSeniority(),
+		// ressource.getNote());
+		// fs.createPDF();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// System.out.println("ena hne");
+		// e.printStackTrace();
+		// }
+		// }else
+		// System.out.println("no");
+		// return;
+		// }
+		// }
+
+
+	public static void main(String args[]) {
+
+		try {
+			FirstPdf fs = new FirstPdf();
+			fs.SetInfos(1, "badis", "maalej", "dev", "dev", 11, 1200, "Employer", 11, 5);
+			fs.createPDF();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+
+		}
+	}
 }

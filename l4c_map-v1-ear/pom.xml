@@ -5,7 +5,7 @@
 		<groupId>tn.esprit</groupId>
 		<artifactId>l4c_map-v1</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../l4c_map-v1/pom.xml</relativePath>
+		<relativePath>l4c_map-v1/pom.xml</relativePath>
 
 	</parent>
 	<artifactId>l4c_map-v1-ear</artifactId>

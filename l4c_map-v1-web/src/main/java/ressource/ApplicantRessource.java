@@ -31,7 +31,6 @@ import enumerator.Role;
 import service.ApplicantServiceLocal;
 import service.DemandServiceLocal;
 import service.TestServiceLocal;
-import utilites.Secured;
 import BusinessLayer.BusinessReports;
 import BusinessLayer.IActivityReportBusiness;
 import BusinessLayer.IBusinessReports;
@@ -55,7 +54,6 @@ public class ApplicantRessource {
 	@EJB
 	TestServiceLocal serviceTest;
 
-	@Secured({Role.Applicant})
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response addApplicant(Applicant A) {
@@ -209,7 +207,8 @@ public class ApplicantRessource {
 		}
 		
 	}
+}
 	
 	
 
-}
+

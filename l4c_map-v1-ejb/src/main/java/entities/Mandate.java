@@ -1,7 +1,7 @@
 	package entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.enterprise.inject.New;
 import javax.persistence.EmbeddedId;
@@ -45,7 +45,7 @@ public class Mandate implements Serializable {
 	private Ressource ressource=new Ressource();
 
 
-	//@XmlJavaTypeAdapter(SqlDateAdapter.class)
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateBegin() {
 		return dateBegin;
 	}
@@ -54,7 +54,7 @@ public class Mandate implements Serializable {
 		this.dateBegin = dateBegin;
 	}
 
-	//@XmlJavaTypeAdapter(SqlDateAdapter.class)
+	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateEnd() {
 		return dateEnd;
 	}

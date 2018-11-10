@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,11 +28,8 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
-
-	@ManyToMany
-	private List<Ressource> ressourceList;
 	@ManyToMany 
-	private List <Project> projectList;
+	private List <Project> projectList= new ArrayList<>();;
 
 	
 	public Skills() {

@@ -28,7 +28,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import service.RessourcesServicesLocal;
-import utilites.Secured;
 import entities.Mandate;
 import entities.Message;
 import entities.Ressource;

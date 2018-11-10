@@ -145,6 +145,7 @@ public class Demand_time_off implements Serializable {
 				+ dateEnd + ", Duration=" + Duration + ", stateDemandTimeOff=" + stateDemandTimeOff + ", responsable="
 				+ responsable + ", ressource=" + ressource + "]";
 	}
+
 	
 
 }
