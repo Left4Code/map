@@ -18,11 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.jboss.resteasy.annotations.Query;
 
 import service.RessourcesServicesLocal;
 import entities.Demand_time_off;
-import entities.Skills;
 @Stateless
 @Path("conge")
 public class TimeOffRessource {

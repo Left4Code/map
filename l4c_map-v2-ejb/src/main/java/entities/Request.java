@@ -1,3 +1,4 @@
+
 package entities;
 
 import java.io.Serializable;
@@ -13,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import service.SqlDateAdapter;
@@ -32,8 +32,8 @@ public class Request implements Serializable {
 	private Client client;
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="request")
 	private List<Required_Skills> requiredSkills;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "idResponsable" )
+	@ManyToOne
+	@JoinColumn(name = "idResponsable")
 	private Responsable responsable;
 
 	@ManyToOne
@@ -49,7 +49,7 @@ public class Request implements Serializable {
 	public void setRequiredSkills(List<Required_Skills> requiredSkills) {
 		this.requiredSkills = requiredSkills;
 	}
-	@XmlTransient
+
 	public Responsable getResponsable() {
 		return responsable;
 	}

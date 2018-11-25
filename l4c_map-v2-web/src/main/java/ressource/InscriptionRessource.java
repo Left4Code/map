@@ -19,9 +19,10 @@ public class InscriptionRessource {
 	ApplicantServiceLocal service ;
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response addApplicant(Applicant A) {
 		int returnid = service.insertApplicant(A);
+		System.out.println(returnid);
 		if (returnid != 0)
 			return Response.status(Status.ACCEPTED).entity(Integer.toString(returnid)).build();
 		return Response.status(Status.PRECONDITION_FAILED).entity("Error :Illegal Data").build();

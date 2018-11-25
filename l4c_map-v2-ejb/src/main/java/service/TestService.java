@@ -75,4 +75,10 @@ public class TestService implements TestServiceLocal{
 		}	
 		return null;
 	}
+
+	@Override
+	public ArrayList<Test> getAllTest() {
+		TypedQuery<Test> query = em.createQuery("SELECT a FROM Test a", Test.class);
+		return (ArrayList<Test>) query.getResultList();
+	}
 }

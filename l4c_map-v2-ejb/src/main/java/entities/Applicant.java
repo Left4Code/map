@@ -1,3 +1,4 @@
+
 package entities;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -64,7 +66,7 @@ public class Applicant extends User implements Serializable {
 		this.demand = demand;
 	}
 
-	@XmlElement(required = true, name = "Country")
+	@XmlElement(required = true)
 	public String getCountry() {
 		return country;
 	}
@@ -73,7 +75,7 @@ public class Applicant extends User implements Serializable {
 		this.country = country;
 	}
 
-	@XmlElement(required = true, name = "Age")
+	@XmlElement(required = true)
 	public int getAge() {
 		return age;
 	}
@@ -82,7 +84,7 @@ public class Applicant extends User implements Serializable {
 		this.age = age;
 	}
 
-	@XmlElement(required = false, type = ApplicantState.class, name = "State")
+	@XmlElement(required = false, type = ApplicantState.class)
 	public ApplicantState getApplicantState() {
 		return applicantState;
 	}
@@ -97,7 +99,7 @@ public class Applicant extends User implements Serializable {
 		this.applicantState = applicantState;
 	}
 	
-	@XmlElement(name="Chances")
+	@XmlElement
 	public int getChanceOfSuccess() {
 		return chanceOfSuccess;
 	}

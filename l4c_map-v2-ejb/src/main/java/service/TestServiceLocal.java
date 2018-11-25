@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.ejb.Local;
@@ -17,4 +18,6 @@ public interface TestServiceLocal {
 	public int makeTest(Test test, int idApplicant);
 
 	public Set<Test> getTestByApplicant(int idApplicant);
+	
+	public ArrayList<Test> getAllTest();
 }

@@ -75,7 +75,6 @@ public class ProjectRessource {
 	public Response getRessourceBy(@QueryParam(value = "id") int idProject) {
 		psl.getSkillsBySpeciality(idProject);
 		return Response.status(Status.OK).entity("skills affecter à un projet").build();
-
 	}
 
 	@POST
