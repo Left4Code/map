@@ -48,7 +48,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	@XmlElement(required = true, name = "Name")
 	public String getName() {
 		return name;
 	}
@@ -57,7 +56,6 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	@XmlElement(required = true, name = "LastName")
 	public String getLastname() {
 		return lastname;
 	}
@@ -66,7 +64,7 @@ public class User implements Serializable {
 		this.lastname = lastname;
 	}
 
-	@XmlElement(required = false, name = "Picture", defaultValue = "None")
+	@XmlElement(required = false, defaultValue = "None")
 	public String getPicture() {
 		return picture;
 	}
@@ -88,7 +86,6 @@ public class User implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@XmlElement(required=true,name="Password")
 	public String getPassword() {
 		return password;
 	}
@@ -96,7 +93,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@XmlElement(required=true,name="UserName")
 	public String getUsername() {
 		return username;
 	}
