@@ -14,5 +14,7 @@ public interface ClientServiceLocal {
 	public Boolean supprimerClient (int idClient);
 	public void modifierClient (Client cl);
 	public Client getClient(int id);
+	public List<Client> getAllClient();
+
 
 }

@@ -43,7 +43,7 @@ public class ApplicantRessource {
 	// abdou
 	private List<Mandate> l = new ArrayList<>();
 	Mandate m = new Mandate();
-	////////////
+
 	@EJB
 	private IBusinessReports b;
 
@@ -146,6 +146,7 @@ public class ApplicantRessource {
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
 	}
+
 
 	private IActivityReportBusiness AReport;
 

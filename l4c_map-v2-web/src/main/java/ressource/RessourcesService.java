@@ -106,8 +106,6 @@ public class RessourcesService {
 	public Response nombreskills() {
 			long rc = local.nombreSkills();
 			return Response.status(Status.OK).entity(rc).build();
-
-
 	}
 	
 //	@GET

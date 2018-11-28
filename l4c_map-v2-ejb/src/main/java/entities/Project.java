@@ -1,10 +1,10 @@
 package entities;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.sql.Date;
 import java.util.List;
-
+import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -39,6 +39,7 @@ import enumerator.typeRessourceDemande;
 public class Project implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@XmlElement(name="idProject")
 	private int idProject;
 
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -69,6 +70,7 @@ public class Project implements Serializable {
 	
 	@XmlElement(name="picture",required=true)
 	private String picture;
+	@XmlElement(name="score",required=true)
 	private int score;//determinate the status of the project (risky or all is good)
 	@OneToMany(fetch = FetchType.EAGER,mappedBy="project",cascade=CascadeType.REMOVE)
 	private List<Mandate> listemandate ;
@@ -78,15 +80,15 @@ public class Project implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",cascade = CascadeType.REMOVE)
 	private List<Request> requests;
 
-	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project",orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "project")
 	private List<Message> messages;
 	@ManyToMany(mappedBy="projectList")
 	private List<Skills> requiredSkills;
 
-	@ManyToMany
-	private List<Skills> listeSkills ;
+	@ManyToMany( cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	private Set<Skills> skills  = new HashSet<Skills>();
 	
-	@XmlTransient
+@XmlTransient
 	public List<Skills> getRequiredSkills() {
 		return requiredSkills;
 	}
@@ -103,12 +105,12 @@ public class Project implements Serializable {
 		this.listemandate = listemandate;
 	}
 
-	public List<Skills> getListeSkills() {
-		return listeSkills;
+	public Set<Skills> getSkills() {
+		return skills;
 	}
 
-	public void setListeSkills(List<Skills> listeSkills) {
-		this.listeSkills = listeSkills;
+	public void setSkills(Set<Skills> skills) {
+		this.skills = skills;
 	}
 
 	public int getIdProject() {
@@ -230,7 +232,7 @@ public class Project implements Serializable {
 		
 	}
 
-	public Project(String name, Date dateBegin, Date dateEnd, String adresse, int nbRessources, int nbRessourcesLevio,
+	public Project(String name, Date dateBegin, Date dateEnd, String adresse, int nbRessources,
 			String picture) {
 		super();
 		this.name = name;

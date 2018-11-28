@@ -75,6 +75,7 @@ public class Applicant extends User implements Serializable {
 		this.country = country;
 	}
 
+	@XmlElement(required = true, name = "Age")
 	@XmlElement(required = true)
 	public int getAge() {
 		return age;

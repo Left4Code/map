@@ -28,8 +28,8 @@ public class Skills implements Serializable {
 	private String degree;
 	private int experience;
 	private String document;
-	@ManyToMany 
-	private List <Project> projectList= new ArrayList<>();;
+	@ManyToMany(fetch=FetchType.EAGER)
+	private List <Project> projectList= new ArrayList<>();
 
 	
 	public Skills() {
@@ -105,4 +105,11 @@ public class Skills implements Serializable {
 		return true;
 	}
 
+	public List<Project> getProjectList() {
+		return projectList;
+	}
+
+	public void setProjectList(List<Project> projectList) {
+		this.projectList = projectList;
+	}
 }

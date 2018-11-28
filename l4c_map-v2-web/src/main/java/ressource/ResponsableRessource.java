@@ -24,7 +24,7 @@ public class ResponsableRessource {
 	
 	@POST
 	@Path("{idResponsable}")
-	@Consumes({MediaType.APPLICATION_JSON,MediaType.TEXT_PLAIN})
+	@Consumes({MediaType.APPLICATION_XML,MediaType.TEXT_PLAIN})
 	public Response insertTest(@PathParam(value="idResponsable")String idResponsable ,Test test){
 		if(test != null && Integer.parseInt(idResponsable) != 0){
 			int idTest = service.insertTest(test,Integer.parseInt(idResponsable));

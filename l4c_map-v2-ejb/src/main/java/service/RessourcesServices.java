@@ -167,12 +167,10 @@ public class RessourcesServices implements RessourcesServicesLocal {
 			boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
 
 			Date now = new Date(Calendar.getInstance().getTimeInMillis());
-
 			System.out.println(now);
 
 			if (hasMandate == true) {
 				Mandate mn = ressource.getListemandate().iterator().next();
-				
 				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 				if (difference <= 14 && difference > 0) {
 					etat = ("Available in : " + difference + " days.");

@@ -2,6 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -22,124 +23,192 @@ import entities.Skills;
 @Stateless
 @LocalBean
 public class ProjectService implements ProjectServiceLocal {
-	@PersistenceContext(unitName="l4c_map-v2-ejb")
+	@PersistenceContext(unitName = "l4c_map-v2-ejb")
 	EntityManager em;
-	
 
-    /**
-     * Default constructor. 
-     */
-    public ProjectService() {
-      
-    }
+	/**
+	 * Default constructor.
+	 */
+	public ProjectService() {
+
+	}
 
 	@Override
-	public void ajouterProjet(Project pr,int idClient) {
-		Client client=em.find(Client.class,idClient);
-	
+	public void ajouterProjet(Project pr, int id) {
+		Client client = em.find(Client.class, id);
+
 		pr.setClient(client);
 		em.persist(pr);
-		
-		
 	}
 
 	@Override
 	public Boolean supprimerProjet(int idProject) {
-	Project project= em.find(Project.class,idProject);
-	if(project != null){
-		em.remove(project);		
-		return true ;
-	}
-	return false ;
+		Project project = em.find(Project.class, idProject);
+		if (project != null) {
+			em.remove(project);
+			return true;
+		}
+		return false;
 
 	}
 
 	@Override
-	public void modifierProjet(Project pr,int idClient) {
-		Project project=em.find(Project.class,pr.getIdProject());
-		
-		Client client=em.find(Client.class,idClient);
+	public void modifierProjet(Project pr) {
+		Project project = em.find(Project.class, pr.getIdProject());
 
-		pr.setClient(client);
-			project=pr;
+		project = pr;
 		em.merge(project);
-			
 
 	}
 
 	@Override
 	public Project getProjetById(int idProjet) {
 
-		TypedQuery<Project> query=em.createQuery("SELECT pr FROM Project pr where pr.idProject=:id",Project.class);
-		return query.setParameter("id",idProjet).getSingleResult();
+		TypedQuery<Project> query = em.createQuery("SELECT pr FROM Project pr where pr.idProject=:id", Project.class);
+		return query.setParameter("id", idProjet).getSingleResult();
 	}
-	
-	
+
 	@Override
 	public List<Project> getAllProjets() {
 
-		TypedQuery<Project> query=em.createQuery("SELECT pr FROM Project pr",Project.class);
+		TypedQuery<Project> query = em.createQuery("SELECT pr FROM Project pr", Project.class);
 		return query.getResultList();
 	}
-	
-	
-	@SuppressWarnings("rawtypes")
+
 	@Override
-	public void  getSkillsBySpeciality(int id)
-	{
-	
-		List<Skills> listeSk=new ArrayList<Skills>();
-		TypedQuery<Skills> query=em.createQuery("SELECT  s  FROM Skills s  ",Skills.class);
-		List<Skills> listeSkills= query.getResultList();
+	public void getSkillsBySpeciality(int id, int idSkills) {
 
-		Project project=em.find(Project.class,id);
-		
-		
+		TypedQuery<Project> query = em.createQuery("SELECT pr FROM Project pr where pr.idProject=:id", Project.class);
+		Project project = query.setParameter("id", id).getSingleResult();
 
-		for(Skills sk: listeSkills )
-		{
-			if(sk.getSpecialty().equals(project.getTypeProject().toString())){
-				
-				listeSk.add(sk);
-				
-				
-			}
-			
-			
-			
-		
-	}
-	
-		project.setListeSkills(listeSk);
+		TypedQuery<Skills> query1 = em.createQuery("SELECT s FROM Skills s where s.idSkills=:id", Skills.class);
+		Skills s = query1.setParameter("id", idSkills).getSingleResult();
+
+		Set<Skills> listeSk = project.getSkills();
+
+		listeSk.add(s);
+
+		project.setSkills(listeSk);
 	}
 
 	@Override
 	public void CalculerRentability(int idProject) {
-		TypedQuery<Mandate> query=em.createQuery("SELECT  m  FROM Mandate m ",Mandate.class);
-		List<Mandate> ListeMa= query.getResultList();
-		
-	Profitability prof=new Profitability();	
-Project pr=em.find(Project.class,idProject);
-float cost=0;
-for(Mandate m: ListeMa )
-{
-	if(m.getMandatepk().getIdProject()==idProject){
- cost=cost+m.getCost();
-		
+		TypedQuery<Mandate> query = em.createQuery("SELECT  m  FROM Mandate m ", Mandate.class);
+		List<Mandate> ListeMa = query.getResultList();
+		TypedQuery<Profitability> query0 = em.createQuery("SELECT  p  FROM Profitability p ", Profitability.class);
+		List<Profitability> prof1 = query0.getResultList();
+		TypedQuery<Profitability> query1 = em
+				.createQuery("SELECT pr FROM Profitability pr where pr.project.idProject=:id", Profitability.class);
+		List<Profitability> a = query1.setParameter("id", idProject).getResultList();
 
-prof.setGain(cost);
-float lost=(float) (cost/1.8);
-prof.setLost(lost);
-prof.setProfitability(cost-lost);
-prof.setProject(pr);
-		
+		Profitability prof = new Profitability();
+		Project pr = em.find(Project.class, idProject);
+		float cost = 0;
+
+		if (prof1.isEmpty() && a.isEmpty()) {
+			for (Mandate m : ListeMa) {
+				if (m.getMandatepk().getIdProject() == idProject) {
+					cost = cost + m.getCost();
+					System.out.println("condition 1");
+
+					prof.setGain(cost);
+					float lost = (float) (cost / 1.8);
+					prof.setLost(lost);
+					prof.setProfitability(cost - lost);
+					prof.setProject(pr);
+
+				}
+
+			}
+
+			em.persist(prof);
+		}
+
+		if (!prof1.isEmpty() && a.isEmpty()) {
+			for (Mandate m : ListeMa) {
+				if (m.getMandatepk().getIdProject() == idProject) {
+					cost = cost + m.getCost();
+					System.out.println("ckjjjjondition 2");
+
+					prof.setGain(cost);
+					float lost = (float) (cost / 1.8);
+					prof.setLost(lost);
+					prof.setProfitability(cost - lost);
+					prof.setProject(pr);
+
+				}
+
+			}
+
+			em.persist(prof);
+
+		}
+
+		else if (!prof1.isEmpty() && !a.isEmpty()) {
+
+			for (Mandate m : ListeMa) {
+				if (m.getMandatepk().getIdProject() == idProject) {
+					Profitability pro = query1.setParameter("id", idProject).getSingleResult();
+					Profitability p1 = em.find(Profitability.class, pro.getIdProfitability());
+					cost = cost + m.getCost();
+					System.out.println("condition 3");
+					p1.setGain(cost);
+					float lost = (float) (cost / 1.8);
+					p1.setLost(lost);
+					p1.setProfitability(cost - lost);
+
+				}
+
+			}
+
+		}
 	}
-	
-	
-		
+
+	@Override
+	public List<Profitability> getAllProfitablity() {
+		TypedQuery<Profitability> query = em.createQuery("SELECT  p  FROM Profitability p ", Profitability.class);
+		return query.getResultList();
+
 	}
 
-em.persist(prof);
+	@Override
+	public List<Profitability> getProfitablityByProject(int idProject) {
+		TypedQuery<Profitability> query1 = em
+				.createQuery("SELECT pr FROM Profitability pr where pr.project.idProject=:id", Profitability.class);
+		List<Profitability> a = query1.setParameter("id", idProject).getResultList();
+		return a;
+	}
 
+	@Override
+	public List<Skills> afficherSkills(int idProject) {
+		System.out.println("ena sk0");
+
+		TypedQuery<Skills> query = em.createQuery("Select c from Skills c", Skills.class);
+		List<Skills> rr = query.getResultList();
+		System.out.println("liste :" + rr.toString());
+		List<Skills> listSk = new ArrayList<>();
+		TypedQuery<Project> query1 = em.createQuery("SELECT pr FROM Project pr where pr.idProject=:id", Project.class);
+		query1.setParameter("id", idProject);
+		Project pr = query1.getSingleResult();
+		System.out.println("project :" + pr.toString());
+		if (pr.getSkills().isEmpty()) {
+
+			listSk = rr;
+
+		} else {
+			for (Skills sk : pr.getSkills()) {
+				for (Skills s : rr) {
+
+					if (s.getIdSkills() != sk.getIdSkills()) {
+						System.out.println("ena sk2" + sk);
+						listSk.add(s);
+					}
+
+				}
+			}
+		}
+
+		System.out.println(listSk);
+		return listSk;
 	}
 }

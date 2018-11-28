@@ -65,6 +65,12 @@ public class ClientService implements ClientServiceLocal {
 	
 	}
 
+	@Override
+	public List<Client> getAllClient() {
+		TypedQuery<Client> query=em.createQuery("SELECT cl FROM Client cl",Client.class);
+		return query.getResultList();
+	}
+
 		
 	}
 	

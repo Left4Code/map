@@ -86,6 +86,7 @@ public class User implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+	@XmlElement(required=true,name="Password")
 	public String getPassword() {
 		return password;
 	}
@@ -93,6 +94,7 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getUsername() {
 		return username;
 	}
