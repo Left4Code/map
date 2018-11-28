@@ -1,12 +1,10 @@
 package entities;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -106,7 +104,6 @@ public class Project implements Serializable {
 	public void setListemandate(List<Mandate> listemandate) {
 		this.listemandate = listemandate;
 	}
-
 
 	public Set<Skills> getSkills() {
 		return skills;

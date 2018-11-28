@@ -112,7 +112,5 @@ public class ProjectRessource {
 		List<Skills> sk  = psl.afficherSkills(id);
 
 			return Response.status(Status.OK).entity(sk).build();
-
-
 	}
 }

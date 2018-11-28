@@ -34,15 +34,16 @@ import service.DemandServiceLocal;
 import service.IActivityReportBusiness;
 import service.IBusinessReports;
 import service.TestServiceLocal;
+import service.UserServiceLocal;
 import entities.Mandate;
 
 @Stateless
 @Path("applicant")
 public class ApplicantRessource {
-//abdou
-	private List<Mandate> l=new ArrayList<>();
+	// abdou
+	private List<Mandate> l = new ArrayList<>();
 	Mandate m = new Mandate();
-////////////	
+
 	@EJB
 	private IBusinessReports b;
 
@@ -52,6 +53,8 @@ public class ApplicantRessource {
 	DemandServiceLocal serviceDemand;
 	@EJB
 	TestServiceLocal serviceTest;
+	@EJB
+	UserServiceLocal userservice ;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
@@ -81,7 +84,6 @@ public class ApplicantRessource {
 		return Response.status(javax.ws.rs.core.Response.Status.NOT_FOUND).entity("Error :Update unsuccessful").build();
 	}
 
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllApplicant() {
@@ -136,78 +138,68 @@ public class ApplicantRessource {
 
 	@PUT
 	@Path("{idApplicant}")
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN })
-	public Response makeTest(@PathParam(value = "idApplicant") int idApplicant, Test test) {
-		int mark = serviceTest.makeTest(test, idApplicant);
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
+	public Response makeTest(@PathParam(value = "idApplicant") String idApplicant, Test test) {
+		int mark = serviceTest.makeTest(test, Integer.parseInt(idApplicant));
 		if (mark != 0) {
 			return Response.status(Status.CREATED).entity(Integer.toString(mark)).build();
 		}
 		return Response.status(Status.BAD_REQUEST).entity("Error : cannot add this test").build();
 	}
-	private IActivityReportBusiness AReport ;
-	
-	
+
+
+	private IActivityReportBusiness AReport;
+
 	@Path("abdou/{n}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMand(@PathParam(value="n")int resID){
-	System.out.println("hello");
-	l=b.AddActivityReport(resID);	
-	
-	/*if(l==null){
-		return Response.status(Status.NOT_FOUND).entity("u missed").build();
-	}*/
+	public Response getMand(@PathParam(value = "n") int resID) {
+		System.out.println("hello");
+		l = b.AddActivityReport(resID);
+
+		/*
+		 * if(l==null){ return
+		 * Response.status(Status.NOT_FOUND).entity("u missed").build(); }
+		 */
 		return Response.status(Status.ACCEPTED).entity(l).build();
 	}
-	
+
 	@GET
 	@Path("abdou/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getDuree(@QueryParam(value="m")int i,@QueryParam(value="resID")int resID,@QueryParam(value="from")String from,@QueryParam(value="to")String to){
-	System.out.println("hello");
-	String activityRateStr="";
-	String ratioStr="";
-		
-		if(i==0	)
-		{
-		float r=AReport.rateActivtyOneRes(resID, from, to);
-			if(r==404)
-				{
-				activityRateStr="la ressource n est pas employee par levio dans cette durée";
-				}
-			else{
-				activityRateStr=""+r+"%";
+	public Response getDuree(@QueryParam(value = "m") int i, @QueryParam(value = "resID") int resID,
+			@QueryParam(value = "from") String from, @QueryParam(value = "to") String to) {
+		System.out.println("hello");
+		String activityRateStr = "";
+		String ratioStr = "";
+
+		if (i == 0) {
+			float r = AReport.rateActivtyOneRes(resID, from, to);
+			if (r == 404) {
+				activityRateStr = "la ressource n est pas employee par levio dans cette durée";
+			} else {
+				activityRateStr = "" + r + "%";
 				System.out.println(i);
-				
-				}
-			return Response.status(Status.ACCEPTED).entity(activityRateStr).build();
-		}
-		else if(i==1){
-			
-			float ratio=AReport.satisfactionMsgRatio(resID, from, to);
-			if (ratio==404){
-				ratioStr="no messages in this timeline";
+
 			}
-			else
-			ratioStr=""+ratio+"%";
+			return Response.status(Status.ACCEPTED).entity(activityRateStr).build();
+		} else if (i == 1) {
+
+			float ratio = AReport.satisfactionMsgRatio(resID, from, to);
+			if (ratio == 404) {
+				ratioStr = "no messages in this timeline";
+			} else
+				ratioStr = "" + ratio + "%";
 			return Response.status(Status.ACCEPTED).entity(ratioStr).build();
-			
+
+		} else {
+
+			System.out.println(i);
+			l = AReport.oneResActivities(resID, from, to);
+			System.out.println(l);
+			return Response.status(Status.ACCEPTED).entity(l).build();
+
 		}
-		else
-		{
-		
-				System.out.println(i);
-				l=AReport.oneResActivities(resID, from, to);
-				System.out.println(l);
-				return Response.status(Status.ACCEPTED).entity(l).build();
-			
-			
-			
-		}
-		
+
 	}
 }
-	
-	
-
-

@@ -1,3 +1,4 @@
+
 package entities;
 
 import java.io.Serializable;
@@ -42,7 +43,7 @@ public class Demand implements Serializable {
 	@JoinColumn(name = "idFile")
 	private File file;
 
-	@XmlAttribute(name="id")
+	@XmlAttribute
 	public int getIdDemand() {
 		return idDemand;
 	}
@@ -51,7 +52,7 @@ public class Demand implements Serializable {
 		this.idDemand = idDemand;
 	}
 
-	@XmlElement(required = true ,name="Date")
+	@XmlElement(required = true)
 	@XmlJavaTypeAdapter(SqlDateAdapter.class)
 	public Date getDateDemand() {
 		return dateDemand;
@@ -61,7 +62,7 @@ public class Demand implements Serializable {
 		this.dateDemand = dateDemand;
 	}
 
-	@XmlElement(type = DemandState.class, required = true,name="State")
+	@XmlElement(type = DemandState.class, required = true)
 	public DemandState getDemandState() {
 		return demandState;
 	}
@@ -70,7 +71,7 @@ public class Demand implements Serializable {
 		this.demandState = demandState;
 	}
 
-	@XmlElement(required = false,name="Speciality")
+	@XmlElement(required = false)
 	public String getSpecialty() {
 		return specialty;
 	}

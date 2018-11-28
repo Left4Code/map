@@ -14,7 +14,7 @@ import entities.Client;
 import entities.Mandate;
 import entities.Profitability;
 import entities.Project;
-
+import entities.Ressource;
 import entities.Skills;
 
 /**
@@ -39,7 +39,6 @@ public class ProjectService implements ProjectServiceLocal {
 
 		pr.setClient(client);
 		em.persist(pr);
-
 	}
 
 	@Override

@@ -1,10 +1,12 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
@@ -33,8 +35,8 @@ public class Responsable extends User implements Serializable {
 	private List<Employement_Letter> listeEmployementLetter;
   
 	@XmlTransient
-	@OneToMany(mappedBy = "responsable")
-	private List<Request> listeRequest;
+	@OneToMany(mappedBy = "responsable",fetch=FetchType.EAGER)
+	private List<Request> listeRequest = new ArrayList<Request>();
   
 	public List<Request> getListeRequest() {
 		return listeRequest;

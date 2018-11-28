@@ -22,7 +22,6 @@ import entities.User;
 
 public class ClientService implements ClientServiceLocal {
 
-
     /**
      * Default constructor. 
      */
@@ -71,8 +70,6 @@ public class ClientService implements ClientServiceLocal {
 		TypedQuery<Client> query=em.createQuery("SELECT cl FROM Client cl",Client.class);
 		return query.getResultList();
 	}
-
-		
 
 		
 	}

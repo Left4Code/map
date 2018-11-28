@@ -16,4 +16,5 @@ public interface ClientServiceLocal {
 	public Client getClient(int id);
 	public List<Client> getAllClient();
 
+
 }

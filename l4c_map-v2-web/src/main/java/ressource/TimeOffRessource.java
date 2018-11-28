@@ -17,12 +17,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.jboss.resteasy.annotations.Query;
-
 import service.RessourcesServicesLocal;
 import entities.Demand_time_off;
-import entities.Skills;
 @Stateless
 @Path("conge")
 public class TimeOffRessource {
@@ -83,7 +79,6 @@ public class TimeOffRessource {
 		
 		if(idResponsable!=0 && idRessource==0 && demande!=null){
 			local.modifierEtatDemandeCongeParResponsable(idResponsable,demande);
-			System.out.println("modi");
 		return Response.status(Status.OK).entity("Etat modified").build();
 	}else if(idResponsable==0 && idRessource!=0 && demande!=null) {
 		local.modifierDemandeConge(demande);

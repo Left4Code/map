@@ -1,5 +1,6 @@
 package ressource;
-
+import java.lang.Thread.State;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.ejb.EJB;
@@ -29,6 +30,16 @@ public class TestRessource {
 		Set<Test> listetest = service.getTestByApplicant(Integer.parseInt(idApplicant));
 		if(listetest != null){
 			return Response.status(Status.OK).entity(listetest).build();
+		}
+		return Response.status(Status.NOT_FOUND).build();
+	}
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllTest() {
+		ArrayList<Test> tests = new ArrayList<>() ;
+		tests = service.getAllTest();
+		if(tests != null) {
+			return Response.status(Status.OK).entity(tests).build();
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}

@@ -1,7 +1,6 @@
 package ressource;
 
 import java.util.List;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -20,9 +19,6 @@ import entities.Client;
 import entities.User;
 import service.ClientService;
 import service.ClientServiceLocal;
-
-
-
  
 @Stateless
 @Path("client")
