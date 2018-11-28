@@ -14,7 +14,7 @@ import entities.Client;
 import entities.Mandate;
 import entities.Profitability;
 import entities.Project;
-import entities.Ressource;
+
 import entities.Skills;
 
 /**
@@ -96,13 +96,17 @@ public class ProjectService implements ProjectServiceLocal {
 	public void CalculerRentability(int idProject) {
 		TypedQuery<Mandate> query = em.createQuery("SELECT  m  FROM Mandate m ", Mandate.class);
 		List<Mandate> ListeMa = query.getResultList();
-		TypedQuery<Profitability> query1 = em.createQuery("SELECT pr FROM Profitability pr ", Profitability.class);
-		List<Profitability> prof1 = query1.getResultList();
+		TypedQuery<Profitability> query0 = em.createQuery("SELECT  p  FROM Profitability p ", Profitability.class);
+		List<Profitability> prof1 = query0.getResultList();
+		TypedQuery<Profitability> query1 = em
+				.createQuery("SELECT pr FROM Profitability pr where pr.project.idProject=:id", Profitability.class);
+		List<Profitability> a = query1.setParameter("id", idProject).getResultList();
+
 		Profitability prof = new Profitability();
 		Project pr = em.find(Project.class, idProject);
 		float cost = 0;
 
-		if (prof1.isEmpty()) {
+		if (prof1.isEmpty() && a.isEmpty()) {
 			for (Mandate m : ListeMa) {
 				if (m.getMandatepk().getIdProject() == idProject) {
 					cost = cost + m.getCost();
@@ -120,46 +124,44 @@ public class ProjectService implements ProjectServiceLocal {
 
 			em.persist(prof);
 		}
-		for (Profitability p : prof1) 
-			if (p.getProject().getIdProject()!=idProject&&p!=null) {
-				for (Mandate m : ListeMa) {
-					if (m.getMandatepk().getIdProject() == idProject) {
-						cost = cost + m.getCost();
-						System.out.println("ckjjjjondition 2");
 
-						prof.setGain(cost);
-						float lost = (float) (cost / 1.8);
-						prof.setLost(lost);
-						prof.setProfitability(cost - lost);
-						prof.setProject(pr);
+		if (!prof1.isEmpty() && a.isEmpty()) {
+			for (Mandate m : ListeMa) {
+				if (m.getMandatepk().getIdProject() == idProject) {
+					cost = cost + m.getCost();
+					System.out.println("ckjjjjondition 2");
 
-					}
-
-				}
-
-				em.persist(prof);
-			
-		}
-		for (Profitability p : prof1) {
-			 if (p.getProject().getIdProject() ==idProject) {
-
-				for (Mandate m : ListeMa) {
-					if (m.getMandatepk().getIdProject() == idProject) {
-						Profitability p2 = new Profitability();
-						Profitability p1 = em.find(Profitability.class, p.getIdProfitability());
-						cost = cost + m.getCost();
-						System.out.println("condition 3");
-						p1.setGain(cost);
-						float lost = (float) (cost / 1.8);
-						p1.setLost(lost);
-						p1.setProfitability(cost - lost);
-						
-						
-					}
+					prof.setGain(cost);
+					float lost = (float) (cost / 1.8);
+					prof.setLost(lost);
+					prof.setProfitability(cost - lost);
+					prof.setProject(pr);
 
 				}
 
 			}
+
+			em.persist(prof);
+
+		}
+
+		else if (!prof1.isEmpty() && !a.isEmpty()) {
+
+			for (Mandate m : ListeMa) {
+				if (m.getMandatepk().getIdProject() == idProject) {
+					Profitability pro = query1.setParameter("id", idProject).getSingleResult();
+					Profitability p1 = em.find(Profitability.class, pro.getIdProfitability());
+					cost = cost + m.getCost();
+					System.out.println("condition 3");
+					p1.setGain(cost);
+					float lost = (float) (cost / 1.8);
+					p1.setLost(lost);
+					p1.setProfitability(cost - lost);
+
+				}
+
+			}
+
 		}
 	}
 
@@ -168,6 +170,14 @@ public class ProjectService implements ProjectServiceLocal {
 		TypedQuery<Profitability> query = em.createQuery("SELECT  p  FROM Profitability p ", Profitability.class);
 		return query.getResultList();
 
+	}
+
+	@Override
+	public List<Profitability> getProfitablityByProject(int idProject) {
+		TypedQuery<Profitability> query1 = em
+				.createQuery("SELECT pr FROM Profitability pr where pr.project.idProject=:id", Profitability.class);
+		List<Profitability> a = query1.setParameter("id", idProject).getResultList();
+		return a;
 	}
 
 	@Override

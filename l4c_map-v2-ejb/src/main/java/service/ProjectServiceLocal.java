@@ -21,5 +21,5 @@ public interface ProjectServiceLocal {
     public void CalculerRentability(int idProject);
 	public List<Profitability> getAllProfitablity();
 	public List<Skills> afficherSkills(int idProject) ;
-
+	public List<Profitability> getProfitablityByProject(int idProject);
 }
