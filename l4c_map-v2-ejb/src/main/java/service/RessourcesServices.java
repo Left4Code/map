@@ -3,7 +3,9 @@ package service;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -144,19 +146,34 @@ public class RessourcesServices implements RessourcesServicesLocal {
 		TypedQuery<Ressource> query = em.createQuery("Select c from Ressource c", Ressource.class);
 		List<Ressource> r = query.getResultList();
 		r.forEach(e -> {
+			
 			String etat = "";
 			Ressource ressource = em.find(Ressource.class, e.getId());
+			Set<Demand_time_off> lr = ressource.getListeDemandesTimeOff();
+			Set<Demand_time_off> ltor = new HashSet<>();
+			lr.forEach(x->{
+				Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
+				int difference = (int) ((x.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+				if(difference<=0)
+					ltor.add(x);
+					
+			});
+			lr.removeAll(ltor);
+			e.setListeDemandesTimeOff(lr);
+
 			boolean hasMandate = ressource.getListemandate().iterator().hasNext();
 			boolean hasTimeOff = ressource.getListeDemandesTimeOff().iterator().hasNext();
 
 			Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
 			System.out.println(now);
 
 			if (hasMandate == true) {
 				Mandate mn = ressource.getListemandate().iterator().next();
-
+				
 				int difference = (int) ((mn.getDateEnd().getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-
 				if (difference <= 14 && difference > 0) {
 					etat = ("Available in : " + difference + " days.");
 				} else if (difference > 14) {
@@ -168,6 +185,7 @@ public class RessourcesServices implements RessourcesServicesLocal {
 
 			} else if (hasMandate == false && hasTimeOff == true) {
 				Demand_time_off demand = ressource.getListeDemandesTimeOff().iterator().next();
+				if(demand.getStateDemandTimeOff().toString()=="Accepted" ){
 				Date debut = demand.getDateBegin();
 				Date fin = demand.getDateEnd();
 				int diffCongeNow = (int) ((fin.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)) + 1;
@@ -181,6 +199,9 @@ public class RessourcesServices implements RessourcesServicesLocal {
 				}else if (diffCongeNow <  0){
 					etat = ("Available");
 
+				}
+				}else {
+					etat = ("Available");
 				}
 
 			} else if (hasMandate == false && hasTimeOff == false) {
